@@ -1,7 +1,12 @@
 Relex
 ========
- Relex, short for (R)gular (E)xpressions and (Lex)ers, provides configurable and scalable Regular Expression Matching, Searching and Lexing.
+ Relex, short for (R)egular (E)xpressions and (Lex)ers, provides configurable and scalable Regular Expression Matching, Searching and Lexing.
  
+Starting with Relex
+===================
+
+
+
 Scalable Regular Expressions
 ============================
 Common regex packages use nondeterministic automatons (NFA) to capture the regular expression. Nondeterministic automatons are based on
@@ -36,6 +41,19 @@ Java regexes also support variations of the kleene star: non-greedy-loops, posse
 these variations. But perhaps a later version will include some of these features.
 
 Having this in mind the syntax of relex regular expressions is like this:
+
+| Syntax            | Matches                                                                                           |
+| ----------------- |----------------------------------------------------------------------|
+| Single Characters |                                                                      |
+| x                 | The character x, unless there exist special rules for this character |
+| \\                | backslash character                                                  |
+| \n                | newline character                                                    |
+| \t                | tab character                                                        |
+| \r                | carriage return character                                            |
+| \f                | form feed character                                                  |
+| \a                | alert/bell character                                                 |
+| \e                | escape character                                                     |
+| *\uhhhh*          | *unicode character, not yet supported*                               |
 
 
 NFA-Expressions (java.util.Pattern) vs. DFA-Expressions
