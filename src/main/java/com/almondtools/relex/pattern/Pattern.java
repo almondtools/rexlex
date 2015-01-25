@@ -55,7 +55,6 @@ public class Pattern {
 		);
 	private static final Map<Character, Character> ESCAPES = HashMaps.<Character, Character> hashed()
 		.put('t', '\t')
-		.put('b', '\b')
 		.put('n', '\n')
 		.put('r', '\r')
 		.put('f', '\f')
