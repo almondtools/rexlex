@@ -46,7 +46,7 @@ Having this in mind the syntax of relex regular expressions is like this:
 | ----------------- |----------------------------------------------------------------------|
 | Single Characters |                                                                      |
 | x                 | The character x, unless there exist special rules for this character |
-| \\                | backslash character                                                  |
+| \\\\                | backslash character                                                  |
 | \n                | newline character                                                    |
 | \t                | tab character                                                        |
 | \r                | carriage return character                                            |
