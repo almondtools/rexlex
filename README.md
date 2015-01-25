@@ -1,7 +1,7 @@
 Relex
 ========
- Relex, short for (R)egular (E)xpressions and (Lex)ers, provides configurable and scalable Regular Expression Matching, Searching and Lexing.
- 
+Relex, short for (R)egular (E)xpressions and (Lex)ers, provides configurable and scalable Regular Expression Matching, Searching and Lexing.
+
 Starting with Relex
 ===================
 
