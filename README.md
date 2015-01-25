@@ -8,7 +8,7 @@ Starting with Relex
 Creating an Automaton from a Pattern
 ------------------------------------
 ```Java
-	GenericAutomaton automaton = Pattern.compileGenericAutomaton("\\d{2}-\\d{2}-\\d{4}"); //regexp for a dash-separated date 
+	GenericAutomaton automaton = Pattern.compileGenericAutomaton("\\d{2}-\\d{2}-\\d{4}");
 ```
 
 Preparing a Regexp-Finder
@@ -26,6 +26,7 @@ Iterating Finder-Matches
 		System.out.println("at = " + matcher.match.start());
 		System.out.println("to = " + matcher.match.end());
 	}
+```
 
 Collecting all Finder-Matches
 -----------------------------
@@ -35,6 +36,7 @@ Collecting all Finder-Matches
 		System.out.println("at = " + match.start());
 		System.out.println("to = " + match.end());
 	}
+```
 
 Checking on Regexp-Full-Matches
 -------------------------------
