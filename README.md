@@ -2,9 +2,9 @@ Relex
 ========
  Relex, short for (R)gular (E)xpressions and (Lex)ers, provides configurable and scalable Regular Expression Matching, Searching and Lexing.
  
- Scalable Regular Expressions
- ============================
- Common regex packages use nondeterministic automatons (NFA) to capture the regular expression. Nondeterministic automatons are based on
+Scalable Regular Expressions
+============================
+Common regex packages use nondeterministic automatons (NFA) to capture the regular expression. Nondeterministic automatons are based on
 backtracking to match a string. This has several advantages (e.g. group capturing, greedy/lazy/possesive matching, lookahead/lookbehind, backreferences).
 The disadvantage is, that such implementations do not perform well - especially when the regular expression contains branches
 (e.g. 'a|b') or captures an infinite number of chars (e.g. 'a*b'). The match time is dependent on the nodes in the automaton and the chars to match 
