@@ -44,7 +44,7 @@ Having this in mind the syntax of relex regular expressions is like this:
 
 | Syntax            | Matches                                                                                           |
 | ----------------- |----------------------------------------------------------------------|
-| Single Characters                                                                       |
+| Single Characters                                                                        |
 | x                 | The character x, unless there exist special rules for this character |
 | \\\\              | backslash character                                                  |
 | \n                | newline character                                                    |
@@ -55,7 +55,7 @@ Having this in mind the syntax of relex regular expressions is like this:
 | \e                | escape character                                                     |
 | *\uhhhh*          | *unicode character, not yet supported*                               |
 | ----------------- |----------------------------------------------------------------------|
-| Character classes                                                                       |
+| Character classes                                                                        |
 | [...]             | any of the contained characters                                      |
 | [^...]            | none of the contained characters                                     |
 | [a-z]             | char range (all chars from a to z)                                   |
