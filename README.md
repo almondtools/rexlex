@@ -5,6 +5,48 @@ Relex, short for (R)egular (E)xpressions and (Lex)ers, provides configurable and
 Starting with Relex
 ===================
 
+Creating an Automaton from a Pattern
+------------------------------------
+```Java
+	GenericAutomaton automaton = Pattern.compileGenericAutomaton("\\d{2}-\\d{2}-\\d{4}"); //regexp for a dash-separated date 
+```
+
+Preparing a Regexp-Finder
+-------------------------
+```Java
+	OptimizedMatcherBuilder builder = OptimizedMatcherBuilder.from(automaton);
+	Finder matcher = builder.buildFinder("born on  04-07-1946");
+```
+
+Iterating Finder-Matches
+-----------------------
+```Java
+	while (matcher.find()) {
+		System.out.println("found text = " + matcher.match.text());
+		System.out.println("at = " + matcher.match.start());
+		System.out.println("to = " + matcher.match.end());
+	}
+
+Collecting all Finder-Matches
+-----------------------------
+```Java
+	for (Match match : matcher.findAll()) {
+		System.out.println("found text = " + match.text());
+		System.out.println("at = " + match.start());
+		System.out.println("to = " + match.end());
+	}
+
+Checking on Regexp-Full-Matches
+-------------------------------
+```Java
+	OptimizedMatcherBuilder builder = OptimizedMatcherBuilder.from(automaton);
+	Matcher matcher = builder.buildMatcher(04-07-1946");
+	System.out.prinltn("matches: " + builder.buildMatcher("a").matches());
+```
+
+Preparing a Relex Lexer
+-----------------------
+TODO
 
 
 Scalable Regular Expressions
@@ -42,30 +84,48 @@ these variations. But perhaps a later version will include some of these feature
 
 Having this in mind the syntax of relex regular expressions is like this:
 
-| Syntax            | Matches                                                                                           |
-| ----------------- |----------------------------------------------------------------------|
-| Single Characters                                                                        |
-| x                 | The character x, unless there exist special rules for this character |
-| \\\\              | backslash character                                                  |
-| \n                | newline character                                                    |
-| \t                | tab character                                                        |
-| \r                | carriage return character                                            |
-| \f                | form feed character                                                  |
-| \a                | alert/bell character                                                 |
-| \e                | escape character                                                     |
-| *\uhhhh*          | *unicode character, not yet supported*                               |
-| ----------------- |----------------------------------------------------------------------|
-| Character classes                                                                        |
-| [...]             | any of the contained characters                                      |
-| [^...]            | none of the contained characters                                     |
-| [a-z]             | char range (all chars from a to z)                                   |
-| [a-zA-Z]          | char range, union of multiple ranges                                 |
-| \s                | white space                                                          |
-| \S                | non white space                                                      |
-| \w                | word characters                                                      |
-| \W                | non word charachters                                                 |
-| \d                | digits                                                               |
-| \D                | non digits                                                           |
+| Syntax                  | Matches                                                              |
+| ----------------------- |----------------------------------------------------------------------|
+| Single Characters       |                                                                      |
+| x                       | The character x, unless there exist special rules for this character |
+| .                       | any character (newlines only in DOTALL-mode)                         |
+| \\\\                    | backslash character                                                  |
+| \n                      | newline character                                                    |
+| \t                      | tab character                                                        |
+| \r                      | carriage return character                                            |
+| \f                      | form feed character                                                  |
+| \a                      | alert/bell character                                                 |
+| \e                      | escape character                                                     |
+| *\uhhhh*                | *unicode character, not yet supported*                               |
+| Character classes       |                                                                      |
+| [...]                   | any of the contained characters                                      |
+| [^...]                  | none of the contained characters                                     |
+| [a-z]                   | char range (all chars from a to z)                                   |
+| [a-zA-Z]                | char range, union of multiple ranges                                 |
+| \s                      | white space                                                          |
+| \S                      | non white space                                                      |
+| \w                      | word characters                                                      |
+| \W                      | non word charachters                                                 |
+| \d                      | digits                                                               |
+| \D                      | non digits                                                           |
+| *\p{name}*              | *posix character class, not yet supported*                           |
+| Sequences, alternatives |                                                                      |
+| xy                      | match x followed by y                                                |
+| x|y                     | match x or y                                                         |
+| (x)                     | match inner expression x (grouping is not supported)                 |
+| Repetitions             |                                                                      |
+| x?                      | match x or nothing                                                   |
+| x*                      | match a sequence of x's or nothing                                   |
+| x+                      | match a sequence of x's (minimum one)                                |
+| x{2}                    | match a sequence of 2 x's                                            |
+| x{2,4}                  | match a 2 to 4 x's                                                   |
+| x{,4}                   | match a up to 4 x's                                                  |
+| x{2,}                   | match a minimum of 2 x's                                             |
+|                         |                                                                      |
+| *Groups*                | *not supported*                                                      |
+| *References*            | *not supported*                                                      |
+| *Anchors*               | *not supported*                                                      |
+| *Flags*                 | *not supported*                                                      |
 
 
 NFA-Expressions (java.util.Pattern) vs. DFA-Expressions

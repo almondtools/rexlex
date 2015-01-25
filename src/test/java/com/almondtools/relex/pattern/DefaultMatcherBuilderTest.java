@@ -22,7 +22,7 @@ public class DefaultMatcherBuilderTest {
 	public void before() {
 		builder = DefaultMatcherBuilder.from(matchUnlimitedLoop(match('a'), 1));
 	}
-	
+
 	@Test
 	public void testMatches() throws Exception {
 		assertTrue(builder.buildMatcher("a").matches());
@@ -31,11 +31,11 @@ public class DefaultMatcherBuilderTest {
 	}
 
 	@Test
-			public void testFind() throws Exception {
-				assertTrue(builder.buildFinder("babb").find());
-				assertFalse(builder.buildFinder("bbbb").find());
-				assertFalse(builder.buildFinder("").find());
-			}
+	public void testFind() throws Exception {
+		assertTrue(builder.buildFinder("babb").find());
+		assertFalse(builder.buildFinder("bbbb").find());
+		assertFalse(builder.buildFinder("").find());
+	}
 
 	@Test
 	public void testStartEndGroupOnMatch() throws Exception {
@@ -45,7 +45,7 @@ public class DefaultMatcherBuilderTest {
 		assertThat(matcher.end(), equalTo(3));
 		assertThat(matcher.group(), equalTo("aa"));
 	}
-	
+
 	@Test
 	public void testStartEndGroupOnMissmatch() throws Exception {
 		Finder matcher = builder.buildFinder("bbb");
@@ -54,5 +54,5 @@ public class DefaultMatcherBuilderTest {
 		assertThat(matcher.end(), equalTo(-1));
 		assertThat(matcher.group(), nullValue());
 	}
-	
+
 }
