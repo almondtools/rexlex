@@ -69,12 +69,11 @@ matching/searching performs better and the searchers switch to string matching (
 
 Other Regex-Compilers
 =========================
+NFA-Compilers:
+- http://jregex.sourceforge.net/
 
-Some yet existing NFA-Compilers:
-- http://jregex.sourceforge.net/ (more features than java.util.pattern)
-
-And DFA-Compilers
-- http://www.brics.dk/automaton/ (better optimized for matching, less performant for search, no support for lexing)   
+DFA-Compilers
+- http://www.brics.dk/automaton/
 
 Performance Comparison
 ======================
