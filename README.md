@@ -1,7 +1,7 @@
 Relex
 ========
- Relex, short for (R)egular (E)xpressions and (Lex)ers, provides configurable and scalable Regular Expression Matching, Searching and Lexing.
- 
+Relex, short for (R)egular (E)xpressions and (Lex)ers, provides configurable and scalable Regular Expression Matching, Searching and Lexing.
+
 Starting with Relex
 ===================
 
@@ -44,7 +44,7 @@ Having this in mind the syntax of relex regular expressions is like this:
 
 | Syntax            | Matches                                                                                           |
 | ----------------- |----------------------------------------------------------------------|
-| Single Characters |                                                                      |
+| Single Characters                                                                       |
 | x                 | The character x, unless there exist special rules for this character |
 | \\\\              | backslash character                                                  |
 | \n                | newline character                                                    |
@@ -54,6 +54,18 @@ Having this in mind the syntax of relex regular expressions is like this:
 | \a                | alert/bell character                                                 |
 | \e                | escape character                                                     |
 | *\uhhhh*          | *unicode character, not yet supported*                               |
+| ----------------- |----------------------------------------------------------------------|
+| Character classes                                                                       |
+| [...]             | any of the contained characters                                      |
+| [^...]            | none of the contained characters                                     |
+| [a-z]             | char range (all chars from a to z)                                   |
+| [a-zA-Z]          | char range, union of multiple ranges                                 |
+| \s                | white space                                                          |
+| \S                | non white space                                                      |
+| \w                | word characters                                                      |
+| \W                | non word charachters                                                 |
+| \d                | digits                                                               |
+| \D                | non digits                                                           |
 
 
 NFA-Expressions (java.util.Pattern) vs. DFA-Expressions
