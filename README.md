@@ -2,8 +2,8 @@ Relex
 ========
 Relex, short for (R)egular (E)xpressions and (Lex)ers, provides configurable and scalable Regular Expression Matching, Searching and Lexing.
 
-Starting with Relex
-===================
+Starting with Relex Matching
+============================
 
 Creating an Automaton from a Pattern
 ------------------------------------
@@ -46,10 +46,95 @@ Checking on Regexp-Full-Matches
 	System.out.prinltn("matches: " + builder.buildMatcher("a").matches());
 ```
 
-Preparing a Relex Lexer
------------------------
-TODO
+Starting with Relex Lexing
+==========================
 
+Define the token types
+----------------------
+
+Define the tokens
+-----------------
+First the lexer tokens which are produced when finding a certain lexing idiom must be defined. To do this you must implement the class Token:
+  
+```Java
+public class MyToken implements Token {
+
+	private String literal;
+	private TokenType type;
+
+	public TestToken(String literal, TokenType type) {
+		this.literal = literal;
+		this.type = type;
+	}
+	
+	@Override
+	public String getLiteral() {
+		return literal;
+	}
+	
+	@Override
+	public TokenType getType() {
+		return type;
+	}
+	
+	...
+	
+}
+```
+
+This default implementation should be sufficient in most cases, but be free to extend this type with methods you later need.
+
+Optional: Extend the Token Types
+================================
+Relex has three default token types (in the enum DefaultTokenType). You may want to extend the token types. TokenTypes could be enums or classes. Note that in
+latter case you should correctly implement the methods hashCode and equals.
+
+```Java
+public enum MyTokenType implements TokenType {
+	A,B,REMAINDER;
+
+	@Override
+	public boolean error() {
+		return false;
+	}
+	
+	@Override
+	public boolean accept() {
+		return true;
+	}
+}
+```
+
+Create a Token Factory
+======================
+
+Then write the token factory.
+
+```Java
+public class MyTokenFactory implements TokenFactory<TestToken>{
+
+	@Override
+	public MyToken createToken(String literal, TokenType type) {
+		return new MyToken(literal, type);
+	}
+}
+```
+
+Build the lexer
+===============
+Having the tokens and the token factory you can build a lexer. In the following code we assume that you have defined additional token types A, B and REMAINDER:
+
+```Java
+	Map<String, TokenType> patternToTypes = new HashMap();
+	patternToTypes.put("a", A); //any match for 'a' will return token type A
+	patternToTypes.put("b", B); //any match for 'b' will return token type B
+
+	DynamicLexer<TestToken> lexer = new DynamicLexer<TestToken>(patternToTypes, REMAINDER, factory); // nonmatched strings will return REMAINDER
+	Iterator<MyToken> tokens = lexer.lex("abc");
+	MyToken a = tokens.next(); // == new MyToken("a", A)
+	MyToken b = tokens.next(); // == new MyToken("b", B)
+	MyToken c = tokens.next(); // == new MyToken("c", REMAINDER)
+```
 
 Scalable Regular Expressions
 ============================
