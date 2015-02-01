@@ -25,13 +25,13 @@ public class PatternTest {
 	}
 
 	@Test
-		public void testFinder() throws Exception {
-			Pattern pattern = Pattern.compile("ab*");
-			assertThat(pattern.matcher("a").matches(), is(true));
-			assertThat(pattern.matcher("ab").matches(), is(true));
-			assertThat(pattern.matcher("abb").matches(), is(true));
-			assertThat(pattern.matcher("").matches(), is(false));
-		}
+	public void testFinder() throws Exception {
+		Pattern pattern = Pattern.compile("ab*");
+		assertThat(pattern.matcher("a").matches(), is(true));
+		assertThat(pattern.matcher("ab").matches(), is(true));
+		assertThat(pattern.matcher("abb").matches(), is(true));
+		assertThat(pattern.matcher("").matches(), is(false));
+	}
 
 	@Test
 	public void testNullPattern() throws Exception {
