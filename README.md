@@ -8,14 +8,13 @@ Starting with Relex Matching
 Creating an Automaton from a Pattern
 ------------------------------------
 ```Java
-	GenericAutomaton automaton = Pattern.compileGenericAutomaton("\\d{2}-\\d{2}-\\d{4}");
+	Pattern pattern = Pattern.compile("\\d{2}-\\d{2}-\\d{4}", new OptimizedMatcherBuilder());
 ```
 
 Preparing a Regexp-Finder
 -------------------------
 ```Java
-	OptimizedMatcherBuilder builder = OptimizedMatcherBuilder.from(automaton);
-	Finder matcher = builder.buildFinder("born on  04-07-1946");
+	Finder matcher = pattern.finder("born on  04-07-1946");
 ```
 
 Iterating Finder-Matches
@@ -41,11 +40,44 @@ Collecting all Finder-Matches
 Checking on Regexp-Full-Matches
 -------------------------------
 ```Java
-	OptimizedMatcherBuilder builder = OptimizedMatcherBuilder.from(automaton);
-	Matcher matcher = builder.buildMatcher(04-07-1946");
-	System.out.prinltn("matches: " + builder.buildMatcher("a").matches());
+	Pattern pattern = Pattern.compile("\\d{2}-\\d{2}-\\d{4}", new OptimizedMatcherBuilder());
+	Matcher matcher = builder.matcher(04-07-1946");
+	System.out.prinltn("matches: " + matcher.matches());
 ```
 
+Which MatcherBuilder to Choose
+------------------------------
+The method Pattern.compile accepts arguments implementing the interface MatcherBuilder. Calling it without any MatcherBuilder it uses the DefaultMatcherBuilder.
+What are the differences?
+
+DefaultMatcherBuilder: 
+- uses one dfa for matching and searching
+- match is fast (O(n))
+- search is naive (O(n^2) 
+- no configuration options
+
+SearchMatcherBuilder
+- uses two dfa, one for matching, one for searching 
+- match dfa is the same as in DefaultMatcherBuilder (O(n))
+- search dfa uses two passes (search for a pattern match, search for the pattern boundaries), O(n)
+- both dfa produce some overhead
+- the second search pass produces some overhead
+- no configuration options
+
+OptimizedMatcherBuilder
+- uses two dfa, one for matching, one for searching
+- uses a string search engine for simple patterns
+- match dfa is the same as in DefaultMatcherBuilder (O(n))
+- search dfa is the same as in SearchMatcherBuilder (O(n))
+- if the pattern is limited (i.e. constant or the number of possible words is less than 4000) it switches to string search/match
+- the overhead for producing the two dfa is eliminated in case of string search/match
+- string search/match is much faster than regex search
+- confguration of string search algorithms for constant patterns: Knuth-Morris-Pratt, Horspool
+- configuration of string search algorithms for limited word patterns: AhoCorasick, SetHorspool, SetBackwardOracleMatching, WuManber
+- there is overhead for an initial dfa
+- if you already know, that the pattern is constant or limited, than you should use string search directly, rather than this pattern search
+
+ 
 Starting with Relex Lexing
 ==========================
 
