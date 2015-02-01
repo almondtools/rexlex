@@ -72,7 +72,6 @@ public class Pattern {
 		.build();
 
 	private static final GenericAutomatonBuilder DEFAULT_AUTOMATON_BUILDER = new GenericAutomatonBuilder();
-	private static final DefaultMatcherBuilder DEFAULT_MATCHER_BUILDER = new DefaultMatcherBuilder();
 
 	private String pattern;
 	private MatcherBuilder builder;
@@ -80,6 +79,10 @@ public class Pattern {
 	private Pattern(String pattern, MatcherBuilder builder) {
 		this.pattern = pattern;
 		this.builder = builder;
+	}
+
+	private static DefaultMatcherBuilder defaultMatcherBuilder() {
+		return new DefaultMatcherBuilder();
 	}
 
 	public String pattern() {
@@ -130,7 +133,7 @@ public class Pattern {
 	private static MatcherBuilder matcherBuilder(List<PatternOption> options) {
 		MatcherBuilder builder = splitFirst(options, MatcherBuilder.class);
 		if (builder == null) {
-			return DEFAULT_MATCHER_BUILDER;
+			return defaultMatcherBuilder();
 		}
 		return builder;
 	}
