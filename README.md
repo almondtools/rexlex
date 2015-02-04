@@ -286,10 +286,9 @@ DFA-Compilers
 
 Performance Comparison
 ======================
-We yet tested relex against some of the available Regexp-Packages.
+A performance benchmark for regex packages can be found at https://github.com/almondtools/regexbench.
 
-We are working on making the benchmarking program public. The problem here is, that the regexp syntax of all regexp packages is not following a standard.
-Benchmarks known to me 
-- do compare the same regexp in each benchmarked tool, instead of applying the tool to regexps with the same semantics (but probably other syntax).
-- do assert that matches in java.util.Pattern should be also matched with other frameworks (ok), but do not assert that the additional information
-(e.g. grouping) is the same (not ok)
+This benchmark does not only check the performance but also the correctness of the results:
+- each benchmark fails if the expected number matches is not found
+- DFA packages cannot compute the same groups as NFA packages - accepted difference
+- Non-Posix-NFA packages (as jregex and java.util.regex) do not always detect the longest leftmost match - accepted difference
