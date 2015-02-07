@@ -1,11 +1,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.almondtools</groupId>
-	<artifactId>relex</artifactId>
+	<artifactId>rexlex</artifactId>
 	<version>0.1.1-SNAPSHOT</version>
 	<name>${project.groupId}:${project.artifactId}</name>
 	<description>A framework for regular expression matchers, searcher, lexers based on deterministic finite automata</description>
-	<url>https://github.com/almondtools/relex</url>
+	<url>https://github.com/almondtools/rexlex</url>
 	<licenses>
 		<license>
 			<name>GNU LESSER GENERAL PUBLIC LICENSE (LGPL)</name>
@@ -21,9 +21,9 @@
 		</developer>
 	</developers>
 	<scm>
-		<connection>scm:git:git@github.com:almondtools/relex.git</connection>
-		<developerConnection>scm:git:git@github.com:almondtools/relex.git</developerConnection>
-		<url>git@github.com:almondtools/relex.git</url>
+		<connection>scm:git:git@github.com:almondtools/rexlex.git</connection>
+		<developerConnection>scm:git:git@github.com:almondtools/rexlex.git</developerConnection>
+		<url>git@github.com:almondtools/rexlex.git</url>
 		<tag>HEAD</tag>
 	</scm>
 	<distributionManagement>

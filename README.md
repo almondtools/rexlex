@@ -1,6 +1,6 @@
 Rexlex
 ======
-Rexex, short for (R)egular (Ex)pressions and (Lex)ers, provides configurable and scalable Regular Expression Matching, Searching and Lexing.
+Rexlex, short for (R)egular (Ex)pressions and (Lex)ers, provides configurable and scalable Regular Expression Matching, Searching and Lexing.
 
 Starting with Rexlex Matching
 =============================
