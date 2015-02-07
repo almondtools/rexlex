@@ -52,12 +52,12 @@ public class AutomatonTest {
 	public void testEscapeClassesW() throws Exception {
 		Automaton wa = compiler.compile("\\w+", REMAINDER);
 		assertThat(matchSamples(wa,"1aA"), contains("1aA"));
-		assertThat(matchSamples(wa,"ß"), empty());
+		assertThat(matchSamples(wa,"ÃŸ"), empty());
 		assertThat(matchSamples(wa,"?"), empty());
 		assertThat(matchSamples(wa," "), empty());
 
 		Automaton Wa = compiler.compile("\\W+", REMAINDER);
-		assertThat(matchSamples(Wa,"ßü #"), contains("ßü #"));
+		assertThat(matchSamples(Wa,"ÃŸÃ¼ #"), contains("ÃŸÃ¼ #"));
 		assertThat(matchSamples(Wa,"a"), empty());
 		assertThat(matchSamples(Wa,"1"), empty());
 		assertThat(matchSamples(Wa,"B"), empty());
