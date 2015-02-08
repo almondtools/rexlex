@@ -28,6 +28,7 @@ import com.almondtools.rexlex.TokenFactory;
 import com.almondtools.rexlex.TokenType;
 import com.almondtools.rexlex.io.CharProvider;
 import com.almondtools.rexlex.pattern.DefaultTokenType;
+import com.almondtools.rexlex.pattern.DefaultTokenTypeFactory;
 import com.almondtools.rexlex.pattern.TokenIterator;
 import com.almondtools.rexlex.pattern.TokenTypeFactory;
 import com.almondtools.util.collections.ArrayLists;
@@ -46,11 +47,11 @@ public class GenericAutomaton implements Automaton, Cloneable {
 	private AutomatonProperty property;
 
 	public GenericAutomaton() {
-		this(new DefaultTokenType.Factory());
+		this(new DefaultTokenTypeFactory());
 	}
 
 	public GenericAutomaton(State start) {
-		this(start, new DefaultTokenType.Factory());
+		this(start, new DefaultTokenTypeFactory());
 	}
 
 	public GenericAutomaton(TokenTypeFactory tokenTypes) {

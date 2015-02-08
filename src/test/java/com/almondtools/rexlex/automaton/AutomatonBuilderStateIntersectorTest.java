@@ -15,7 +15,7 @@ import org.junit.Test;
 import com.almondtools.rexlex.TokenType;
 import com.almondtools.rexlex.automaton.GenericAutomatonBuilder;
 import com.almondtools.rexlex.automaton.GenericAutomaton.State;
-import com.almondtools.rexlex.pattern.DefaultTokenType;
+import com.almondtools.rexlex.pattern.DefaultTokenTypeFactory;
 
 public class AutomatonBuilderStateIntersectorTest {
 
@@ -23,7 +23,7 @@ public class AutomatonBuilderStateIntersectorTest {
 
 	@Before
 	public void before() {
-		stateIntersector = new GenericAutomatonBuilder.StateIntersector(new DefaultTokenType.Factory());
+		stateIntersector = new GenericAutomatonBuilder.StateIntersector(new DefaultTokenTypeFactory());
 	}
 
 	@Test

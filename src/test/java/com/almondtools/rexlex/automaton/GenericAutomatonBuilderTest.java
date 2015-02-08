@@ -34,7 +34,7 @@ import com.almondtools.rexlex.automaton.GenericAutomatonBuilder;
 import com.almondtools.rexlex.automaton.GenericAutomaton.ExactTransition;
 import com.almondtools.rexlex.automaton.GenericAutomaton.RangeTransition;
 import com.almondtools.rexlex.automaton.GenericAutomaton.State;
-import com.almondtools.rexlex.pattern.DefaultTokenType;
+import com.almondtools.rexlex.pattern.DefaultTokenTypeFactory;
 
 public class GenericAutomatonBuilderTest {
 
@@ -470,15 +470,15 @@ public class GenericAutomatonBuilderTest {
 	}
 
 	private State intersectStates(State s1, State s2) {
-		return GenericAutomatonBuilder.intersectStates(s1, s2, new DefaultTokenType.Factory());
+		return GenericAutomatonBuilder.intersectStates(s1, s2, new DefaultTokenTypeFactory());
 	}
 
 	private State prefixStates(State s1, State s2) {
-		return GenericAutomatonBuilder.prefixStates(s1, s2, new DefaultTokenType.Factory());
+		return GenericAutomatonBuilder.prefixStates(s1, s2, new DefaultTokenTypeFactory());
 	}
 
 	private State mergePrefixes(State s1, State s2) {
-		return GenericAutomatonBuilder.mergePrefixes(s1, s2, new DefaultTokenType.Factory());
+		return GenericAutomatonBuilder.mergePrefixes(s1, s2, new DefaultTokenTypeFactory());
 	}
 
 }

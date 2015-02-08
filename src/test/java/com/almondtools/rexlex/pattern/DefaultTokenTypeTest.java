@@ -14,16 +14,15 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.almondtools.rexlex.TokenType;
-import com.almondtools.rexlex.pattern.DefaultTokenType;
 
 
 public class DefaultTokenTypeTest {
 
-	private DefaultTokenType.Factory tokenTypes;
+	private DefaultTokenTypeFactory tokenTypes;
 
 	@Before
 	public void before() {
-		tokenTypes = new DefaultTokenType.Factory();
+		tokenTypes = new DefaultTokenTypeFactory();
 	}
 
 	@Test

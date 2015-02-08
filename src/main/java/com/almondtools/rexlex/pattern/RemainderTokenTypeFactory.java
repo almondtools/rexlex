@@ -2,11 +2,11 @@ package com.almondtools.rexlex.pattern;
 
 import com.almondtools.rexlex.TokenType;
 
-public class RemainderTokenFactory extends DefaultTokenType.Factory implements TokenTypeFactory {
+public class RemainderTokenTypeFactory extends DefaultTokenTypeFactory implements TokenTypeFactory {
 
 	private TokenType remainder;
 	
-	public RemainderTokenFactory(TokenType remainder) {
+	public RemainderTokenTypeFactory(TokenType remainder) {
 		this.remainder = remainder;
 	}
 	

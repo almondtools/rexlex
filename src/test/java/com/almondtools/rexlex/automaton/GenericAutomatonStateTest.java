@@ -36,8 +36,8 @@ import com.almondtools.rexlex.automaton.GenericAutomaton.RangeTransition;
 import com.almondtools.rexlex.automaton.GenericAutomaton.State;
 import com.almondtools.rexlex.automaton.GenericAutomaton.Transition;
 import com.almondtools.rexlex.automaton.GenericAutomaton.TransitionComparator;
-import com.almondtools.rexlex.pattern.DefaultTokenType;
-import com.almondtools.rexlex.pattern.RemainderTokenFactory;
+import com.almondtools.rexlex.pattern.DefaultTokenTypeFactory;
+import com.almondtools.rexlex.pattern.RemainderTokenTypeFactory;
 
 public class GenericAutomatonStateTest {
 
@@ -181,7 +181,7 @@ public class GenericAutomatonStateTest {
 		start.addTransition(e);
 		start.addTransition(a1);
 		next.addTransition(a2);
-		start.inlineEpsilons(new DefaultTokenType.Factory());
+		start.inlineEpsilons(new DefaultTokenTypeFactory());
 		assertThat(start.getTransitions(), hasSize(1));
 		assertThat(start.getTransitions(), contains(a1));
 		assertThat(start.getTransitions(), contains(a2));
@@ -193,7 +193,7 @@ public class GenericAutomatonStateTest {
 		State next = new State(REMAINDER);
 		EpsilonTransition e = new EpsilonTransition(next);
 		start.addTransition(e);
-		start.inlineEpsilons(new DefaultTokenType.Factory());
+		start.inlineEpsilons(new DefaultTokenTypeFactory());
 		assertThat(start.getTransitions(), empty());
 		assertThat(start.getType(), equalTo((TokenType) REMAINDER));
 	}
@@ -204,7 +204,7 @@ public class GenericAutomatonStateTest {
 		State next = new State(IGNORE);
 		EpsilonTransition e = new EpsilonTransition(next);
 		start.addTransition(e);
-		start.inlineEpsilons(new RemainderTokenFactory(REMAINDER));
+		start.inlineEpsilons(new RemainderTokenTypeFactory(REMAINDER));
 		assertThat(start.getTransitions(), empty());
 		assertThat(start.getType(), equalTo((TokenType) REMAINDER));
 	}
@@ -219,7 +219,7 @@ public class GenericAutomatonStateTest {
 		next.addTransition(a);
 		EpsilonTransition toInline = new EpsilonTransition(next);
 		start.addTransition(toInline);
-		start.inlineEpsilons(new DefaultTokenType.Factory());
+		start.inlineEpsilons(new DefaultTokenTypeFactory());
 		assertThat(start.getTransitions(), contains(a));
 	}
 

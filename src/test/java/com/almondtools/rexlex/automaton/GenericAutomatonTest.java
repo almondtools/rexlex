@@ -72,7 +72,7 @@ import com.almondtools.rexlex.automaton.GenericAutomaton.State;
 import com.almondtools.rexlex.automaton.GenericAutomaton.Transition;
 import com.almondtools.rexlex.pattern.DefaultTokenType;
 import com.almondtools.rexlex.pattern.Pattern;
-import com.almondtools.rexlex.pattern.RemainderTokenFactory;
+import com.almondtools.rexlex.pattern.RemainderTokenTypeFactory;
 
 public class GenericAutomatonTest {
 
@@ -414,7 +414,7 @@ public class GenericAutomatonTest {
 
 	@Test
 	public void testGetErrorTypeAfterTotalize() throws Exception {
-		GenericAutomaton automaton = new GenericAutomaton(new State(), new RemainderTokenFactory(REMAINDER)).totalize();
+		GenericAutomaton automaton = new GenericAutomaton(new State(), new RemainderTokenTypeFactory(REMAINDER)).totalize();
 		assertThat(automaton.getErrorType(), equalTo((TokenType) REMAINDER));
 	}
 
@@ -467,7 +467,7 @@ public class GenericAutomatonTest {
 	public void testTotalizeTokenType() throws Exception {
 		GenericAutomaton automaton = GenericAutomatonBuilder.match('a');
 		assertThat(automaton.getStart().findReachableStates(), hasSize(2));
-		GenericAutomaton totalized = automaton.totalize(new RemainderTokenFactory(REMAINDER));
+		GenericAutomaton totalized = automaton.totalize(new RemainderTokenTypeFactory(REMAINDER));
 		assertThat(totalized.getErrorType(), equalTo((TokenType) REMAINDER));
 		assertThat(totalized.getStart().findReachableStates(), hasSize(3));
 	}
