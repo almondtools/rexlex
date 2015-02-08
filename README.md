@@ -292,3 +292,41 @@ This benchmark does not only check the performance but also the correctness of t
 - each benchmark fails if the expected number matches is not found
 - DFA packages cannot compute the same groups as NFA packages - accepted difference
 - Non-Posix-NFA packages (as jregex and java.util.regex) do not always detect the longest leftmost match - accepted difference
+
+Using RexLex
+============
+
+Maven Dependency
+----------------
+
+```xml
+<dependency>
+	<groupId>com.github.almondtools</groupId>
+	<artifactId>rexlex</artifactId>
+	<version>0.1.1</version>
+</dependency>
+```
+
+Roadmap
+-------
+Rexlex needs further performance optimizations. Following hot spots are subject of further optimization:
+- Preparation time (dfa construction is hard, but brics is 2 to 40 times faster)
+- Searching time (for simple texts and simple patterns, bric is faster)
+- Text searching heuristics (yet the text search algorithm is selected by default, certainly heuristics could select the best algorithm)
+
+Following features of Rexlex should be fixed:
+- Any used algorithm for text search should not use backtracking (which restricts to using dfa-like- or stringsearch-algorithms) 
+- Flexible final states (with type and state) - this is a major feature which is not available for brics
+
+Bugs and Issues
+---------------
+If you find a bug or some other inconvenience with rexlex:
+- Open an Issue
+- If possible provide a code example which reproduces the problem
+- Optional: Provide a pull request which fixes (or works around) the problem
+
+If you miss a feature:
+- Open an Issue describing the missing feature
+
+If you find bad or misleading english in the documentation:
+- Tell me
