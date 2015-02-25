@@ -52,7 +52,7 @@
 		<dependency>
 			<groupId>com.github.almondtools</groupId>
 			<artifactId>picklock</artifactId>
-			<version>0.2.4</version>
+			<version>0.2.5</version>
 		</dependency>
 		<dependency>
 			<groupId>org.hamcrest</groupId>
@@ -80,14 +80,6 @@
 					<encoding>UTF-8</encoding>
 					<showWarnings>true</showWarnings>
 					<showDeprecation>true</showDeprecation>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-eclipse-plugin</artifactId>
-				<version>2.9</version>
-				<configuration>
-					<downloadSources>true</downloadSources>
 				</configuration>
 			</plugin>
 		</plugins>
