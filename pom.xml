@@ -52,7 +52,7 @@
 		<dependency>
 			<groupId>com.github.almondtools</groupId>
 			<artifactId>picklock</artifactId>
-			<version>0.2.5</version>
+			<version>0.2.6</version>
 		</dependency>
 		<dependency>
 			<groupId>org.hamcrest</groupId>
