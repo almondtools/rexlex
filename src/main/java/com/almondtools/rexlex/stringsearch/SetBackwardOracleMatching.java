@@ -17,7 +17,7 @@ public class SetBackwardOracleMatching implements StringSearchAlgorithm {
 	private TrieRoot trie;
 	private int minLength;
 	private Map<Trie, List<String>> terminals;
-	
+
 	public SetBackwardOracleMatching(List<String> patterns) {
 		List<char[]> charpatterns = toCharArray(patterns);
 		this.minLength = minLength(charpatterns);
@@ -90,7 +90,7 @@ public class SetBackwardOracleMatching implements StringSearchAlgorithm {
 					next.apply(this, trie);
 				}
 			}
-			
+
 		}, null);
 	}
 
@@ -121,7 +121,6 @@ public class SetBackwardOracleMatching implements StringSearchAlgorithm {
 		return minLength;
 	}
 
-
 	private class Finder implements StringFinder {
 
 		private CharProvider chars;
@@ -136,7 +135,7 @@ public class SetBackwardOracleMatching implements StringSearchAlgorithm {
 		public void skipTo(int pos) {
 			chars.move(pos);
 		}
-		
+
 		@Override
 		public StringMatch findNext() {
 			if (!buffer.isEmpty()) {
@@ -159,11 +158,13 @@ public class SetBackwardOracleMatching implements StringSearchAlgorithm {
 					Iterator<String> iPatterns = patterns.iterator();
 					String prefix = iPatterns.next();
 					if (prefix.equals(matchedPrefix)) {
-						while(iPatterns.hasNext()) {
+						while (iPatterns.hasNext()) {
 							String suffix = iPatterns.next();
-							int currentWordEnd = currentWindowEnd + suffix.length();
-							if (chars.slice(currentWindowEnd, currentWordEnd).equals(suffix)) {
-								buffer.add(new StringMatch(currentWindowStart, currentWordEnd, prefix + suffix));
+							if (!chars.finished(suffix.length())) {
+								int currentWordEnd = currentWindowEnd + suffix.length();
+								if (chars.slice(currentWindowEnd, currentWordEnd).equals(suffix)) {
+									buffer.add(new StringMatch(currentWindowStart, currentWordEnd, prefix + suffix));
+								}
 							}
 						}
 						chars.next();
@@ -173,7 +174,7 @@ public class SetBackwardOracleMatching implements StringSearchAlgorithm {
 							return buffer.remove(0);
 						}
 					}
-					
+
 				}
 				if (j <= 0) {
 					chars.next();

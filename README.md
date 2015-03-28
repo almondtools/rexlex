@@ -1,6 +1,19 @@
 Rexlex
 ======
-Rexlex, short for (R)egular (Ex)pressions and (Lex)ers, provides configurable and scalable Regular Expression Matching, Searching and Lexing.
+Rexlex, short for (R)egular (Ex)pressions and (Lex)ers, provides configurable and scalable Regular Expression  
+
+ - Matching, 
+ - Searching 
+ - Lexing
+ 
+Furthermore it provides a set of string search algorithms.
+  - Knuth-Morris-Pratt
+  - Horspool
+  - AhoCorasick, 
+  - SetHorspool, 
+  - SetBackwardOracleMatching, 
+  - WuManber
+
 
 Starting with Rexlex Matching
 =============================
@@ -123,7 +136,7 @@ public class MyToken implements Token {
 This default implementation should be sufficient in most cases, but be free to extend this type with methods you later need.
 
 Optional: Extend the Token Types
-================================
+--------------------------------
 Rexlex has three default token types (in the enum DefaultTokenType). You may want to extend the token types. TokenTypes could be enums or classes. Note that in
 latter case you should correctly implement the methods hashCode and equals.
 
@@ -144,7 +157,7 @@ public enum MyTokenType implements TokenType {
 ```
 
 Create a Token Factory
-======================
+----------------------
 
 Then write the token factory.
 
@@ -159,7 +172,7 @@ public class MyTokenFactory implements TokenFactory<TestToken>{
 ```
 
 Build the lexer
-===============
+---------------
 Having the tokens and the token factory you can build a lexer. In the following code we assume that you have defined additional token types A, B and REMAINDER:
 
 ```Java
@@ -173,6 +186,47 @@ Having the tokens and the token factory you can build a lexer. In the following 
 	MyToken b = tokens.next(); // == new MyToken("b", B)
 	MyToken c = tokens.next(); // == new MyToken("c", REMAINDER)
 ```
+
+
+String Search
+=============
+Rexlex provides a bunch of string search algorithms which could easily be used without the regular expressions. The algorithms can be found in the package 
+`com.almondtools.rexlex.stringsearch`:
+
+Search one string:
+ - Horspool (default)
+ - KnuthMorrisPratt
+
+Search multiple strings:
+ - SetBackwardOracleMatching (default)
+ - AhoCorasick
+ - SetHorspool
+ - WuManber
+
+Now first initialize the Algorithm with the pattern:
+
+```Java
+	Horspool stringSearch = new Horspool("wordToSearch");
+```
+
+Then create a finder from the algorithm and provide the text you want to search in:
+
+```Java
+	StringFinder finder = stringSearch.createFinder(new StringCharProvider("text with wordToSearch in it", 0));
+```
+
+You can now find all occurrences of the pattern
+
+```Java
+	List<StringMatch> all = finder.findAll();
+```
+
+or the next one:
+
+```Java
+	StringMatch first = finder.findNext();
+```
+
 
 Scalable Regular Expressions
 ============================
@@ -320,9 +374,8 @@ Rexlex needs further performance optimizations. Following hot spots are subject 
 - Searching time (for simple texts and simple patterns, bric is faster)
 - Text searching heuristics (yet the text search algorithm is selected by default, certainly heuristics could select the best algorithm)
 
-Following features of Rexlex should be fixed:
-- Any used algorithm for text search should not use backtracking (which restricts to using dfa-like- or stringsearch-algorithms) 
-- Flexible final states (with type and state) - this is a major feature which is not available for brics
+Rexlex also needs a module refinement:
+- Rexlex and StringSearch should be two modules.
 
 Bugs and Issues
 ---------------

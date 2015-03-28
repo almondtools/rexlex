@@ -39,11 +39,20 @@ public class StringSearchAlgorithmTest {
 	
 	@Test
 	@SearchFor("abcabd")
-	public void testOverlappingPattern3() throws Exception {
+	public void testPattern3() throws Exception {
 		List<StringMatch> matches = searcher.createSearcher(chars("abcabcabcabdabcabcabd")).findAll();
 		assertThat(matches, contains(
 			new StringMatch(6, 12, "abcabd"),
 			new StringMatch(15, 21, "abcabd")));
+	}
+	
+	@Test
+	@SearchFor("abcab")
+	public void testOverlappingPattern4() throws Exception {
+		List<StringMatch> matches = searcher.createSearcher(chars("xxxabcabcabcxxx")).findAll();
+		assertThat(matches, contains(
+			new StringMatch(3, 8, "abcab"),
+			new StringMatch(6, 11, "abcab")));
 	}
 	
 	private StringCharProvider chars(String input) {

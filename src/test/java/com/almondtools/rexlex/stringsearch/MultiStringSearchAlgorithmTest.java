@@ -72,13 +72,29 @@ public class MultiStringSearchAlgorithmTest {
 	
 	@Test
 	@SearchFor({"abcd","ab","bc","cd"})
-	public void testSubsumingPatterns() throws Exception {
+	public void testSubsumingPatterns1() throws Exception {
 		List<StringMatch> matches = searcher.createSearcher(chars("abcd")).findAll();
 		assertThat(matches, containsInAnyOrder(
 			new StringMatch(0, 2, "ab"),
 			new StringMatch(1, 3, "bc"),
 			new StringMatch(0, 4, "abcd"),
 			new StringMatch(2, 4, "cd")));
+	}
+	
+	@Test
+	@SearchFor({"aaa","aa","a"})
+	public void testSubsumingPatterns2() throws Exception {
+		List<StringMatch> matches = searcher.createSearcher(chars("aaaa")).findAll();
+		assertThat(matches, containsInAnyOrder(
+			new StringMatch(0, 1, "a"),
+			new StringMatch(0, 2, "aa"),
+			new StringMatch(0, 3, "aaa"),
+			new StringMatch(1, 2, "a"),
+			new StringMatch(1, 3, "aa"),
+			new StringMatch(1, 4, "aaa"),
+			new StringMatch(2, 3, "a"),
+			new StringMatch(2, 4, "aa"),
+			new StringMatch(3, 4, "a")));
 	}
 	
 	private StringCharProvider chars(String input) {
