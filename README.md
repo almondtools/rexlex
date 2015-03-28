@@ -72,8 +72,14 @@ OptimizedMatcherBuilder
 - if the pattern is limited (i.e. constant or the number of possible words is less than 4000) it switches to string search/match
 - the overhead for producing the two dfa is eliminated in case of string search/match
 - string search/match is much faster than regex search
-- confguration of string search algorithms for constant patterns: Knuth-Morris-Pratt, Horspool
-- configuration of string search algorithms for limited word patterns: AhoCorasick, SetHorspool, SetBackwardOracleMatching, WuManber
+- confguration of string search algorithms for constant patterns:
+  - Knuth-Morris-Pratt
+  - Horspool
+- configuration of string search algorithms for limited word patterns: 
+  - AhoCorasick, 
+  - SetHorspool, 
+  - SetBackwardOracleMatching, 
+  - WuManber
 - there is overhead for an initial dfa
 - if you already know, that the pattern is constant or limited, than you should use string search directly, rather than this pattern search
 
