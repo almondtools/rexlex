@@ -2,17 +2,11 @@ Rexlex
 ======
 Rexlex, short for (R)egular (Ex)pressions and (Lex)ers, provides configurable and scalable Regular Expression  
 
- - Matching, 
+ - Matching
  - Searching 
  - Lexing
  
 Furthermore it provides a set of string search algorithms.
-  - Knuth-Morris-Pratt
-  - Horspool
-  - AhoCorasick, 
-  - SetHorspool, 
-  - SetBackwardOracleMatching, 
-  - WuManber
 
 
 Starting with Rexlex Matching
