@@ -2,11 +2,10 @@ Rexlex
 ======
 Rexlex, short for (R)egular (Ex)pressions and (Lex)ers, provides configurable and scalable Regular Expression  
 
- - [Matching](#Starting with Rexlex Matching)
- - Searching 
- - Lexing
+ - [Matching & Searching](#starting-with-rexlex-matching)
+ - [Lexing](#starting-with-rexlex-lexing)
  
-Furthermore it provides a set of string search algorithms.
+Furthermore it provides a set of [String Search](#string-search) Algorithms.
 
 
 Starting with Rexlex Matching
