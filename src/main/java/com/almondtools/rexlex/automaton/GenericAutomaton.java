@@ -466,7 +466,18 @@ public class GenericAutomaton implements Automaton, Cloneable {
 	private TokenType jointTypeOf(Set<State> current) {
 		TokenType type = null;
 		for (State part : current) {
-			type = tokenTypes.union(part.getType(), type);
+			TokenType newtype = part.getType();
+			if (type == null) {
+				type = newtype;
+			} else if (newtype == null) {
+				//keep type
+			} else if (type.error()) {
+				type = newtype;
+			} else if (newtype.error()) {
+				//keep type;
+			} else {
+				type = tokenTypes.union(newtype, type);
+			}
 		}
 		return type;
 	}

@@ -4,9 +4,9 @@ import com.almondtools.rexlex.TokenType;
 import com.almondtools.rexlex.automaton.Automaton;
 import com.almondtools.rexlex.automaton.AutomatonMatcher;
 import com.almondtools.rexlex.automaton.AutomatonMatcherListener;
+import com.almondtools.rexlex.automaton.FromGenericAutomaton.ToTabledAutomaton;
 import com.almondtools.rexlex.automaton.GenericAutomaton;
 import com.almondtools.rexlex.automaton.ToAutomaton;
-import com.almondtools.rexlex.automaton.FromGenericAutomaton.ToTabledAutomaton;
 import com.almondtools.rexlex.io.CharProvider;
 
 public class DefaultMatcherBuilder implements MatcherBuilder {

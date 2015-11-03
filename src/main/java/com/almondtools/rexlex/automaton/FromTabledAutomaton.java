@@ -12,7 +12,7 @@ public class FromTabledAutomaton {
 			int charClassCount = automaton.getCharClassCount();
 			TokenType[] accept = automaton.getAccept();
 			int[] transitions = automaton.getTransitions();
-			com.almondtools.rexlex.automaton.GenericAutomaton.State[] states = new GenericAutomaton.State[transitions.length];
+			com.almondtools.rexlex.automaton.GenericAutomaton.State[] states = new GenericAutomaton.State[accept.length];
 			for (int i = 0; i < states.length; i++) {
 				states[i] = new com.almondtools.rexlex.automaton.GenericAutomaton.State(accept[i]);
 			}
@@ -21,8 +21,8 @@ public class FromTabledAutomaton {
 				int jto = jfrom + charClassCount;
 				for (int j = jfrom; j < jto; j++) {
 					int target = transitions[j];
-					char from = relevantChars.lowerBound(j);
-					char to = relevantChars.upperBound(j);
+					char from = relevantChars.lowerBound(j-jfrom);
+					char to = relevantChars.upperBound(j-jfrom);
 					if (from == to) {
 						states[i].addTransition(new GenericAutomaton.ExactTransition(to, states[target]));
 					} else {

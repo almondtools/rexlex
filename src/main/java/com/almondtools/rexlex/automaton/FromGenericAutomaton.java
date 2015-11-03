@@ -40,6 +40,15 @@ public class FromGenericAutomaton {
 		
 	}
 
+	public static class ToMinimalDeterministicGenericAutomaton implements ToAutomaton<GenericAutomaton, GenericAutomaton>{
+
+		@Override
+		public GenericAutomaton transform(GenericAutomaton automaton) {
+			return automaton.clone().eliminateEpsilons().determinize().totalizeAndClean().minimize();
+		}
+		
+	}
+
 	public static class ToDeterministicAutomaton implements ToAutomaton<GenericAutomaton, DeterministicAutomaton> {
 
 		@Override

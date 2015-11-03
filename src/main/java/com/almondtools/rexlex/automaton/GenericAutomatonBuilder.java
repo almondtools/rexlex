@@ -17,7 +17,6 @@ import com.almondtools.rexlex.automaton.GenericAutomaton.State;
 import com.almondtools.rexlex.automaton.GenericAutomaton.Transition;
 import com.almondtools.rexlex.pattern.DefaultTokenType;
 import com.almondtools.rexlex.pattern.Pattern;
-import com.almondtools.rexlex.pattern.TokenTypeFactory;
 import com.almondtools.rexlex.pattern.Pattern.AlternativesNode;
 import com.almondtools.rexlex.pattern.Pattern.ComplementNode;
 import com.almondtools.rexlex.pattern.Pattern.ConcatNode;
@@ -31,6 +30,7 @@ import com.almondtools.rexlex.pattern.Pattern.ProCharNode;
 import com.almondtools.rexlex.pattern.Pattern.RangeCharNode;
 import com.almondtools.rexlex.pattern.Pattern.SingleCharNode;
 import com.almondtools.rexlex.pattern.Pattern.StringNode;
+import com.almondtools.rexlex.pattern.TokenTypeFactory;
 
 public class GenericAutomatonBuilder implements Pattern.PatternNodeVisitor<GenericAutomaton>, AutomatonBuilder {
 

@@ -3,13 +3,14 @@ package com.almondtools.rexlex.pattern;
 import com.almondtools.rexlex.TokenType;
 import com.almondtools.rexlex.automaton.AutomatonMatcher;
 import com.almondtools.rexlex.automaton.AutomatonMatcherListener;
+import com.almondtools.rexlex.automaton.FromGenericAutomaton;
+import com.almondtools.rexlex.automaton.FromGenericAutomaton.ToTabledAutomaton;
 import com.almondtools.rexlex.automaton.GenericAutomaton;
 import com.almondtools.rexlex.automaton.LongestMatchListener;
 import com.almondtools.rexlex.automaton.MatchListener;
 import com.almondtools.rexlex.automaton.ShortestMatchListener;
 import com.almondtools.rexlex.automaton.TabledAutomaton;
 import com.almondtools.rexlex.automaton.ToAutomaton;
-import com.almondtools.rexlex.automaton.FromGenericAutomaton.ToTabledAutomaton;
 import com.almondtools.rexlex.io.CharProvider;
 import com.almondtools.rexlex.io.ReverseCharProvider;
 
@@ -31,8 +32,11 @@ public class SearchMatcherBuilder implements MatcherBuilder {
 
 	@Override
 	public MatcherBuilder initWith(GenericAutomaton nfa) {
-		completeAutomaton = nfa.toAutomaton(builder);
-		this.searchAutomaton = nfa.addInitialSelfLoop().toAutomaton(builder);
+		//TODO following line is there for performance, it should not change anything, but omitting it results in errors (see MatcherBenchmarktest)
+		nfa = nfa.toAutomaton(new FromGenericAutomaton.ToMinimalDeterministicGenericAutomaton());
+		this.completeAutomaton = nfa.toAutomaton(builder);
+		GenericAutomaton addInitialSelfLoop = nfa.addInitialSelfLoop();
+		this.searchAutomaton = addInitialSelfLoop.toAutomaton(builder);
 		TabledAutomaton reversePrefixAutomaton = nfa.revert().toAutomaton(builder);
 		attach(searchAutomaton, reversePrefixAutomaton, completeAutomaton);
 		return this;
@@ -129,10 +133,14 @@ public class SearchMatcherBuilder implements MatcherBuilder {
 
 		@Override
 		public boolean find() {
-			match = null;
 			if (search.isSuspended()) {
+				if (match != null) {
+					chars.move(match.end());
+				}
+				match = null;
 				search.resume();
 			} else {
+				match = null;
 				search.applyTo(chars);
 			}
 			if (match == null) {
@@ -153,6 +161,7 @@ public class SearchMatcherBuilder implements MatcherBuilder {
 			chars.move(current);
 			Match forwardMatch = ((MatchListener) complete.applyTo(chars)).getMatch();
 			int end = forwardMatch.end();
+			chars.move(end);
 			return new Match(start, chars.slice(start, end), forwardMatch.getType());
 		}
 
