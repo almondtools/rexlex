@@ -1,5 +1,7 @@
 package com.almondtools.rexlex.automaton;
 
+import static com.almondtools.util.text.CharUtils.charToString;
+
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
@@ -9,7 +11,6 @@ import com.almondtools.rexlex.automaton.GenericAutomaton.EventTransition;
 import com.almondtools.rexlex.automaton.GenericAutomaton.EventlessTransition;
 import com.almondtools.rexlex.automaton.GenericAutomaton.State;
 import com.almondtools.rexlex.automaton.GenericAutomaton.Transition;
-import com.almondtools.util.text.CharUtils;
 
 public class GenericAutomatonExport implements AutomatonExport {
 
@@ -93,20 +94,6 @@ public class GenericAutomatonExport implements AutomatonExport {
 	private void writeEpsilon(Writer writer, EventlessTransition transition, String stateId, String targetId) throws IOException {
 		String format = " [label=\"&epsilon;\"]";
 		writer.write(stateId + " -> " + targetId + format + ";\n");
-	}
-
-	private String charToString(char ch) {
-		if (CharUtils.isAsciiPrintable(ch)) {
-			return String.valueOf(ch);
-		} else {
-			StringBuilder buffer = new StringBuilder("\\u");
-			String hex = Integer.toHexString((int) ch);
-			for (int i = 0; i < 4 - hex.length(); i++) {
-				buffer.append('0');
-			}
-			buffer.append(hex);
-			return buffer.toString();
-		}
 	}
 
 }

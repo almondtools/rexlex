@@ -4,6 +4,7 @@ import static com.almondtools.rexlex.automaton.AutomatonProperty.ACYCLIC;
 import static com.almondtools.rexlex.automaton.AutomatonProperty.CYCLIC;
 import static com.almondtools.rexlex.automaton.AutomatonProperty.LINEAR;
 import static com.almondtools.rexlex.automaton.AutomatonProperty.UNKNOWN;
+import static com.almondtools.util.text.CharUtils.charToString;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -1098,7 +1099,7 @@ public class GenericAutomaton implements Automaton, Cloneable {
 
 		@Override
 		public String toString() {
-			return new StringBuilder().append(" -<").append(from).append("..").append(to).append(">-> ").append(getTarget().getId()).toString();
+			return new StringBuilder().append(" -<").append(charToString(from)).append("..").append(charToString(to)).append(">-> ").append(getTarget().getId()).toString();
 		}
 
 		@Override
@@ -1155,7 +1156,7 @@ public class GenericAutomaton implements Automaton, Cloneable {
 
 		@Override
 		public String toString() {
-			return new StringBuilder().append(" -<").append(value).append(">-> ").append(getTarget().getId()).toString();
+			return new StringBuilder().append(" -<").append(charToString(value)).append(">-> ").append(getTarget().getId()).toString();
 		}
 
 		@Override
