@@ -16,12 +16,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-import com.almondtools.rexlex.automaton.Automaton;
-import com.almondtools.rexlex.automaton.AutomatonMatcher;
-import com.almondtools.rexlex.automaton.DeterministicAutomaton;
-import com.almondtools.rexlex.automaton.GenericAutomaton;
-import com.almondtools.rexlex.automaton.MatchCollector;
-import com.almondtools.rexlex.automaton.PrefixCollector;
 import com.almondtools.rexlex.automaton.GenericAutomaton.ExactTransition;
 import com.almondtools.rexlex.automaton.GenericAutomaton.RangeTransition;
 import com.almondtools.rexlex.automaton.GenericAutomaton.State;
@@ -36,7 +30,7 @@ public class Automatons {
 		result.remove("");
 		return result;
 	}
-	
+
 	public static GenericAutomaton withTokens(GenericAutomaton a) {
 		for (State state : a.findAllStates()) {
 			if (state.getType() == DefaultTokenType.ACCEPT || state.getType() == DefaultTokenType.IGNORE) {
@@ -45,7 +39,7 @@ public class Automatons {
 		}
 		return a;
 	}
-	
+
 	public static GenericAutomaton nfa1() {
 		State state0 = new State(DefaultTokenType.ACCEPT);
 		State state1 = new State(DefaultTokenType.ACCEPT);
@@ -171,9 +165,9 @@ public class Automatons {
 		State state3 = new State(DefaultTokenType.ACCEPT);
 
 		state0.addTransition(new ExactTransition('a', state1));
-		
+
 		state1.addTransition(new ExactTransition('b', state2));
-		
+
 		state2.addTransition(new ExactTransition('b', state2));
 		state2.addTransition(new ExactTransition('c', state3));
 		return new GenericAutomaton(state0);
@@ -184,9 +178,9 @@ public class Automatons {
 		State state1 = new State(DefaultTokenType.ACCEPT);
 
 		state0.addTransition(new ExactTransition('a', state1));
-		
+
 		state1.addTransition(new ExactTransition('b', state1));
-		
+
 		return new GenericAutomaton(state0);
 	}
 
@@ -199,9 +193,9 @@ public class Automatons {
 
 		state0.addTransition(new ExactTransition('a', state1));
 		state0.addTransition(new ExactTransition('a', state3));
-		
+
 		state1.addTransition(new ExactTransition('a', state2));
-		
+
 		state3.addTransition(new ExactTransition('a', state3));
 		state3.addTransition(new ExactTransition('b', state4));
 
@@ -214,20 +208,20 @@ public class Automatons {
 		State state2 = new State(DefaultTokenType.ACCEPT);
 		State state3 = new State();
 		State state4 = new State(DefaultTokenType.ACCEPT);
-		
+
 		state0.addTransition(new ExactTransition('a', state1));
 		state0.addTransition(new ExactTransition('a', state3));
-		
+
 		state1.addTransition(new ExactTransition('a', state2));
-		
+
 		state2.addTransition(new ExactTransition('c', state0));
-		
+
 		state3.addTransition(new ExactTransition('a', state3));
 		state3.addTransition(new ExactTransition('b', state4));
-		
+
 		return new GenericAutomaton(state0);
 	}
-	
+
 	public static List<String> valid1() {
 		return Arrays.asList(
 			"",
@@ -331,7 +325,7 @@ public class Automatons {
 			"aacaacaab"
 			);
 	}
-	
+
 	public static List<String> invalid1() {
 		return Arrays.asList(
 			"b",
@@ -404,7 +398,7 @@ public class Automatons {
 			"a"
 			);
 	}
-	
+
 	public static void assertMatches(Automaton automaton, List<String> valid, List<String> invalid) {
 		String[] validStrings = valid.toArray(new String[0]);
 		String[] invalidStrings = invalid.toArray(new String[0]);

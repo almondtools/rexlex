@@ -7,8 +7,6 @@ import java.util.Arrays;
 
 import org.junit.Test;
 
-import com.almondtools.util.text.StringUtils;
-
 public class StringUtilsTest {
 
 	@Test

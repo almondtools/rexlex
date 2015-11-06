@@ -8,9 +8,8 @@ import java.util.List;
 import org.junit.Rule;
 import org.junit.Test;
 
-import com.almondtools.rexlex.stringsearch.StringSearchRule.SearchFor;
 import com.almondtools.rexlex.io.StringCharProvider;
-import com.almondtools.rexlex.stringsearch.StringMatch;
+import com.almondtools.rexlex.stringsearch.StringSearchRule.SearchFor;
 
 public class StringSearchAlgorithmTest {
 

@@ -1,5 +1,8 @@
 package com.almondtools.rexlex.automaton;
 
+import static com.almondtools.util.text.CharUtils.after;
+import static com.almondtools.util.text.CharUtils.before;
+
 import java.util.List;
 
 public final class UnicodeCharClassMapper implements CharClassMapper {
@@ -14,7 +17,7 @@ public final class UnicodeCharClassMapper implements CharClassMapper {
 	public UnicodeCharClassMapper(char[] chars) {
 		this.chars = chars;
 		this.lowerBound = chars.length > 1 ? chars[1] : 0;
-		this.upperBound = chars.length > 1 ? (char) (chars[chars.length - 1] - 1) : 0;
+		this.upperBound = chars.length > 1 ? before(chars[chars.length - 1]) : 0;
 		this.min = 0;
 		this.max = chars.length <= 1 ? 0 : chars.length - 1;  
 		this.charToClass = computeCharClasses(chars);
@@ -68,8 +71,8 @@ public final class UnicodeCharClassMapper implements CharClassMapper {
 	@Override
 	public char[] mapped(int i) {
 		char start = i >= 0 ? chars[i] : Character.MIN_VALUE;
-		char next = i < chars.length - 1 ? chars[i+1] : (char) (Character.MAX_VALUE + 1);
-		char stop = (char) (next - 1);
+		char next = i < chars.length - 1 ? chars[i+1] : after(Character.MAX_VALUE);
+		char stop = before(next);
 		char[] mapped = new char[next-start];
 		for (char c = start; c <= stop; c++) {
 			mapped[c-start] = c;
@@ -85,7 +88,7 @@ public final class UnicodeCharClassMapper implements CharClassMapper {
 	@Override
 	public char upperBound(int i) {
 		if (i < chars.length - 1) {
-			return (char) (chars[i+1] - 1);
+			return before(chars[i+1]);
 		} else {
 			return Character.MAX_VALUE;
 		}

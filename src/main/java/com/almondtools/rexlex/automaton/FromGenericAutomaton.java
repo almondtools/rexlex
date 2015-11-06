@@ -112,7 +112,8 @@ public class FromGenericAutomaton {
 				Map<com.almondtools.rexlex.automaton.GenericAutomaton.State, State> mappedStates = mapStates(almostMinimalDeterministic.findAllStates());
 				return new DeterministicAutomaton(mappedStates.get(almostMinimalDeterministic.getStart()), mappedStates.get(almostMinimalDeterministic.getError()));
 			} else {
-				GenericAutomaton almostMinimalDeterministic = almostDeterministic.totalizeAndClean().minimize();
+				GenericAutomaton totalizeAndClean = almostDeterministic.totalizeAndClean();
+				GenericAutomaton almostMinimalDeterministic = totalizeAndClean.minimize();
 				Map<com.almondtools.rexlex.automaton.GenericAutomaton.State, State> mappedStates = mapStates(almostMinimalDeterministic.findAllStates());
 				return new DeterministicAutomaton(mappedStates.get(almostMinimalDeterministic.getStart()), mappedStates.get(almostMinimalDeterministic.getError()));
 			}

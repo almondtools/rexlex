@@ -5,13 +5,11 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import com.almondtools.rexlex.automaton.GenericAutomaton;
-import com.almondtools.rexlex.automaton.ToAutomaton;
 import com.almondtools.rexlex.automaton.FromGenericAutomaton.ToCompactGenericAutomaton;
 import com.almondtools.rexlex.automaton.FromGenericAutomaton.ToMinimalDeterministicAutomaton;
 import com.almondtools.rexlex.automaton.FromGenericAutomaton.ToTabledAutomaton;
-import com.almondtools.rexlex.pattern.DefaultMatcherBuilder;
-import com.almondtools.rexlex.pattern.MatcherBuilder;
+import com.almondtools.rexlex.automaton.GenericAutomaton;
+import com.almondtools.rexlex.automaton.ToAutomaton;
 
 public enum PatternCompilationMode {
 	NFA {

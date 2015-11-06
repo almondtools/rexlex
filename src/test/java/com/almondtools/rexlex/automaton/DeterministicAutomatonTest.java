@@ -25,8 +25,6 @@ import static com.almondtools.rexlex.automaton.Automatons.valid4;
 import static com.almondtools.rexlex.automaton.Automatons.valid5;
 import static com.almondtools.rexlex.automaton.Automatons.valid8;
 import static com.almondtools.rexlex.automaton.Automatons.valid9;
-import static com.almondtools.rexlex.pattern.DotGraphMatcher.startsWith;
-import static com.almondtools.rexlex.tokens.Fail.TESTERROR;
 import static com.almondtools.rexlex.automaton.GenericAutomatonBuilder.match;
 import static com.almondtools.rexlex.automaton.GenericAutomatonBuilder.matchAlternatives;
 import static com.almondtools.rexlex.automaton.GenericAutomatonBuilder.matchAnyChar;
@@ -41,6 +39,8 @@ import static com.almondtools.rexlex.automaton.GenericAutomatonBuilder.matchStar
 import static com.almondtools.rexlex.automaton.GenericAutomatonBuilder.matchUnlimitedLoop;
 import static com.almondtools.rexlex.pattern.DefaultTokenType.ACCEPT;
 import static com.almondtools.rexlex.pattern.DefaultTokenType.ERROR;
+import static com.almondtools.rexlex.pattern.DotGraphMatcher.startsWith;
+import static com.almondtools.rexlex.tokens.Fail.TESTERROR;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.Matchers.contains;
@@ -57,16 +57,13 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.almondtools.rexlex.tokens.TestToken;
-import com.almondtools.rexlex.tokens.TestTokenFactory;
 import com.almondtools.rexlex.TokenType;
-import com.almondtools.rexlex.automaton.Automaton;
-import com.almondtools.rexlex.automaton.DeterministicAutomaton;
-import com.almondtools.rexlex.automaton.GenericAutomaton;
 import com.almondtools.rexlex.automaton.DeterministicAutomaton.State;
 import com.almondtools.rexlex.automaton.FromGenericAutomaton.ToDeterministicAutomaton;
 import com.almondtools.rexlex.automaton.FromGenericAutomaton.ToMinimalDeterministicAutomaton;
 import com.almondtools.rexlex.pattern.Pattern;
+import com.almondtools.rexlex.tokens.TestToken;
+import com.almondtools.rexlex.tokens.TestTokenFactory;
 import com.almondtools.util.text.StringUtils;
 
 public class DeterministicAutomatonTest {

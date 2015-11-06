@@ -1,5 +1,7 @@
 package com.almondtools.rexlex.pattern;
 
+import static com.almondtools.util.text.CharUtils.after;
+import static com.almondtools.util.text.CharUtils.before;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.assertThat;
@@ -40,8 +42,8 @@ public class PatternSpecialCharClassNodeTest {
 		assertThat(intertedCharNode.toString(), equalTo("\\D"));
 		assertThat(intertedCharNode.toCharNodes(), hasSize(2));
 		assertThat(intertedCharNode.toCharNodes().get(0).getFrom(), equalTo(Character.MIN_VALUE));
-		assertThat(intertedCharNode.toCharNodes().get(0).getTo(), equalTo((char) ('0' - 1)));
-		assertThat(intertedCharNode.toCharNodes().get(1).getFrom(), equalTo((char) ('9' + 1)));
+		assertThat(intertedCharNode.toCharNodes().get(0).getTo(), equalTo(before('0')));
+		assertThat(intertedCharNode.toCharNodes().get(1).getFrom(), equalTo(after('9')));
 		assertThat(intertedCharNode.toCharNodes().get(1).getTo(), equalTo(Character.MAX_VALUE));
 	}
 }

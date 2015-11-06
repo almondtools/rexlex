@@ -6,12 +6,12 @@ import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
 
-import com.almondtools.rexlex.pattern.ComparatorMatcher;
 import com.almondtools.rexlex.automaton.GenericAutomaton.EpsilonTransition;
 import com.almondtools.rexlex.automaton.GenericAutomaton.ExactTransition;
 import com.almondtools.rexlex.automaton.GenericAutomaton.RangeTransition;
 import com.almondtools.rexlex.automaton.GenericAutomaton.State;
 import com.almondtools.rexlex.automaton.GenericAutomaton.TransitionComparator;
+import com.almondtools.rexlex.pattern.ComparatorMatcher;
 
 
 public class GenericAutomatonTransitionComparatorTest {

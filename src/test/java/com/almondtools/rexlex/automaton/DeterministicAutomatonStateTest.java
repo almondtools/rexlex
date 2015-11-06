@@ -1,9 +1,11 @@
 package com.almondtools.rexlex.automaton;
 
-import static com.almondtools.rexlex.tokens.Accept.REMAINDER;
 import static com.almondtools.rexlex.pattern.DefaultTokenType.ACCEPT;
 import static com.almondtools.rexlex.pattern.DefaultTokenType.ERROR;
 import static com.almondtools.rexlex.pattern.DefaultTokenType.IGNORE;
+import static com.almondtools.rexlex.tokens.Accept.REMAINDER;
+import static com.almondtools.util.text.CharUtils.after;
+import static com.almondtools.util.text.CharUtils.before;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.hasItems;
@@ -231,7 +233,7 @@ public class DeterministicAutomatonStateTest {
 		State state = new State();
 		State target = new State();
 		State error = new State();
-		Transition c = new ExactTransition((char) (Character.MAX_VALUE - 1), target);
+		Transition c = new ExactTransition(before(Character.MAX_VALUE), target);
 		state.addTransition(c);
 		state.addErrorTransitions(error);
 		SortedSet<Transition> transitions = state.computeSortedTransitions();
@@ -266,8 +268,8 @@ public class DeterministicAutomatonStateTest {
 		assertThat(transitions.headSet(ef).size(), equalTo(4));
 		assertThat(transitions.headSet(h).size(), equalTo(6));
 		assertThat(transitions.headSet(a).first().getFrom(), equalTo(Character.MIN_VALUE));
-		assertThat(transitions.headSet(a).first().getTo(), equalTo((char) ('a' - 1)));
-		assertThat(transitions.last().getFrom(), equalTo((char) ('h' + 1)));
+		assertThat(transitions.headSet(a).first().getTo(), equalTo(before('a')));
+		assertThat(transitions.last().getFrom(), equalTo(after('h')));
 		assertThat(transitions.last().getTo(), equalTo(Character.MAX_VALUE));
 	}
 

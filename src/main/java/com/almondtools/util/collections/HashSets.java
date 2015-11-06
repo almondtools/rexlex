@@ -46,10 +46,12 @@ public class HashSets<T> {
 		return new HashSets<T>(false);
 	}
 
+	@SafeVarargs
 	public static <T> HashSet<T> of(T... elements) {
 		return new HashSet<T>(Arrays.asList(elements));
 	}
 
+	@SafeVarargs
 	public static <T> HashSet<T> of(Predicate<T> cond, T... elements) {
 		HashSet<T> list = new HashSet<T>();
 		for (T element : elements) {
@@ -60,10 +62,12 @@ public class HashSets<T> {
 		return list;
 	}
 	
+	@SafeVarargs
 	public static <T> LinkedHashSet<T> ofLinked(T... elements) {
 		return new LinkedHashSet<T>(Arrays.asList(elements));
 	}
 
+	@SafeVarargs
 	public static <T> LinkedHashSet<T> ofLinked(Predicate<T> cond, T... elements) {
 		LinkedHashSet<T> list = new LinkedHashSet<T>();
 		for (T element : elements) {
@@ -107,6 +111,7 @@ public class HashSets<T> {
 		return this;
 	}
 
+	@SuppressWarnings("unchecked")
 	public HashSets<T> addAll(T... add) {
 		set.addAll(Arrays.asList(add));
 		return this;
@@ -133,6 +138,7 @@ public class HashSets<T> {
 		return this;
 	}
 
+	@SuppressWarnings("unchecked")
 	public HashSets<T> removeAll(T... remove) {
 		set.removeAll(Arrays.asList(remove));
 		return this;
@@ -163,6 +169,7 @@ public class HashSets<T> {
 		return this;
 	}
 
+	@SuppressWarnings("unchecked")
 	public HashSets<T> retainAll(T... retain) {
 		set.retainAll(Arrays.asList(retain));
 		return this;

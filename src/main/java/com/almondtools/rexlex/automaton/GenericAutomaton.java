@@ -4,6 +4,8 @@ import static com.almondtools.rexlex.automaton.AutomatonProperty.ACYCLIC;
 import static com.almondtools.rexlex.automaton.AutomatonProperty.CYCLIC;
 import static com.almondtools.rexlex.automaton.AutomatonProperty.LINEAR;
 import static com.almondtools.rexlex.automaton.AutomatonProperty.UNKNOWN;
+import static com.almondtools.util.text.CharUtils.after;
+import static com.almondtools.util.text.CharUtils.before;
 import static com.almondtools.util.text.CharUtils.charToString;
 
 import java.util.ArrayDeque;
@@ -273,7 +275,7 @@ public class GenericAutomaton implements Automaton, Cloneable {
 			State newCurrent = computeJointState(combinedState, current);
 			for (int i = 0; i < relevant.length; i++) {
 				char currentChar = relevant[i];
-				char beforeNextChar = i + 1 < relevant.length ? (char) (relevant[i + 1] - 1) : Character.MAX_VALUE;
+				char beforeNextChar = i + 1 < relevant.length ? before(relevant[i + 1]) : Character.MAX_VALUE;
 				Set<State> possibleNext = new HashSet<State>();
 				for (State possibleCurrent : current) {
 					for (Transition next : possibleCurrent.nexts(currentChar)) {
@@ -760,7 +762,7 @@ public class GenericAutomaton implements Automaton, Cloneable {
 
 				char to = ((EventTransition) transition).getTo();
 				if (to < Character.MAX_VALUE) {
-					relevant.add((char) (to + 1));
+					relevant.add(after(to));
 				}
 			}
 			return relevant;
@@ -875,18 +877,30 @@ public class GenericAutomaton implements Automaton, Cloneable {
 		}
 
 		public void addErrorTransitions(State error) {
+			char min = Character.MAX_VALUE;
+			char max = Character.MIN_VALUE;
+
 			char current = Character.MIN_VALUE;
 			for (EventTransition transition : getSortedNextClosure()) {
 				char from = transition.getFrom();
+				if (from < min) {
+					min = from;
+				}
 				char to = transition.getTo();
+				if (to > max) {
+					max = to;
+				}
+				
 				if (from == current + 1) {
 					transitions.add(new ExactTransition(current, error));
 				} else if (from > current) {
-					transitions.add(new RangeTransition(current, (char) (from - 1), error));
+					transitions.add(new RangeTransition(current, before(from), error));
 				}
-				current = (char) (to + 1);
+				current = after(to);
 			}
-			if (current == Character.MAX_VALUE) {
+			if (max == Character.MAX_VALUE) {
+				// MAX_VALUE already handled
+			} else if (current == Character.MAX_VALUE) {
 				transitions.add(new ExactTransition(Character.MAX_VALUE, error));
 			} else {// current < Character.MAX_VALUE
 				transitions.add(new RangeTransition(current, Character.MAX_VALUE, error));

@@ -6,9 +6,9 @@ import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
 
-import com.almondtools.rexlex.tokens.Accept;
 import com.almondtools.rexlex.automaton.DeterministicAutomaton.ExactTransition;
 import com.almondtools.rexlex.automaton.DeterministicAutomaton.State;
+import com.almondtools.rexlex.tokens.Accept;
 
 public class DeterministicAutomatonExactTransitionTest {
 

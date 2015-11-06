@@ -9,10 +9,6 @@ import static org.junit.Assert.assertThat;
 import org.junit.Test;
 
 import com.almondtools.rexlex.automaton.GenericAutomaton;
-import com.almondtools.rexlex.pattern.Finder;
-import com.almondtools.rexlex.pattern.Match;
-import com.almondtools.rexlex.pattern.OptimizedMatcherBuilder;
-import com.almondtools.rexlex.pattern.Pattern;
 
 public class OptimizedMatcherBuilderForAutomatonTest {
 

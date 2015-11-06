@@ -11,8 +11,6 @@ import java.util.List;
 
 import org.junit.Test;
 
-import com.almondtools.rexlex.automaton.UnicodeCharClassMapper;
-
 
 public class UnicodeCharClassMapperTest {
 

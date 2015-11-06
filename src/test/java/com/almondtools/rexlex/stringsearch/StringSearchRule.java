@@ -14,10 +14,6 @@ import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
 
 import com.almondtools.rexlex.io.CharProvider;
-import com.almondtools.rexlex.stringsearch.Horspool;
-import com.almondtools.rexlex.stringsearch.KnuthMorrisPratt;
-import com.almondtools.rexlex.stringsearch.StringFinder;
-import com.almondtools.rexlex.stringsearch.StringSearchAlgorithm;
 
 public class StringSearchRule implements TestRule {
 

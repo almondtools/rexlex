@@ -6,7 +6,6 @@ import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 
-import com.almondtools.rexlex.automaton.DeterministicAutomaton;
 import com.almondtools.rexlex.automaton.DeterministicAutomaton.State;
 import com.almondtools.rexlex.automaton.DeterministicAutomaton.Transition;
 

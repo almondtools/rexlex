@@ -7,12 +7,11 @@ import static org.junit.Assert.assertThat;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.almondtools.rexlex.Lexer;
+import com.almondtools.rexlex.LexerBuilder;
 import com.almondtools.rexlex.tokens.Accept;
 import com.almondtools.rexlex.tokens.TestToken;
 import com.almondtools.rexlex.tokens.TestTokenFactory;
-import com.almondtools.rexlex.Lexer;
-import com.almondtools.rexlex.LexerBuilder;
-import com.almondtools.rexlex.lexer.DynamicLexerBuilder;
 
 public class DynamicLexerBuilderTest {
 

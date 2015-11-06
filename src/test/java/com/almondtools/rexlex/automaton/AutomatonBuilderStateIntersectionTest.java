@@ -6,7 +6,6 @@ import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
 
-import com.almondtools.rexlex.automaton.GenericAutomatonBuilder;
 import com.almondtools.rexlex.automaton.GenericAutomaton.State;
 
 public class AutomatonBuilderStateIntersectionTest {

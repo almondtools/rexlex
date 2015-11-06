@@ -4,6 +4,8 @@ import static com.almondtools.rexlex.pattern.Pattern.ProCharNode.toCharNodes;
 import static com.almondtools.rexlex.pattern.PatternOptionUtil.list;
 import static com.almondtools.rexlex.pattern.PatternOptionUtil.splitFirst;
 import static com.almondtools.rexlex.pattern.PatternOptionUtil.splitOf;
+import static com.almondtools.util.text.CharUtils.after;
+import static com.almondtools.util.text.CharUtils.before;
 import static java.util.EnumSet.copyOf;
 import static java.util.EnumSet.noneOf;
 
@@ -148,13 +150,13 @@ public class Pattern {
 			if (current + 1 == from) {
 				remainderNodes.add(new SingleCharNode(current));
 			} else if (current < from) {
-				remainderNodes.add(new RangeCharNode(current, (char) (from - 1)));
+				remainderNodes.add(new RangeCharNode(current, before(from)));
 			}
-			current = (char) (to + 1);
+			current = after(to);
 		}
 		if (current == Character.MAX_VALUE) {
 			remainderNodes.add(new SingleCharNode(current));
-		} else if (current == (char) (Character.MAX_VALUE + 1)) {
+		} else if (current == after(Character.MAX_VALUE)) {
 			// overflow from previous loop => do nothing
 		} else if (current < Character.MAX_VALUE) {
 			remainderNodes.add(new RangeCharNode(current, Character.MAX_VALUE));
@@ -877,14 +879,6 @@ public class Pattern {
 
 		public abstract List<CharNode> toCharNodes();
 
-		public static final char before(char c) {
-			return (char) (c - 1);
-		}
-
-		public static final char after(char c) {
-			return (char) (c + 1);
-		}
-
 		public static List<CharNode> toCharNodes(List<ProCharNode> proCharNode) {
 			List<CharNode> charNodes = new ArrayList<CharNode>();
 			for (ProCharNode node : proCharNode) {
@@ -1044,7 +1038,7 @@ public class Pattern {
 						}
 						if (aFrom < bFrom) {
 							char from = aFrom;
-							char to = (char) (bFrom - 1);
+							char to = before(bFrom);
 							if (from == to) {
 								difference.add(new SingleCharNode(from));
 							} else {
@@ -1052,7 +1046,7 @@ public class Pattern {
 							}
 						}
 						if (aTo > bTo) {
-							last = (char) (bTo + 1);
+							last = after(bTo);
 							bi++;
 						} else {
 							ai++;

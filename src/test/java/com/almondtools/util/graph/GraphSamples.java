@@ -1,6 +1,5 @@
 package com.almondtools.util.graph;
 
-import com.almondtools.util.graph.Graph;
 
 public class GraphSamples {
 

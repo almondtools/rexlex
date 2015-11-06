@@ -18,6 +18,8 @@ import static com.almondtools.rexlex.automaton.GenericAutomatonBuilder.matchRang
 import static com.almondtools.rexlex.automaton.GenericAutomatonBuilder.matchStarLoop;
 import static com.almondtools.rexlex.automaton.GenericAutomatonBuilder.matchUnlimitedLoop;
 import static com.almondtools.rexlex.pattern.DefaultTokenType.ACCEPT;
+import static com.almondtools.util.text.CharUtils.after;
+import static com.almondtools.util.text.CharUtils.before;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.containsInAnyOrder;
@@ -28,9 +30,6 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import com.almondtools.rexlex.automaton.Automaton;
-import com.almondtools.rexlex.automaton.GenericAutomaton;
-import com.almondtools.rexlex.automaton.GenericAutomatonBuilder;
 import com.almondtools.rexlex.automaton.GenericAutomaton.ExactTransition;
 import com.almondtools.rexlex.automaton.GenericAutomaton.RangeTransition;
 import com.almondtools.rexlex.automaton.GenericAutomaton.State;
@@ -442,8 +441,8 @@ public class GenericAutomatonBuilderTest {
 		State ala = new State(ACCEPT);
 		State fla = new State();
 		la.addTransition(new ExactTransition('a', fla));
-		la.addTransition(new RangeTransition((char) Character.MIN_VALUE, (char) ('a' - 1), ala));
-		la.addTransition(new RangeTransition((char) ('a' + 1), (char) Character.MAX_VALUE, ala));
+		la.addTransition(new RangeTransition((char) Character.MIN_VALUE, before('a'), ala));
+		la.addTransition(new RangeTransition(after('a'), (char) Character.MAX_VALUE, ala));
 		fla.addTransition(new ExactTransition('a', fla));
 		State s = prefixStates(a, la);
 		assertThat(s.getTransitions().size(), equalTo(1));
@@ -459,10 +458,10 @@ public class GenericAutomatonBuilderTest {
 		State p2 = new State();
 		State p3 = new State(ACCEPT);
 		prefix.addTransition(new ExactTransition('-', p2));
-		prefix.addTransition(new RangeTransition(Character.MIN_VALUE, (char) ('-' - 1), p3));
-		prefix.addTransition(new RangeTransition((char) ('-' + 1), Character.MAX_VALUE, p3));
-		p2.addTransition(new RangeTransition(Character.MIN_VALUE, (char) ('}' - 1), p3));
-		p2.addTransition(new RangeTransition((char) ('}' + 1), Character.MAX_VALUE, p3));
+		prefix.addTransition(new RangeTransition(Character.MIN_VALUE, before('-'), p3));
+		prefix.addTransition(new RangeTransition(after('-'), Character.MAX_VALUE, p3));
+		p2.addTransition(new RangeTransition(Character.MIN_VALUE, before('}'), p3));
+		p2.addTransition(new RangeTransition(after('}'), Character.MAX_VALUE, p3));
 		State news = prefixStates(a, prefix);
 		Automaton newa = new GenericAutomaton(news);
 		assertThat(matchSamples(newa, "a", "aaaaa", "----a", "}}}}a"), containsInAnyOrder("a", "aaaaa", "----a", "}}}}a"));

@@ -11,9 +11,6 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.almondtools.rexlex.pattern.DefaultMatcherBuilder;
-import com.almondtools.rexlex.pattern.Finder;
-
 public class DefaultMatcherBuilderTest {
 
 	private DefaultMatcherBuilder builder;

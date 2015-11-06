@@ -18,6 +18,7 @@ public class ArrayLists<T> {
 		this.list = new ArrayList<T>(list);
 	}
 
+	@SafeVarargs
 	public static <T> ArrayLists<T> list(T... elements) {
 		return new ArrayLists<T>(java.util.Arrays.asList(elements));
 	}
@@ -26,10 +27,12 @@ public class ArrayLists<T> {
 		return new ArrayLists<T>();
 	}
 
+	@SafeVarargs
 	public static <T> ArrayList<T> of(T... elements) {
 		return new ArrayList<T>(java.util.Arrays.asList(elements));
 	}
 
+	@SafeVarargs
 	public static <T> ArrayList<T> of(Predicate<T> cond, T... elements) {
 		ArrayList<T> list = new ArrayList<T>();
 		for (T element : elements) {
@@ -50,6 +53,7 @@ public class ArrayLists<T> {
 		return this;
 	}
 
+	@SuppressWarnings("unchecked")
 	public ArrayLists<T> addAll(T... add) {
 		list.addAll(java.util.Arrays.asList(add));
 		return this;
@@ -72,6 +76,7 @@ public class ArrayLists<T> {
 		return this;
 	}
 
+	@SuppressWarnings("unchecked")
 	public ArrayLists<T> removeAll(T... remove) {
 		list.removeAll(java.util.Arrays.asList(remove));
 		return this;
@@ -103,6 +108,7 @@ public class ArrayLists<T> {
 		return this;
 	}
 
+	@SuppressWarnings("unchecked")
 	public ArrayLists<T> retainAll(T... retain) {
 		list.retainAll(java.util.Arrays.asList(retain));
 		return this;

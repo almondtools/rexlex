@@ -1,12 +1,13 @@
 package com.almondtools.rexlex.pattern;
 
+import static com.almondtools.util.text.CharUtils.after;
+import static com.almondtools.util.text.CharUtils.before;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
 
-import com.almondtools.rexlex.pattern.PatternCompileException;
 import com.almondtools.rexlex.pattern.Pattern.AlternativesNode;
 import com.almondtools.rexlex.pattern.Pattern.AnyCharNode;
 import com.almondtools.rexlex.pattern.Pattern.CharClassNode;
@@ -181,8 +182,8 @@ public class PatternParserTest {
 		assertThat(node, instanceOf(CompClassNode.class));
 		assertThat(node.toString(), equalTo("[^a-b]"));
 		assertThat(((CompClassNode) node).toCharNodes().get(0), instanceOf(RangeCharNode.class));
-		assertThat(((RangeCharNode) ((CompClassNode) node).toCharNodes().get(0)).getTo(), equalTo((char) ('a' - 1)));
-		assertThat(((RangeCharNode) ((CompClassNode) node).toCharNodes().get(1)).getFrom(), equalTo((char) ('b' + 1)));
+		assertThat(((RangeCharNode) ((CompClassNode) node).toCharNodes().get(0)).getTo(), equalTo(before('a')));
+		assertThat(((RangeCharNode) ((CompClassNode) node).toCharNodes().get(1)).getFrom(), equalTo(after('b')));
 	}
 	
 	@Test

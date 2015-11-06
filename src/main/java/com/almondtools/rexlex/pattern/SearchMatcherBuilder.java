@@ -3,7 +3,6 @@ package com.almondtools.rexlex.pattern;
 import com.almondtools.rexlex.TokenType;
 import com.almondtools.rexlex.automaton.AutomatonMatcher;
 import com.almondtools.rexlex.automaton.AutomatonMatcherListener;
-import com.almondtools.rexlex.automaton.FromGenericAutomaton;
 import com.almondtools.rexlex.automaton.FromGenericAutomaton.ToTabledAutomaton;
 import com.almondtools.rexlex.automaton.GenericAutomaton;
 import com.almondtools.rexlex.automaton.LongestMatchListener;
@@ -32,8 +31,6 @@ public class SearchMatcherBuilder implements MatcherBuilder {
 
 	@Override
 	public MatcherBuilder initWith(GenericAutomaton nfa) {
-		//TODO following line is there for performance, it should not change anything, but omitting it results in errors (see MatcherBenchmarktest)
-		nfa = nfa.toAutomaton(new FromGenericAutomaton.ToMinimalDeterministicGenericAutomaton());
 		this.completeAutomaton = nfa.toAutomaton(builder);
 		GenericAutomaton addInitialSelfLoop = nfa.addInitialSelfLoop();
 		this.searchAutomaton = addInitialSelfLoop.toAutomaton(builder);

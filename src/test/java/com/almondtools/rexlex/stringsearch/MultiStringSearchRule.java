@@ -14,12 +14,6 @@ import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
 
 import com.almondtools.rexlex.io.CharProvider;
-import com.almondtools.rexlex.stringsearch.AhoCorasick;
-import com.almondtools.rexlex.stringsearch.SetBackwardOracleMatching;
-import com.almondtools.rexlex.stringsearch.SetHorspool;
-import com.almondtools.rexlex.stringsearch.StringFinder;
-import com.almondtools.rexlex.stringsearch.StringSearchAlgorithm;
-import com.almondtools.rexlex.stringsearch.WuManber;
 
 public class MultiStringSearchRule implements TestRule {
 

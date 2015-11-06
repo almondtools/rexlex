@@ -7,10 +7,6 @@ import static org.junit.Assert.assertThat;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.almondtools.util.graph.Graph;
-import com.almondtools.util.graph.GraphNode;
-import com.almondtools.util.graph.ReversePostOrderTraversal;
-
 
 public class ReversePostOrderTraversalTest {
 

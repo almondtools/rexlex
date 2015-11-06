@@ -1,5 +1,6 @@
 package com.almondtools.rexlex.pattern;
 
+import static com.almondtools.util.text.CharUtils.before;
 import static java.lang.Character.MAX_VALUE;
 import static java.lang.Character.MIN_VALUE;
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -10,25 +11,21 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Rule;
 import org.junit.Test;
 
-import com.almondtools.rexlex.tokens.Accept;
-import com.almondtools.rexlex.tokens.Info;
 import com.almondtools.rexlex.TokenType;
 import com.almondtools.rexlex.automaton.GenericAutomaton;
-import com.almondtools.rexlex.automaton.GenericAutomatonBuilder;
 import com.almondtools.rexlex.automaton.GenericAutomaton.State;
 import com.almondtools.rexlex.automaton.GenericAutomaton.StateVisitor;
-import com.almondtools.rexlex.pattern.Finder;
-import com.almondtools.rexlex.pattern.Pattern;
-import com.almondtools.rexlex.pattern.PatternFlag;
-import com.almondtools.rexlex.pattern.RemainderTokenType;
+import com.almondtools.rexlex.automaton.GenericAutomatonBuilder;
 import com.almondtools.rexlex.pattern.Pattern.PatternNode;
+import com.almondtools.rexlex.tokens.Accept;
+import com.almondtools.rexlex.tokens.Info;
 
 public class PatternMatchTest {
 
 	private static final RemainderTokenType REMAINDER = new RemainderTokenType(Accept.REMAINDER);
 	
-	private static final char MAX_VALUE_DEC = (char) (MAX_VALUE - 1);
-	private static final char MIN_VALUE_INC = (char) (MIN_VALUE + 1);
+	private static final char MAX_VALUE_DEC = before(MAX_VALUE);
+	private static final char MIN_VALUE_INC = before(MIN_VALUE);
 	
 	@Rule
 	public PatternRule patterns = new PatternRule();

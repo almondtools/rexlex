@@ -11,7 +11,6 @@ import java.util.Arrays;
 
 import org.junit.Test;
 
-import com.almondtools.rexlex.pattern.Pattern;
 import com.almondtools.rexlex.pattern.Pattern.CharClassNode;
 import com.almondtools.rexlex.pattern.Pattern.CharNode;
 import com.almondtools.rexlex.pattern.Pattern.RangeCharNode;

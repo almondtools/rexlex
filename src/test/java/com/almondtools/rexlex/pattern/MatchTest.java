@@ -9,7 +9,6 @@ import static org.junit.Assert.assertThat;
 import org.junit.Test;
 
 import com.almondtools.rexlex.TokenType;
-import com.almondtools.rexlex.pattern.Match;
 
 
 public class MatchTest {

@@ -20,4 +20,12 @@ public class CharUtils {
 		}
 	}
 
+	public static char after(char c) {
+		return (char) (c + 1);
+	}
+
+	public static char before(char c) {
+		return (char) (c - 1);
+	}
+
 }

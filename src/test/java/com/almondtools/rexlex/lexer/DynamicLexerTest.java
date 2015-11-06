@@ -13,10 +13,9 @@ import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.almondtools.rexlex.TokenType;
 import com.almondtools.rexlex.tokens.TestToken;
 import com.almondtools.rexlex.tokens.TestTokenFactory;
-import com.almondtools.rexlex.TokenType;
-import com.almondtools.rexlex.lexer.DynamicLexer;
 import com.almondtools.util.collections.HashMaps;
 
 public class DynamicLexerTest {

@@ -27,10 +27,6 @@ import static com.almondtools.rexlex.automaton.Automatons.valid8;
 import static com.almondtools.rexlex.automaton.Automatons.valid9;
 import static com.almondtools.rexlex.automaton.Automatons.withOutEmpty;
 import static com.almondtools.rexlex.automaton.Automatons.withTokens;
-import static com.almondtools.rexlex.pattern.DotGraphMatcher.startsWith;
-import static com.almondtools.rexlex.tokens.Accept.A;
-import static com.almondtools.rexlex.tokens.Accept.B;
-import static com.almondtools.rexlex.tokens.Fail.TESTERROR;
 import static com.almondtools.rexlex.automaton.GenericAutomatonBuilder.match;
 import static com.almondtools.rexlex.automaton.GenericAutomatonBuilder.matchAlternatives;
 import static com.almondtools.rexlex.automaton.GenericAutomatonBuilder.matchAnyChar;
@@ -46,6 +42,10 @@ import static com.almondtools.rexlex.automaton.GenericAutomatonBuilder.matchRang
 import static com.almondtools.rexlex.automaton.GenericAutomatonBuilder.matchStarLoop;
 import static com.almondtools.rexlex.automaton.GenericAutomatonBuilder.matchUnlimitedLoop;
 import static com.almondtools.rexlex.pattern.DefaultTokenType.ACCEPT;
+import static com.almondtools.rexlex.pattern.DotGraphMatcher.startsWith;
+import static com.almondtools.rexlex.tokens.Accept.A;
+import static com.almondtools.rexlex.tokens.Accept.B;
+import static com.almondtools.rexlex.tokens.Fail.TESTERROR;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.Matchers.contains;
@@ -59,16 +59,13 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.almondtools.rexlex.tokens.TestTokenFactory;
 import com.almondtools.rexlex.TokenType;
-import com.almondtools.rexlex.automaton.Automaton;
-import com.almondtools.rexlex.automaton.DeterministicAutomaton;
-import com.almondtools.rexlex.automaton.GenericAutomaton;
-import com.almondtools.rexlex.automaton.TabledAutomaton;
 import com.almondtools.rexlex.automaton.DeterministicAutomaton.State;
 import com.almondtools.rexlex.automaton.FromGenericAutomaton.ToTabledAutomaton;
 import com.almondtools.rexlex.pattern.DefaultTokenType;
 import com.almondtools.rexlex.pattern.Pattern;
+import com.almondtools.rexlex.tokens.TestTokenFactory;
+import com.almondtools.util.text.CharUtils;
 
 public class TabledAutomatonTest {
 
@@ -556,7 +553,7 @@ public class TabledAutomatonTest {
 		assertThat(output, startsWith("digraph \"matchABcomp\"")
 			.withNodes(1, "circle")
 			.withNodes(1, "doublecircle")
-			.withArcs(1, "\\u0000-" + (char) ('a' - 1))
+			.withArcs(1, "\\u0000-" + CharUtils.before('a'))
 			.withArcs(1, "c-\\uffff"));
 	}
 

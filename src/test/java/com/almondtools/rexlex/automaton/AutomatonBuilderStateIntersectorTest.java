@@ -1,9 +1,9 @@
 package com.almondtools.rexlex.automaton;
 
-import static com.almondtools.rexlex.tokens.Accept.A;
-import static com.almondtools.rexlex.tokens.Accept.B;
 import static com.almondtools.rexlex.pattern.DefaultTokenType.ACCEPT;
 import static com.almondtools.rexlex.pattern.DefaultTokenType.IGNORE;
+import static com.almondtools.rexlex.tokens.Accept.A;
+import static com.almondtools.rexlex.tokens.Accept.B;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.CoreMatchers.sameInstance;
@@ -13,7 +13,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.almondtools.rexlex.TokenType;
-import com.almondtools.rexlex.automaton.GenericAutomatonBuilder;
 import com.almondtools.rexlex.automaton.GenericAutomaton.State;
 import com.almondtools.rexlex.pattern.DefaultTokenTypeFactory;
 

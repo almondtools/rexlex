@@ -9,9 +9,8 @@ import java.util.List;
 import org.junit.Rule;
 import org.junit.Test;
 
-import com.almondtools.rexlex.stringsearch.MultiStringSearchRule.SearchFor;
 import com.almondtools.rexlex.io.StringCharProvider;
-import com.almondtools.rexlex.stringsearch.StringMatch;
+import com.almondtools.rexlex.stringsearch.MultiStringSearchRule.SearchFor;
 
 public class MultiStringSearchAlgorithmTest {
 

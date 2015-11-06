@@ -24,15 +24,16 @@ import static com.almondtools.rexlex.automaton.Automatons.valid4;
 import static com.almondtools.rexlex.automaton.Automatons.valid8;
 import static com.almondtools.rexlex.automaton.Automatons.valid9;
 import static com.almondtools.rexlex.automaton.DFADeterministicMatcher.isDeterministic;
-import static com.almondtools.rexlex.automaton.GenericAutomatonMatcher.matchesAutomaton;
-import static com.almondtools.rexlex.pattern.DotGraphMatcher.startsWith;
-import static com.almondtools.rexlex.tokens.Accept.A;
-import static com.almondtools.rexlex.tokens.Accept.REMAINDER;
 import static com.almondtools.rexlex.automaton.GenericAutomatonBuilder.match;
 import static com.almondtools.rexlex.automaton.GenericAutomatonBuilder.matchConcatenation;
 import static com.almondtools.rexlex.automaton.GenericAutomatonBuilder.matchStarLoop;
+import static com.almondtools.rexlex.automaton.GenericAutomatonMatcher.matchesAutomaton;
 import static com.almondtools.rexlex.pattern.DefaultTokenType.ACCEPT;
 import static com.almondtools.rexlex.pattern.DefaultTokenType.ERROR;
+import static com.almondtools.rexlex.pattern.DotGraphMatcher.startsWith;
+import static com.almondtools.rexlex.tokens.Accept.A;
+import static com.almondtools.rexlex.tokens.Accept.REMAINDER;
+import static com.almondtools.util.text.CharUtils.after;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.CoreMatchers.hasItems;
@@ -54,18 +55,12 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.almondtools.rexlex.tokens.Accept;
-import com.almondtools.rexlex.tokens.TestToken;
-import com.almondtools.rexlex.tokens.TestTokenFactory;
 import com.almondtools.rexlex.TokenType;
-import com.almondtools.rexlex.automaton.Automaton;
-import com.almondtools.rexlex.automaton.DeterministicAutomaton;
-import com.almondtools.rexlex.automaton.GenericAutomaton;
-import com.almondtools.rexlex.automaton.GenericAutomatonBuilder;
 import com.almondtools.rexlex.automaton.FromGenericAutomaton.ToCompactGenericAutomaton;
 import com.almondtools.rexlex.automaton.FromGenericAutomaton.ToDeterministicAutomaton;
 import com.almondtools.rexlex.automaton.FromGenericAutomaton.ToMinimalDeterministicAutomaton;
 import com.almondtools.rexlex.automaton.GenericAutomaton.EpsilonTransition;
+import com.almondtools.rexlex.automaton.GenericAutomaton.EventTransition;
 import com.almondtools.rexlex.automaton.GenericAutomaton.ExactTransition;
 import com.almondtools.rexlex.automaton.GenericAutomaton.RangeTransition;
 import com.almondtools.rexlex.automaton.GenericAutomaton.State;
@@ -73,6 +68,10 @@ import com.almondtools.rexlex.automaton.GenericAutomaton.Transition;
 import com.almondtools.rexlex.pattern.DefaultTokenType;
 import com.almondtools.rexlex.pattern.Pattern;
 import com.almondtools.rexlex.pattern.RemainderTokenTypeFactory;
+import com.almondtools.rexlex.tokens.Accept;
+import com.almondtools.rexlex.tokens.TestToken;
+import com.almondtools.rexlex.tokens.TestTokenFactory;
+import com.almondtools.util.text.CharUtils;
 
 public class GenericAutomatonTest {
 
@@ -633,6 +632,69 @@ public class GenericAutomatonTest {
 			targets.add(transition.getTarget());
 		}
 		return targets;
+	}
+
+	@Test
+	public void testAddErrorTransitionsAroundExisting() throws Exception {
+		State s = new State();
+		State accept = new State(ACCEPT);
+		State error = new State(ERROR);
+
+		s.addTransition(new RangeTransition('a', 'z', accept));
+		s.addErrorTransitions(error);
+		
+		assertThat(s.getSortedNextClosure(), contains((EventTransition) 
+			new RangeTransition(Character.MIN_VALUE, CharUtils.before('a'), error),
+			new RangeTransition('a', 'z', accept),
+			new RangeTransition(after('z'), Character.MAX_VALUE, error)
+			));
+	}
+
+	@Test
+	public void testAddErrorTransitionsBetweenExisting() throws Exception {
+		State s = new State();
+		State accept = new State(ACCEPT);
+		State error = new State(ERROR);
+
+		s.addTransition(new RangeTransition(Character.MIN_VALUE, CharUtils.before('a'), accept));
+		s.addTransition(new RangeTransition(after('z'), Character.MAX_VALUE, accept));
+		s.addErrorTransitions(error);
+		
+		assertThat(s.getSortedNextClosure(), contains((EventTransition) 
+			new RangeTransition(Character.MIN_VALUE, CharUtils.before('a'), accept),
+			new RangeTransition('a', 'z', error),
+			new RangeTransition(after('z'), Character.MAX_VALUE, accept)
+			));
+	}
+
+	@Test
+	public void testAddErrorTransitionsBeforeExisting() throws Exception {
+		State s = new State();
+		State accept = new State(ACCEPT);
+		State error = new State(ERROR);
+
+		s.addTransition(new RangeTransition(after('z'), Character.MAX_VALUE, accept));
+		s.addErrorTransitions(error);
+		
+		assertThat(s.getSortedNextClosure(), contains((EventTransition) 
+			new RangeTransition(Character.MIN_VALUE, 'z', error),
+			new RangeTransition(after('z'), Character.MAX_VALUE, accept)
+			));
+	}
+
+	@Test
+	public void testAddErrorTransitionsAfterExisting() throws Exception {
+		State s = new State();
+		State accept = new State(ACCEPT);
+		State error = new State(ERROR);
+
+		s.addTransition(new RangeTransition(Character.MIN_VALUE, CharUtils.before('a'), accept));
+		s.addErrorTransitions(error);
+		
+		assertThat(s.getSortedNextClosure(), contains((EventTransition) 
+			new RangeTransition(Character.MIN_VALUE, CharUtils.before('a'), accept),
+			new RangeTransition('a', Character.MAX_VALUE, error)
+			));
 	}
 
 }

@@ -4,6 +4,8 @@ import static com.almondtools.rexlex.automaton.AutomatonProperty.ACYCLIC;
 import static com.almondtools.rexlex.automaton.AutomatonProperty.CYCLIC;
 import static com.almondtools.rexlex.automaton.AutomatonProperty.LINEAR;
 import static com.almondtools.rexlex.automaton.AutomatonProperty.UNKNOWN;
+import static com.almondtools.util.text.CharUtils.after;
+import static com.almondtools.util.text.CharUtils.before;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -274,7 +276,7 @@ public class DeterministicAutomaton implements Automaton {
 
 				char to = transition.getTo();
 				if (to < Character.MAX_VALUE) {
-					relevant.add((char) (to + 1));
+					relevant.add(after(to));
 				}
 			}
 			return relevant;
@@ -363,9 +365,9 @@ public class DeterministicAutomaton implements Automaton {
 				if (from == current + 1) {
 					transitions.add(new ExactTransition(current, error));
 				} else if (from > current) {
-					transitions.add(new RangeTransition(current, (char) (from - 1), error));
+					transitions.add(new RangeTransition(current, before(from), error));
 				}
-				current = (char) (to + 1);
+				current = after(to);
 			}
 			if (current == Character.MAX_VALUE) {
 				transitions.add(new ExactTransition(Character.MAX_VALUE, error));

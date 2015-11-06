@@ -11,9 +11,8 @@ import static org.junit.Assert.assertThat;
 import org.junit.Rule;
 import org.junit.Test;
 
-import com.almondtools.rexlex.tokens.Accept;
 import com.almondtools.rexlex.automaton.Automaton;
-import com.almondtools.rexlex.pattern.RemainderTokenType;
+import com.almondtools.rexlex.tokens.Accept;
 
 public class AutomatonTest {
 

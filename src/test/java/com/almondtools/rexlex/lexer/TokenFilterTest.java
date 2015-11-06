@@ -1,7 +1,7 @@
 package com.almondtools.rexlex.lexer;
 
-import static com.almondtools.rexlex.tokens.Accept.A;
 import static com.almondtools.rexlex.pattern.DefaultTokenType.IGNORE;
+import static com.almondtools.rexlex.tokens.Accept.A;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.empty;
@@ -17,9 +17,8 @@ import java.util.NoSuchElementException;
 
 import org.junit.Test;
 
-import com.almondtools.rexlex.tokens.TestToken;
-import com.almondtools.rexlex.lexer.TokenFilter;
 import com.almondtools.rexlex.pattern.DefaultTokenType;
+import com.almondtools.rexlex.tokens.TestToken;
 
 public class TokenFilterTest {
 

@@ -11,8 +11,6 @@ import java.util.List;
 
 import org.junit.Test;
 
-import com.almondtools.rexlex.automaton.GenericAutomaton;
-import com.almondtools.rexlex.automaton.GlushkovAutomatonBuilder;
 import com.almondtools.rexlex.pattern.Pattern;
 import com.almondtools.rexlex.pattern.PatternFlag;
 import com.almondtools.rexlex.pattern.PatternOption;

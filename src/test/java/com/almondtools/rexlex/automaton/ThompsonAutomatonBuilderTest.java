@@ -19,7 +19,6 @@ import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
 
-import com.almondtools.rexlex.automaton.GenericAutomaton;
 import com.almondtools.rexlex.automaton.ThompsonAutomatonBuilder.ThompsonAutomaton;
 
 public class ThompsonAutomatonBuilderTest {

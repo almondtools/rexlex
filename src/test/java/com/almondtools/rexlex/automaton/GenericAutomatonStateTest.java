@@ -1,11 +1,13 @@
 package com.almondtools.rexlex.automaton;
 
-import static com.almondtools.rexlex.tokens.Accept.A;
-import static com.almondtools.rexlex.tokens.Accept.B;
-import static com.almondtools.rexlex.tokens.Accept.REMAINDER;
 import static com.almondtools.rexlex.pattern.DefaultTokenType.ACCEPT;
 import static com.almondtools.rexlex.pattern.DefaultTokenType.ERROR;
 import static com.almondtools.rexlex.pattern.DefaultTokenType.IGNORE;
+import static com.almondtools.rexlex.tokens.Accept.A;
+import static com.almondtools.rexlex.tokens.Accept.B;
+import static com.almondtools.rexlex.tokens.Accept.REMAINDER;
+import static com.almondtools.util.text.CharUtils.after;
+import static com.almondtools.util.text.CharUtils.before;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.hasItem;
@@ -28,7 +30,6 @@ import java.util.TreeSet;
 import org.junit.Test;
 
 import com.almondtools.rexlex.TokenType;
-import com.almondtools.rexlex.automaton.GenericAutomaton;
 import com.almondtools.rexlex.automaton.GenericAutomaton.EpsilonTransition;
 import com.almondtools.rexlex.automaton.GenericAutomaton.EventTransition;
 import com.almondtools.rexlex.automaton.GenericAutomaton.ExactTransition;
@@ -491,7 +492,7 @@ public class GenericAutomatonStateTest {
 		State state = new State();
 		State target = new State();
 		State error = new State();
-		EventTransition c = new ExactTransition((char) (Character.MAX_VALUE - 1), target);
+		EventTransition c = new ExactTransition(before(Character.MAX_VALUE), target);
 		state.addTransition(c);
 		state.addErrorTransitions(error);
 		List<EventTransition> transitions = state.getSortedNextClosure();
@@ -527,8 +528,8 @@ public class GenericAutomatonStateTest {
 		assertThat(transitions.headSet(ef).size(), equalTo(4));
 		assertThat(transitions.headSet(h).size(), equalTo(6));
 		assertThat(((EventTransition) transitions.headSet(a).first()).getFrom(), equalTo(Character.MIN_VALUE));
-		assertThat(((EventTransition) transitions.headSet(a).first()).getTo(), equalTo((char) ('a' - 1)));
-		assertThat(((EventTransition) transitions.last()).getFrom(), equalTo((char) ('h' + 1)));
+		assertThat(((EventTransition) transitions.headSet(a).first()).getTo(), equalTo(before('a')));
+		assertThat(((EventTransition) transitions.last()).getFrom(), equalTo(after('h')));
 		assertThat(((EventTransition) transitions.last()).getTo(), equalTo(Character.MAX_VALUE));
 	}
 

@@ -7,9 +7,9 @@ import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
 
-import com.almondtools.rexlex.tokens.Accept;
 import com.almondtools.rexlex.automaton.GenericAutomaton.EpsilonTransition;
 import com.almondtools.rexlex.automaton.GenericAutomaton.State;
+import com.almondtools.rexlex.tokens.Accept;
 
 
 public class GenericAutomatonEpsilonTransitionTest {

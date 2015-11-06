@@ -15,10 +15,6 @@ import java.util.List;
 import org.junit.Test;
 
 import com.almondtools.rexlex.automaton.FromGenericAutomaton.ToCompactGenericAutomaton;
-import com.almondtools.rexlex.pattern.DefaultMatcherBuilder;
-import com.almondtools.rexlex.pattern.Finder;
-import com.almondtools.rexlex.pattern.Match;
-import com.almondtools.rexlex.pattern.Pattern;
 
 public class DefaultMatcherBuilderForAutomatonTest {
 
