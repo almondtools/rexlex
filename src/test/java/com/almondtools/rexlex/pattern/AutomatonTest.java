@@ -182,8 +182,8 @@ public class AutomatonTest {
 	public void testGetPrefixesOfLoop() throws Exception {
 		Automaton automaton = compiler.compile("a*");
 		assertThat(automaton.getSamples(1), contains(""));
-		assertThat(automaton.getSamples(2), contains("", "a"));
-		assertThat(automaton.getSamples(3), contains("", "a", "aa"));
+		assertThat(automaton.getSamples(2), containsInAnyOrder("", "a"));
+		assertThat(automaton.getSamples(3), containsInAnyOrder("", "a", "aa"));
 	}
 
 	@Test
