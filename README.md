@@ -314,7 +314,7 @@ Maven Dependency
 <dependency>
 	<groupId>com.github.almondtools</groupId>
 	<artifactId>rexlex</artifactId>
-	<version>0.1.1</version>
+	<version>0.2.1</version>
 </dependency>
 ```
 
