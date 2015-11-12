@@ -5,8 +5,6 @@ Rexlex, short for (R)egular (Ex)pressions and (Lex)ers, provides configurable an
  - [Matching & Searching](#starting-with-rexlex-matching)
  - [Lexing](#starting-with-rexlex-lexing)
  
-Furthermore it provides a set of [String Search](#string-search) Algorithms.
-
 
 Starting with Rexlex Matching
 =============================
@@ -181,46 +179,6 @@ Having the tokens and the token factory you can build a lexer. In the following 
 ```
 
 
-String Search
-=============
-Rexlex provides a bunch of string search algorithms which could easily be used without the regular expressions. The algorithms can be found in the package 
-`com.almondtools.rexlex.stringsearch`:
-
-Search one string:
- - Horspool (default)
- - KnuthMorrisPratt
-
-Search multiple strings:
- - SetBackwardOracleMatching (default)
- - AhoCorasick
- - SetHorspool
- - WuManber
-
-Now first initialize the Algorithm with the pattern:
-
-```Java
-	Horspool stringSearch = new Horspool("wordToSearch");
-```
-
-Then create a finder from the algorithm and provide the text you want to search in:
-
-```Java
-	StringFinder finder = stringSearch.createFinder(new StringCharProvider("text with wordToSearch in it", 0));
-```
-
-You can now find all occurrences of the pattern
-
-```Java
-	List<StringMatch> all = finder.findAll();
-```
-
-or the next one:
-
-```Java
-	StringMatch first = finder.findNext();
-```
-
-
 Scalable Regular Expressions
 ============================
 Common regex packages use nondeterministic automatons (NFA) to capture the regular expression. Nondeterministic automatons are based on
@@ -366,6 +324,3 @@ Rexlex needs further performance optimizations. Following hot spots are subject 
 - Preparation time (dfa construction is hard, but brics is 2 to 40 times faster)
 - Searching time (for simple texts and simple patterns, bric is faster)
 - Text searching heuristics (yet the text search algorithm is selected by default, certainly heuristics could select the best algorithm)
-
-Rexlex also needs a module refinement:
-- Rexlex and StringSearch should be two modules.

@@ -17,9 +17,11 @@ import com.almondtools.rexlex.automaton.ToAutomaton;
 import com.almondtools.rexlex.io.CharProvider;
 import com.almondtools.rexlex.io.ReverseCharProvider;
 import com.almondtools.rexlex.stringsearch.Horspool;
+import com.almondtools.rexlex.stringsearch.MultiWordSearchAlgorithmFactory;
 import com.almondtools.rexlex.stringsearch.SetBackwardOracleMatching;
 import com.almondtools.rexlex.stringsearch.StringMatch;
 import com.almondtools.rexlex.stringsearch.StringSearchAlgorithm;
+import com.almondtools.rexlex.stringsearch.WordSearchAlgorithmFactory;
 
 public class OptimizedMatcherBuilder implements MatcherBuilder {
 
