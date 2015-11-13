@@ -4,17 +4,17 @@ import com.almondtools.rexlex.TokenType;
 
 public class Match {
 
-	private int start;
+	private long start;
 	private String text;
 	private TokenType type;
 
-	public Match(int start, String text) {
+	public Match(long start, String text) {
 		this.start = start;
 		this.text = text;
 		this.type = DefaultTokenType.IGNORE;
 	}
 
-	public Match(int start, String text, TokenType type) {
+	public Match(long start, String text, TokenType type) {
 		this.start = start;
 		this.text = text;
 		this.type = type;
@@ -24,11 +24,11 @@ public class Match {
 		return type;
 	}
 
-	public int start() {
+	public long start() {
 		return start;
 	}
 
-	public int end() {
+	public long end() {
 		return start + text.length();
 	}
 
@@ -43,7 +43,7 @@ public class Match {
 
 	@Override
 	public int hashCode() {
-		return 31 +  start * 7 + text.hashCode() * 3 + (type != null ? type.hashCode() : 0);
+		return 31 +  (int) start * 7 + text.hashCode() * 3 + (type != null ? type.hashCode() : 0);
 	}
 
 	@Override

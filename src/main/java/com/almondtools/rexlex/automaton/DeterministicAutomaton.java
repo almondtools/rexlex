@@ -29,10 +29,10 @@ import com.almondtools.rexlex.TokenFactory;
 import com.almondtools.rexlex.TokenType;
 import com.almondtools.rexlex.automaton.FromDeterministicAutomaton.ToGenericAutomaton;
 import com.almondtools.rexlex.automaton.FromGenericAutomaton.ToMinimalDeterministicAutomaton;
-import com.almondtools.rexlex.io.CharProvider;
-import com.almondtools.rexlex.io.StringCharProvider;
 import com.almondtools.rexlex.pattern.DefaultTokenType;
 import com.almondtools.rexlex.pattern.TokenIterator;
+import com.almondtools.stringsandchars.io.CharProvider;
+import com.almondtools.stringsandchars.io.StringCharProvider;
 import com.almondtools.util.collections.HashSets;
 
 public class DeterministicAutomaton implements Automaton {
@@ -593,7 +593,7 @@ public class DeterministicAutomaton implements Automaton {
 		private AutomatonMatcherListener listener;
 
 		private CharProvider chars;
-		private int matchStart;
+		private long matchStart;
 
 		private State start;
 		private State state;
@@ -627,7 +627,7 @@ public class DeterministicAutomaton implements Automaton {
 			return listener;
 		}
 
-		private void resume(CharProvider chars, State state, int matchStart) {
+		private void resume(CharProvider chars, State state, long matchStart) {
 			if (state == null) {
 				return;
 			}

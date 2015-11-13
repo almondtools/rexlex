@@ -1,16 +1,16 @@
 package com.almondtools.rexlex.automaton;
 
 import com.almondtools.rexlex.TokenType;
-import com.almondtools.rexlex.io.CharProvider;
 import com.almondtools.rexlex.pattern.Match;
+import com.almondtools.stringsandchars.io.CharProvider;
 
 public class ShortestMatchListener implements MatchListener {
 
 	private Match match;
 
 	@Override
-	public boolean reportMatch(CharProvider chars, int start, TokenType accepted) {
-		int end = chars.current();
+	public boolean reportMatch(CharProvider chars, long start, TokenType accepted) {
+		long end = chars.current();
 		String text = chars.slice(start, end );
 		if (end < start) {
 			start = end;
@@ -20,7 +20,7 @@ public class ShortestMatchListener implements MatchListener {
 	}
 
 	@Override
-	public boolean recoverMismatch(CharProvider chars, int start) {
+	public boolean recoverMismatch(CharProvider chars, long start) {
 		return true;
 	}
 

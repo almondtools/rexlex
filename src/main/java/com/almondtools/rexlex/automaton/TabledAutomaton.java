@@ -25,11 +25,11 @@ import com.almondtools.rexlex.automaton.DeterministicAutomaton.State;
 import com.almondtools.rexlex.automaton.FromGenericAutomaton.ToTabledAutomaton;
 import com.almondtools.rexlex.automaton.FromTabledAutomaton.ToGenericAutomaton;
 import com.almondtools.rexlex.io.CharClassProvider;
-import com.almondtools.rexlex.io.CharProvider;
 import com.almondtools.rexlex.io.MappedCharClassProvider;
-import com.almondtools.rexlex.io.StringCharProvider;
 import com.almondtools.rexlex.pattern.DefaultTokenType;
 import com.almondtools.rexlex.pattern.TokenIterator;
+import com.almondtools.stringsandchars.io.CharProvider;
+import com.almondtools.stringsandchars.io.StringCharProvider;
 
 public class TabledAutomaton implements Automaton {
 
@@ -306,7 +306,7 @@ public class TabledAutomaton implements Automaton {
 		private AutomatonMatcherListener listener;
 
 		private CharProvider chars;
-		private int matchStart;
+		private long matchStart;
 
 		private int start;
 		private int state;
@@ -347,7 +347,7 @@ public class TabledAutomaton implements Automaton {
 			return listener;
 		}
 
-		private void resume(CharProvider chars, int state, int matchStart) {
+		private void resume(CharProvider chars, int state, long matchStart) {
 			if (state == -1) {
 				return;
 			}

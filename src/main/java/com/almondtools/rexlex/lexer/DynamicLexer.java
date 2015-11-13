@@ -13,10 +13,10 @@ import com.almondtools.rexlex.automaton.Automaton;
 import com.almondtools.rexlex.automaton.FromGenericAutomaton.ToTabledAutomaton;
 import com.almondtools.rexlex.automaton.GenericAutomaton;
 import com.almondtools.rexlex.automaton.GenericAutomatonBuilder;
-import com.almondtools.rexlex.io.StringCharProvider;
 import com.almondtools.rexlex.pattern.DefaultTokenType;
 import com.almondtools.rexlex.pattern.Pattern;
 import com.almondtools.rexlex.pattern.RemainderTokenType;
+import com.almondtools.stringsandchars.io.StringCharProvider;
 
 public class DynamicLexer<T extends Token> implements Lexer<T> {
 

@@ -13,7 +13,7 @@ import com.almondtools.rexlex.TokenType;
 import com.almondtools.rexlex.automaton.Automaton;
 import com.almondtools.rexlex.automaton.AutomatonMatcher;
 import com.almondtools.rexlex.automaton.AutomatonMatcherListener;
-import com.almondtools.rexlex.io.CharProvider;
+import com.almondtools.stringsandchars.io.CharProvider;
 
 public class TokenIterator<T extends Token> implements Iterator<T>, AutomatonMatcherListener {
 
@@ -39,8 +39,8 @@ public class TokenIterator<T extends Token> implements Iterator<T>, AutomatonMat
 	}
 
 	@Override
-	public boolean reportMatch(CharProvider chars, int start, TokenType accepted) {
-		int end = chars.current();
+	public boolean reportMatch(CharProvider chars, long start, TokenType accepted) {
+		long end = chars.current();
 		if (start == end) {
 			return false;
 		} else if (match == null) { // new match
@@ -50,8 +50,8 @@ public class TokenIterator<T extends Token> implements Iterator<T>, AutomatonMat
 			match = new Match(start, chars.slice(start, end), accepted);
 			return false;
 		} else {
-			int mstart = match.start();
-			int mend = match.end();
+			long mstart = match.start();
+			long mend = match.end();
 			TokenType mtype = match.getType();
 			if (mend < start) {
 				bufferToken(factory.createToken(chars.slice(mstart, mend), mtype));
@@ -75,9 +75,9 @@ public class TokenIterator<T extends Token> implements Iterator<T>, AutomatonMat
 	}
 
 	@Override
-	public boolean recoverMismatch(CharProvider chars, int start) {
-		int current = chars.current();
-		int last = match != null ? match.end() : 0;
+	public boolean recoverMismatch(CharProvider chars, long start) {
+		long current = chars.current();
+		long last = match != null ? match.end() : 0;
 		if (start >= last) {
 			chars.move(start);
 			if (!chars.finished()) {
@@ -92,19 +92,19 @@ public class TokenIterator<T extends Token> implements Iterator<T>, AutomatonMat
 	}
 
 	private void completeBuffer() {
-		int current = chars.current();
+		long current = chars.current();
 		if (match == STOP) {
 			return;
 		} else if (match == null) {
-			int start = 0;
-			int end = current;
+			long start = 0;
+			long end = current;
 			if (start < end) {
 				bufferToken(factory.createToken(chars.slice(start, end), error));
 			}
 			match = STOP;
 		} else {
-			int mstart = match.start();
-			int mend = match.end();
+			long mstart = match.start();
+			long mend = match.end();
 			TokenType mtype = match.getType();
 			bufferToken(factory.createToken(chars.slice(mstart, mend), mtype));
 			if (mend < current) {

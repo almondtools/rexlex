@@ -3,7 +3,7 @@ package com.almondtools.rexlex.pattern;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.almondtools.rexlex.io.StringCharProvider;
+import com.almondtools.stringsandchars.io.StringCharProvider;
 
 public abstract class Finder {
 
@@ -33,7 +33,7 @@ public abstract class Finder {
 		return matches;
 	}
 
-	public int start() {
+	public long start() {
 		if (match == null) {
 			return -1;
 		} else {
@@ -41,7 +41,7 @@ public abstract class Finder {
 		}
 	}
 
-	public int end() {
+	public long end() {
 		if (match == null) {
 			return -1;
 		} else {

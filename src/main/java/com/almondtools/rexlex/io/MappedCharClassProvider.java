@@ -1,6 +1,7 @@
 package com.almondtools.rexlex.io;
 
 import com.almondtools.rexlex.automaton.CharClassMapper;
+import com.almondtools.stringsandchars.io.CharProvider;
 
 public class MappedCharClassProvider implements CharClassProvider {
 
@@ -43,12 +44,12 @@ public class MappedCharClassProvider implements CharClassProvider {
 	}
 
 	@Override
-	public int current() {
+	public long current() {
 		return chars.current();
 	}
 	
 	@Override
-	public void move(int i) {
+	public void move(long i) {
 		chars.move(i);
 	}
 
@@ -58,12 +59,12 @@ public class MappedCharClassProvider implements CharClassProvider {
 	}
 
 	@Override
-	public char at(int i) {
+	public char at(long i) {
 		return chars.at(i);
 	}
 	
 	@Override
-	public String slice(int start, int end) {
+	public String slice(long start, long end) {
 		return chars.slice(start, end);
 	}
 

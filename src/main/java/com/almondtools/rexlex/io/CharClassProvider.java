@@ -9,11 +9,11 @@ public interface CharClassProvider {
 	int lookbehind();
 	int lookbehind(int i);
 
-	int current();
-	void move(int i);
+	long current();
+	void move(long i);
 	boolean finished();
 
-	char at(int i);
-	String slice(int start, int end);
+	char at(long i);
+	String slice(long start, long end);
 
 }

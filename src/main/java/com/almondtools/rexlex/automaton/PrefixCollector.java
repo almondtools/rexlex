@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.almondtools.rexlex.TokenType;
-import com.almondtools.rexlex.io.CharProvider;
 import com.almondtools.rexlex.pattern.Match;
+import com.almondtools.stringsandchars.io.CharProvider;
 
 public class PrefixCollector implements AutomatonMatcherListener {
 
@@ -16,15 +16,15 @@ public class PrefixCollector implements AutomatonMatcherListener {
 	}
 	
 	@Override
-	public boolean reportMatch(CharProvider chars, int start, TokenType accepted) {
-		int end = chars.current();
+	public boolean reportMatch(CharProvider chars, long start, TokenType accepted) {
+		long end = chars.current();
 		String text = chars.slice(start, end);
 		matches.add(new Match(start, text, accepted));
 		return false;
 	}
 
 	@Override
-	public boolean recoverMismatch(CharProvider chars, int start) {
+	public boolean recoverMismatch(CharProvider chars, long start) {
 		return true;
 	}
 

@@ -16,7 +16,7 @@ public class MatchTest {
 	@Test
 	public void testDefaultMatch() throws Exception {
 		Match match = new Match(0, "test");
-		assertThat(match.start(), equalTo(0));
+		assertThat(match.start(), equalTo(0l));
 		assertThat(match.text(), equalTo("test"));
 		assertThat(match.getType(), equalTo((TokenType) IGNORE));
 	}
@@ -24,7 +24,7 @@ public class MatchTest {
 	@Test
 	public void testExplicitMatch() throws Exception {
 		Match match = new Match(0, "test", ERROR);
-		assertThat(match.start(), equalTo(0));
+		assertThat(match.start(), equalTo(0l));
 		assertThat(match.text(), equalTo("test"));
 		assertThat(match.getType(), equalTo((TokenType) ERROR));
 	}

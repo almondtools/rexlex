@@ -19,9 +19,9 @@ import java.util.Set;
 import com.almondtools.rexlex.automaton.GenericAutomaton.ExactTransition;
 import com.almondtools.rexlex.automaton.GenericAutomaton.RangeTransition;
 import com.almondtools.rexlex.automaton.GenericAutomaton.State;
-import com.almondtools.rexlex.io.CharProvider;
-import com.almondtools.rexlex.io.StringCharProvider;
 import com.almondtools.rexlex.pattern.DefaultTokenType;
+import com.almondtools.stringsandchars.io.CharProvider;
+import com.almondtools.stringsandchars.io.StringCharProvider;
 
 public class Automatons {
 

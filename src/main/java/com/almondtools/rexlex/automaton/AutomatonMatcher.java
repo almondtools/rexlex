@@ -1,6 +1,6 @@
 package com.almondtools.rexlex.automaton;
 
-import com.almondtools.rexlex.io.CharProvider;
+import com.almondtools.stringsandchars.io.CharProvider;
 
 public interface AutomatonMatcher {
 

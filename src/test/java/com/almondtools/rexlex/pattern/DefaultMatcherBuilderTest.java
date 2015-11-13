@@ -38,8 +38,8 @@ public class DefaultMatcherBuilderTest {
 	public void testStartEndGroupOnMatch() throws Exception {
 		Finder matcher = builder.buildFinder("baabb");
 		assertTrue(matcher.find());
-		assertThat(matcher.start(), equalTo(1));
-		assertThat(matcher.end(), equalTo(3));
+		assertThat(matcher.start(), equalTo(1l));
+		assertThat(matcher.end(), equalTo(3l));
 		assertThat(matcher.group(), equalTo("aa"));
 	}
 
@@ -47,8 +47,8 @@ public class DefaultMatcherBuilderTest {
 	public void testStartEndGroupOnMissmatch() throws Exception {
 		Finder matcher = builder.buildFinder("bbb");
 		assertFalse(matcher.find());
-		assertThat(matcher.start(), equalTo(-1));
-		assertThat(matcher.end(), equalTo(-1));
+		assertThat(matcher.start(), equalTo(-1l));
+		assertThat(matcher.end(), equalTo(-1l));
 		assertThat(matcher.group(), nullValue());
 	}
 

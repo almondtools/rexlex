@@ -10,8 +10,8 @@ import com.almondtools.rexlex.automaton.MatchListener;
 import com.almondtools.rexlex.automaton.ShortestMatchListener;
 import com.almondtools.rexlex.automaton.TabledAutomaton;
 import com.almondtools.rexlex.automaton.ToAutomaton;
-import com.almondtools.rexlex.io.CharProvider;
-import com.almondtools.rexlex.io.ReverseCharProvider;
+import com.almondtools.stringsandchars.io.CharProvider;
+import com.almondtools.stringsandchars.io.ReverseCharProvider;
 
 public class SearchMatcherBuilder implements MatcherBuilder {
 
@@ -84,7 +84,7 @@ public class SearchMatcherBuilder implements MatcherBuilder {
 		}
 
 		@Override
-		public boolean reportMatch(CharProvider chars, int start, TokenType accepted) {
+		public boolean reportMatch(CharProvider chars, long start, TokenType accepted) {
 			if (chars.finished()) {
 				matched = true;
 				return true;
@@ -93,7 +93,7 @@ public class SearchMatcherBuilder implements MatcherBuilder {
 		}
 
 		@Override
-		public boolean recoverMismatch(CharProvider chars, int start) {
+		public boolean recoverMismatch(CharProvider chars, long start) {
 			return true;
 		}
 
@@ -109,7 +109,7 @@ public class SearchMatcherBuilder implements MatcherBuilder {
 		}
 
 		@Override
-		public boolean reportMatch(CharProvider chars, int start, TokenType accepted) {
+		public boolean reportMatch(CharProvider chars, long start, TokenType accepted) {
 			if (match != null) {
 				if (match.start() == start) {
 					return false;
@@ -124,7 +124,7 @@ public class SearchMatcherBuilder implements MatcherBuilder {
 		}
 
 		@Override
-		public boolean recoverMismatch(CharProvider chars, int start) {
+		public boolean recoverMismatch(CharProvider chars, long start) {
 			return false;
 		}
 
@@ -152,12 +152,12 @@ public class SearchMatcherBuilder implements MatcherBuilder {
 			AttachedTokenType token = (AttachedTokenType) accepted;
 			AutomatonMatcher reverse = token.getReverse();
 			AutomatonMatcher complete = token.getComplete();
-			int current = chars.current();
+			long current = chars.current();
 			Match reverseMatch = ((MatchListener) reverse.applyTo(new ReverseCharProvider(chars))).getMatch();
-			int start = reverseMatch.start();
+			long start = reverseMatch.start();
 			chars.move(current);
 			Match forwardMatch = ((MatchListener) complete.applyTo(chars)).getMatch();
-			int end = forwardMatch.end();
+			long end = forwardMatch.end();
 			chars.move(end);
 			return new Match(start, chars.slice(start, end), forwardMatch.getType());
 		}

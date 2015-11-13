@@ -29,11 +29,11 @@ import java.util.TreeSet;
 import com.almondtools.rexlex.Token;
 import com.almondtools.rexlex.TokenFactory;
 import com.almondtools.rexlex.TokenType;
-import com.almondtools.rexlex.io.CharProvider;
 import com.almondtools.rexlex.pattern.DefaultTokenType;
 import com.almondtools.rexlex.pattern.DefaultTokenTypeFactory;
 import com.almondtools.rexlex.pattern.TokenIterator;
 import com.almondtools.rexlex.pattern.TokenTypeFactory;
+import com.almondtools.stringsandchars.io.CharProvider;
 import com.almondtools.util.collections.ArrayLists;
 import com.almondtools.util.collections.CollectionUtils;
 import com.almondtools.util.collections.HashSets;
@@ -1409,8 +1409,8 @@ public class GenericAutomaton implements Automaton, Cloneable {
 		}
 
 		private void resume(CharProvider chars, Deque<MatchContext> contexts) {
-			int start = contexts.getLast().pos;
-			int misMatchPosition = Integer.MIN_VALUE;
+			long start = contexts.getLast().pos;
+			long misMatchPosition = Integer.MIN_VALUE;
 			while (!contexts.isEmpty()) {
 				MatchContext context = contexts.peek();
 				chars.move(context.pos);
@@ -1458,9 +1458,9 @@ public class GenericAutomaton implements Automaton, Cloneable {
 	private static class MatchContext {
 
 		private Iterator<State> states;
-		private int pos;
+		private long pos;
 
-		public MatchContext(Iterator<State> state, int pos) {
+		public MatchContext(Iterator<State> state, long pos) {
 			this.states = state;
 			this.pos = pos;
 		}

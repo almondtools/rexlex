@@ -236,8 +236,8 @@ public class PatternMatchTest {
 		Finder matcher = pattern.finder("xxxabbbbcxxxx");
 		boolean success = matcher.find();
 		assertTrue(success);
-		assertThat(matcher.start(), equalTo(3));
-		assertThat(matcher.end(), equalTo(9));
+		assertThat(matcher.start(), equalTo(3l));
+		assertThat(matcher.end(), equalTo(9l));
 		assertThat(matcher.group(), equalTo("abbbbc"));
 	}
 
@@ -247,8 +247,8 @@ public class PatternMatchTest {
 		Finder matcher = pattern.finder("xxxabbbbcxxxx");
 		boolean success = matcher.find();
 		assertTrue(success);
-		assertThat(matcher.start(), equalTo(3));
-		assertThat(matcher.end(), equalTo(9));
+		assertThat(matcher.start(), equalTo(3l));
+		assertThat(matcher.end(), equalTo(9l));
 		assertThat(matcher.group(), equalTo("abbbbc"));
 	}
 	
@@ -270,8 +270,8 @@ public class PatternMatchTest {
 		Finder matcher = pattern.finder("abbxxxabbcxxxx");
 		boolean success = matcher.find();
 		assertTrue(success);
-		assertThat(matcher.start(), equalTo(6));
-		assertThat(matcher.end(), equalTo(10));
+		assertThat(matcher.start(), equalTo(6l));
+		assertThat(matcher.end(), equalTo(10l));
 		assertThat(matcher.group(), equalTo("abbc"));
 	}
 
@@ -281,8 +281,8 @@ public class PatternMatchTest {
 		Finder matcher = pattern.finder("abbxxxabbcxxxx");
 		boolean success = matcher.find();
 		assertTrue(success);
-		assertThat(matcher.start(), equalTo(6));
-		assertThat(matcher.end(), equalTo(10));
+		assertThat(matcher.start(), equalTo(6l));
+		assertThat(matcher.end(), equalTo(10l));
 		assertThat(matcher.group(), equalTo("abbc"));
 	}
 	

@@ -10,9 +10,9 @@ import java.util.NoSuchElementException;
 
 import org.junit.Test;
 
-import com.almondtools.rexlex.io.StringCharProvider;
 import com.almondtools.rexlex.tokens.TestToken;
 import com.almondtools.rexlex.tokens.TestTokenFactory;
+import com.almondtools.stringsandchars.io.StringCharProvider;
 
 
 public class TokenIteratorTest {

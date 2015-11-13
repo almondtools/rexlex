@@ -1,8 +1,8 @@
 package com.almondtools.rexlex.automaton;
 
 import com.almondtools.rexlex.TokenType;
-import com.almondtools.rexlex.io.CharProvider;
 import com.almondtools.rexlex.pattern.Match;
+import com.almondtools.stringsandchars.io.CharProvider;
 
 public class LongestMatchListener implements MatchListener {
 
@@ -10,12 +10,12 @@ public class LongestMatchListener implements MatchListener {
 	private Match nextMatch;
 
 	@Override
-	public boolean reportMatch(CharProvider chars, int start, TokenType accepted) {
+	public boolean reportMatch(CharProvider chars, long start, TokenType accepted) {
 		if (nextMatch != null) {
 			match = nextMatch;
 			nextMatch = null;
 		}
-		int end = chars.current();
+		long end = chars.current();
 		String text = chars.slice(start, end );
 		if (end < start) {
 			start = end;
@@ -30,7 +30,7 @@ public class LongestMatchListener implements MatchListener {
 	}
 
 	@Override
-	public boolean recoverMismatch(CharProvider chars, int start) {
+	public boolean recoverMismatch(CharProvider chars, long start) {
 		return true;
 	}
 

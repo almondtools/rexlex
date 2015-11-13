@@ -1,7 +1,7 @@
 package com.almondtools.rexlex.automaton;
 
 import com.almondtools.rexlex.TokenType;
-import com.almondtools.rexlex.io.CharProvider;
+import com.almondtools.stringsandchars.io.CharProvider;
 
 public interface AutomatonMatcherListener {
 
@@ -9,12 +9,12 @@ public interface AutomatonMatcherListener {
 	 * reports a match
 	 * @return true if process should suspend, false if process should resume
 	 */
-	boolean reportMatch(CharProvider chars, int start, TokenType accepted);
+	boolean reportMatch(CharProvider chars, long start, TokenType accepted);
 
 	/**
 	 * reports a mismatch
 	 * @return true if process should suspend, false if process should resume
 	 */
-	boolean recoverMismatch(CharProvider chars, int start);
+	boolean recoverMismatch(CharProvider chars, long start);
 
 }

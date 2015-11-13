@@ -7,7 +7,7 @@ import com.almondtools.rexlex.automaton.AutomatonMatcherListener;
 import com.almondtools.rexlex.automaton.FromGenericAutomaton.ToTabledAutomaton;
 import com.almondtools.rexlex.automaton.GenericAutomaton;
 import com.almondtools.rexlex.automaton.ToAutomaton;
-import com.almondtools.rexlex.io.CharProvider;
+import com.almondtools.stringsandchars.io.CharProvider;
 
 public class DefaultMatcherBuilder implements MatcherBuilder {
 
@@ -66,7 +66,7 @@ public class DefaultMatcherBuilder implements MatcherBuilder {
 		}
 
 		@Override
-		public boolean reportMatch(CharProvider chars, int start, TokenType accepted) {
+		public boolean reportMatch(CharProvider chars, long start, TokenType accepted) {
 			if (chars.finished()) {
 				matched = true;
 				return true;
@@ -75,7 +75,7 @@ public class DefaultMatcherBuilder implements MatcherBuilder {
 		}
 
 		@Override
-		public boolean recoverMismatch(CharProvider chars, int start) {
+		public boolean recoverMismatch(CharProvider chars, long start) {
 			return true;
 		}
 
@@ -93,8 +93,8 @@ public class DefaultMatcherBuilder implements MatcherBuilder {
 		}
 
 		@Override
-		public boolean reportMatch(CharProvider chars, int start, TokenType accepted) {
-			int end = chars.current();
+		public boolean reportMatch(CharProvider chars, long start, TokenType accepted) {
+			long end = chars.current();
 			String text = chars.slice(start, end);
 			if (match != null) {
 				if (match.start() == start) {
@@ -115,7 +115,7 @@ public class DefaultMatcherBuilder implements MatcherBuilder {
 		}
 
 		@Override
-		public boolean recoverMismatch(CharProvider chars, int start) {
+		public boolean recoverMismatch(CharProvider chars, long start) {
 			chars.move(start + 1);
 			return false;
 		}
