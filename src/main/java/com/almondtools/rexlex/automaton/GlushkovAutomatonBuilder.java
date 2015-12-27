@@ -238,7 +238,7 @@ public class GlushkovAutomatonBuilder implements Pattern.PatternNodeVisitor<Glus
 		return automaton.build(normalized, type);
 	}
 
-	public static enum GlushkovToken implements TokenType {
+	public enum GlushkovToken implements TokenType {
 		ACCEPT;
 
 		@Override

@@ -725,7 +725,7 @@ public class Pattern {
 
 	public static class LoopNode implements DelegatorNode {
 
-		public static int INFINITY = Integer.MIN_VALUE;
+		public static final int INFINITY = Integer.MIN_VALUE;
 
 		private PatternNode subNode;
 		int from;

@@ -520,13 +520,11 @@ public class GenericAutomatonBuilder implements Pattern.PatternNodeVisitor<Gener
 		private EventTransition mergeTransition(EventTransition transition1, EventTransition transition2, State result) {
 			char from = maximum(transition1.getFrom(), transition2.getFrom());
 			char to = minimum(transition1.getTo(), transition2.getTo());
-			EventTransition transition = null;
 			if (from == to) {
-				transition = new ExactTransition(from, result);
+				return new ExactTransition(from, result);
 			} else {
-				transition = new RangeTransition(from, to, result);
+				return new RangeTransition(from, to, result);
 			}
-			return transition;
 		}
 
 		private final char minimum(char c1, char c2) {

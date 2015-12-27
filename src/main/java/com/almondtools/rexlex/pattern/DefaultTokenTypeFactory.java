@@ -29,7 +29,7 @@ public class DefaultTokenTypeFactory implements TokenTypeFactory {
 		} else if (compare > 0) {
 			return type1;
 		} else if (type1 instanceof DefaultTokenType && type2 instanceof DefaultTokenType) {
-			if (((DefaultTokenType) type1).compareTo(((DefaultTokenType) type2)) > 0) {
+			if (((DefaultTokenType) type1).compareTo((DefaultTokenType) type2) > 0) {
 				return type1;
 			} else {
 				return type2;

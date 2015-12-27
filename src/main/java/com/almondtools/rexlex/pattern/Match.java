@@ -1,5 +1,7 @@
 package com.almondtools.rexlex.pattern;
 
+import java.util.Objects;
+
 import com.almondtools.rexlex.TokenType;
 
 public class Match {
@@ -60,20 +62,7 @@ public class Match {
 		Match that = (Match) obj;
 		return this.start == that.start
 			&& this.text.equals(that.text)
-			&& equals(this.type, that.type);
-	}
-
-	private boolean equals(TokenType t1, TokenType t2) {
-		if (t1 == t2) {
-			return true;
-		}
-		if (t1 == null) {
-			return false;
-		} else if (t2 == null) {
-			return false;
-		} else {
-			return t1.equals(t2);
-		}
+			&& Objects.equals(this.type, that.type);
 	}
 	
 }

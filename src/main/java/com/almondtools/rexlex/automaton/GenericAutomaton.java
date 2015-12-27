@@ -431,8 +431,9 @@ public class GenericAutomaton implements Automaton, Cloneable {
 				newStates.put(state, newState);
 			}
 		}
-		for (State state : newStates.keySet()) {
-			State newState = newStates.get(state);
+		for (Map.Entry<State,State> entry : newStates.entrySet()) {
+			State state = entry.getKey();
+			State newState = entry.getValue();
 			for (EventTransition transition : state.getEventTransitions()) {
 				State target = transition.getTarget();
 				State newTarget = newStates.get(target);

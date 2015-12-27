@@ -16,10 +16,6 @@ public class HashMaps<K,V> {
 		}
 	}
 
-	private HashMaps(HashMap<K,V> map) {
-		this.map = new HashMap<K, V>(map);
-	}
-
 	public HashMaps<K,V> put(K key, V value) {
 		map.put(key, value);
 		return this;

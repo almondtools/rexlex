@@ -322,7 +322,7 @@ public class ThompsonAutomatonBuilder implements Pattern.PatternNodeVisitor<Thom
 		return as;
 	}
 
-	public static enum ThompsonToken implements TokenType {
+	public enum ThompsonToken implements TokenType {
 		ACCEPT;
 
 		@Override
