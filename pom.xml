@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.almondtools</groupId>
 	<artifactId>rexlex</artifactId>
-	<version>0.2.5-SNAPSHOT</version>
+	<version>0.2.5</version>
 	<name>${project.groupId}:${project.artifactId}</name>
 	<description>Regular expression matchers, searcher, lexers based on deterministic finite automata</description>
 	<url>https://github.com/almondtools/rexlex</url>
@@ -24,7 +24,7 @@
 		<connection>scm:git:git@github.com:almondtools/rexlex.git</connection>
 		<developerConnection>scm:git:git@github.com:almondtools/rexlex.git</developerConnection>
 		<url>git@github.com:almondtools/rexlex.git</url>
-		<tag>HEAD</tag>
+		<tag>rexlex-0.2.5</tag>
 	</scm>
 	<distributionManagement>
 		<snapshotRepository>
