@@ -17,11 +17,11 @@ import com.almondtools.rexlex.automaton.ToAutomaton;
 import com.almondtools.stringsandchars.io.CharProvider;
 import com.almondtools.stringsandchars.io.ReverseCharProvider;
 import com.almondtools.stringsandchars.search.Horspool;
-import com.almondtools.stringsandchars.search.MultiWordSearchAlgorithmFactory;
+import com.almondtools.stringsandchars.search.MultiStringSearchAlgorithmFactory;
 import com.almondtools.stringsandchars.search.SetBackwardOracleMatching;
 import com.almondtools.stringsandchars.search.StringMatch;
 import com.almondtools.stringsandchars.search.StringSearchAlgorithm;
-import com.almondtools.stringsandchars.search.WordSearchAlgorithmFactory;
+import com.almondtools.stringsandchars.search.StringSearchAlgorithmFactory;
 
 public class OptimizedMatcherBuilder implements MatcherBuilder {
 
@@ -30,8 +30,8 @@ public class OptimizedMatcherBuilder implements MatcherBuilder {
 	private ToAutomaton<GenericAutomaton, TabledAutomaton> builder;
 	private TabledAutomaton completeAutomaton;
 	private TabledAutomaton searchAutomaton;
-	private WordSearchAlgorithmFactory wordSearch;
-	private MultiWordSearchAlgorithmFactory multiwordSearch;
+	private StringSearchAlgorithmFactory wordSearch;
+	private MultiStringSearchAlgorithmFactory multiwordSearch;
 	private StringSearchAlgorithm stringSearchAlgorithm;
 
 
@@ -39,7 +39,7 @@ public class OptimizedMatcherBuilder implements MatcherBuilder {
 		this(new Horspool.Factory(), new SetBackwardOracleMatching.Factory());
 	}
 
-	public OptimizedMatcherBuilder(WordSearchAlgorithmFactory word, MultiWordSearchAlgorithmFactory multiword) {
+	public OptimizedMatcherBuilder(StringSearchAlgorithmFactory word, MultiStringSearchAlgorithmFactory multiword) {
 		this.builder = new ToTabledAutomaton();
 		this.wordSearch = word;
 		this.multiwordSearch = multiword;
