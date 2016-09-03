@@ -5,7 +5,7 @@ import java.util.Iterator;
 import com.almondtools.rexlex.Token;
 import com.almondtools.rexlex.TokenFactory;
 import com.almondtools.rexlex.TokenType;
-import com.almondtools.stringsandchars.io.CharProvider;
+import net.amygdalum.stringsearchalgorithms.io.CharProvider;
 
 public interface Automaton {
 	

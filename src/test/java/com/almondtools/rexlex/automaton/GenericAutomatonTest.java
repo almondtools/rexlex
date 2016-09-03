@@ -33,7 +33,7 @@ import static com.almondtools.rexlex.pattern.DefaultTokenType.ERROR;
 import static com.almondtools.rexlex.pattern.DotGraphMatcher.startsWith;
 import static com.almondtools.rexlex.tokens.Accept.A;
 import static com.almondtools.rexlex.tokens.Accept.REMAINDER;
-import static com.almondtools.util.text.CharUtils.after;
+import static net.amygdalum.util.text.CharUtils.after;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.CoreMatchers.hasItems;
@@ -71,7 +71,7 @@ import com.almondtools.rexlex.pattern.RemainderTokenTypeFactory;
 import com.almondtools.rexlex.tokens.Accept;
 import com.almondtools.rexlex.tokens.TestToken;
 import com.almondtools.rexlex.tokens.TestTokenFactory;
-import com.almondtools.util.text.CharUtils;
+import net.amygdalum.util.text.CharUtils;
 
 public class GenericAutomatonTest {
 

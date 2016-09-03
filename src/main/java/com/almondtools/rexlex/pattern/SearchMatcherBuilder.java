@@ -10,8 +10,8 @@ import com.almondtools.rexlex.automaton.MatchListener;
 import com.almondtools.rexlex.automaton.ShortestMatchListener;
 import com.almondtools.rexlex.automaton.TabledAutomaton;
 import com.almondtools.rexlex.automaton.ToAutomaton;
-import com.almondtools.stringsandchars.io.CharProvider;
-import com.almondtools.stringsandchars.io.ReverseCharProvider;
+import net.amygdalum.stringsearchalgorithms.io.CharProvider;
+import net.amygdalum.stringsearchalgorithms.io.ReverseCharProvider;
 
 public class SearchMatcherBuilder implements MatcherBuilder {
 

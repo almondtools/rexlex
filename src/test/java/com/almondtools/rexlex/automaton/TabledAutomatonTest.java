@@ -65,7 +65,7 @@ import com.almondtools.rexlex.automaton.FromGenericAutomaton.ToTabledAutomaton;
 import com.almondtools.rexlex.pattern.DefaultTokenType;
 import com.almondtools.rexlex.pattern.Pattern;
 import com.almondtools.rexlex.tokens.TestTokenFactory;
-import com.almondtools.util.text.CharUtils;
+import net.amygdalum.util.text.CharUtils;
 
 public class TabledAutomatonTest {
 

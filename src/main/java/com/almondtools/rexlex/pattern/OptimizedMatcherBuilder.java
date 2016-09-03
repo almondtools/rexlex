@@ -14,14 +14,14 @@ import com.almondtools.rexlex.automaton.MatchListener;
 import com.almondtools.rexlex.automaton.ShortestMatchListener;
 import com.almondtools.rexlex.automaton.TabledAutomaton;
 import com.almondtools.rexlex.automaton.ToAutomaton;
-import com.almondtools.stringsandchars.io.CharProvider;
-import com.almondtools.stringsandchars.io.ReverseCharProvider;
-import com.almondtools.stringsandchars.search.Horspool;
-import com.almondtools.stringsandchars.search.MultiStringSearchAlgorithmFactory;
-import com.almondtools.stringsandchars.search.SetBackwardOracleMatching;
-import com.almondtools.stringsandchars.search.StringMatch;
-import com.almondtools.stringsandchars.search.StringSearchAlgorithm;
-import com.almondtools.stringsandchars.search.StringSearchAlgorithmFactory;
+import net.amygdalum.stringsearchalgorithms.io.CharProvider;
+import net.amygdalum.stringsearchalgorithms.io.ReverseCharProvider;
+import net.amygdalum.stringsearchalgorithms.search.Horspool;
+import net.amygdalum.stringsearchalgorithms.search.MultiStringSearchAlgorithmFactory;
+import net.amygdalum.stringsearchalgorithms.search.SetBackwardOracleMatching;
+import net.amygdalum.stringsearchalgorithms.search.StringMatch;
+import net.amygdalum.stringsearchalgorithms.search.StringSearchAlgorithm;
+import net.amygdalum.stringsearchalgorithms.search.StringSearchAlgorithmFactory;
 
 public class OptimizedMatcherBuilder implements MatcherBuilder {
 
@@ -110,7 +110,7 @@ public class OptimizedMatcherBuilder implements MatcherBuilder {
 
 	private static class StringMatcher extends com.almondtools.rexlex.pattern.Matcher {
 
-		private com.almondtools.stringsandchars.search.StringFinder finder;
+		private net.amygdalum.stringsearchalgorithms.search.StringFinder finder;
 
 		public StringMatcher(String input, StringSearchAlgorithm stringSearchAlgorithm) {
 			super(input);
@@ -163,7 +163,7 @@ public class OptimizedMatcherBuilder implements MatcherBuilder {
 
 	private static class StringFinder extends com.almondtools.rexlex.pattern.Finder {
 
-		private com.almondtools.stringsandchars.search.StringFinder finder;
+		private net.amygdalum.stringsearchalgorithms.search.StringFinder finder;
 
 		public StringFinder(String input, StringSearchAlgorithm stringSearchAlgorithm) {
 			super(input);

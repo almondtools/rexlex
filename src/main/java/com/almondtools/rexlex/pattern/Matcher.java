@@ -1,7 +1,7 @@
 package com.almondtools.rexlex.pattern;
 
-import com.almondtools.stringsandchars.io.CharProvider;
-import com.almondtools.stringsandchars.io.StringCharProvider;
+import net.amygdalum.stringsearchalgorithms.io.CharProvider;
+import net.amygdalum.stringsearchalgorithms.io.StringCharProvider;
 
 public abstract class Matcher {
 

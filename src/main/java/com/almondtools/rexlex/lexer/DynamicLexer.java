@@ -16,7 +16,7 @@ import com.almondtools.rexlex.automaton.GenericAutomatonBuilder;
 import com.almondtools.rexlex.pattern.DefaultTokenType;
 import com.almondtools.rexlex.pattern.Pattern;
 import com.almondtools.rexlex.pattern.RemainderTokenType;
-import com.almondtools.stringsandchars.io.StringCharProvider;
+import net.amygdalum.stringsearchalgorithms.io.StringCharProvider;
 
 public class DynamicLexer<T extends Token> implements Lexer<T> {
 

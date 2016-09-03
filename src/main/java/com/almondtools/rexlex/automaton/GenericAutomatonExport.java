@@ -1,6 +1,6 @@
 package com.almondtools.rexlex.automaton;
 
-import static com.almondtools.util.text.CharUtils.charToString;
+import static net.amygdalum.util.text.CharUtils.charToString;
 
 import java.io.IOException;
 import java.io.OutputStream;

@@ -28,8 +28,8 @@ import com.almondtools.rexlex.io.CharClassProvider;
 import com.almondtools.rexlex.io.MappedCharClassProvider;
 import com.almondtools.rexlex.pattern.DefaultTokenType;
 import com.almondtools.rexlex.pattern.TokenIterator;
-import com.almondtools.stringsandchars.io.CharProvider;
-import com.almondtools.stringsandchars.io.StringCharProvider;
+import net.amygdalum.stringsearchalgorithms.io.CharProvider;
+import net.amygdalum.stringsearchalgorithms.io.StringCharProvider;
 
 public class TabledAutomaton implements Automaton {
 

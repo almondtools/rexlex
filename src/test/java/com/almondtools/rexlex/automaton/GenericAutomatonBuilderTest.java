@@ -18,8 +18,8 @@ import static com.almondtools.rexlex.automaton.GenericAutomatonBuilder.matchRang
 import static com.almondtools.rexlex.automaton.GenericAutomatonBuilder.matchStarLoop;
 import static com.almondtools.rexlex.automaton.GenericAutomatonBuilder.matchUnlimitedLoop;
 import static com.almondtools.rexlex.pattern.DefaultTokenType.ACCEPT;
-import static com.almondtools.util.text.CharUtils.after;
-import static com.almondtools.util.text.CharUtils.before;
+import static net.amygdalum.util.text.CharUtils.after;
+import static net.amygdalum.util.text.CharUtils.before;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.containsInAnyOrder;

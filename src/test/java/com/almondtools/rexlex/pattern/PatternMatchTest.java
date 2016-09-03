@@ -1,6 +1,6 @@
 package com.almondtools.rexlex.pattern;
 
-import static com.almondtools.util.text.CharUtils.before;
+import static net.amygdalum.util.text.CharUtils.before;
 import static java.lang.Character.MAX_VALUE;
 import static java.lang.Character.MIN_VALUE;
 import static org.hamcrest.CoreMatchers.equalTo;

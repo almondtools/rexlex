@@ -1,7 +1,7 @@
 package com.almondtools.rexlex.automaton;
 
-import static com.almondtools.util.text.CharUtils.after;
-import static com.almondtools.util.text.CharUtils.before;
+import static net.amygdalum.util.text.CharUtils.after;
+import static net.amygdalum.util.text.CharUtils.before;
 
 import java.util.List;
 

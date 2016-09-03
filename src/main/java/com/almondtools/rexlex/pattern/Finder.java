@@ -3,7 +3,7 @@ package com.almondtools.rexlex.pattern;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.almondtools.stringsandchars.io.StringCharProvider;
+import net.amygdalum.stringsearchalgorithms.io.StringCharProvider;
 
 public abstract class Finder {
 

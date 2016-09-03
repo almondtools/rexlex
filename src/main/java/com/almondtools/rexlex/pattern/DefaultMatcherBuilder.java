@@ -7,7 +7,7 @@ import com.almondtools.rexlex.automaton.AutomatonMatcherListener;
 import com.almondtools.rexlex.automaton.FromGenericAutomaton.ToTabledAutomaton;
 import com.almondtools.rexlex.automaton.GenericAutomaton;
 import com.almondtools.rexlex.automaton.ToAutomaton;
-import com.almondtools.stringsandchars.io.CharProvider;
+import net.amygdalum.stringsearchalgorithms.io.CharProvider;
 
 public class DefaultMatcherBuilder implements MatcherBuilder {
 

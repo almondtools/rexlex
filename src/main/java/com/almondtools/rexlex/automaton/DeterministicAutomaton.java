@@ -4,8 +4,8 @@ import static com.almondtools.rexlex.automaton.AutomatonProperty.ACYCLIC;
 import static com.almondtools.rexlex.automaton.AutomatonProperty.CYCLIC;
 import static com.almondtools.rexlex.automaton.AutomatonProperty.LINEAR;
 import static com.almondtools.rexlex.automaton.AutomatonProperty.UNKNOWN;
-import static com.almondtools.util.text.CharUtils.after;
-import static com.almondtools.util.text.CharUtils.before;
+import static net.amygdalum.util.text.CharUtils.after;
+import static net.amygdalum.util.text.CharUtils.before;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -31,8 +31,8 @@ import com.almondtools.rexlex.automaton.FromDeterministicAutomaton.ToGenericAuto
 import com.almondtools.rexlex.automaton.FromGenericAutomaton.ToMinimalDeterministicAutomaton;
 import com.almondtools.rexlex.pattern.DefaultTokenType;
 import com.almondtools.rexlex.pattern.TokenIterator;
-import com.almondtools.stringsandchars.io.CharProvider;
-import com.almondtools.stringsandchars.io.StringCharProvider;
+import net.amygdalum.stringsearchalgorithms.io.CharProvider;
+import net.amygdalum.stringsearchalgorithms.io.StringCharProvider;
 import com.almondtools.util.collections.HashSets;
 
 public class DeterministicAutomaton implements Automaton {

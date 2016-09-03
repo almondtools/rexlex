@@ -2,7 +2,7 @@ package com.almondtools.rexlex.automaton;
 
 import com.almondtools.rexlex.TokenType;
 import com.almondtools.rexlex.pattern.Match;
-import com.almondtools.stringsandchars.io.CharProvider;
+import net.amygdalum.stringsearchalgorithms.io.CharProvider;
 
 public class LongestMatchListener implements MatchListener {
 

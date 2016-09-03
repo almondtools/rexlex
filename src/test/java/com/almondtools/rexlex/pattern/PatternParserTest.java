@@ -1,7 +1,7 @@
 package com.almondtools.rexlex.pattern;
 
-import static com.almondtools.util.text.CharUtils.after;
-import static com.almondtools.util.text.CharUtils.before;
+import static net.amygdalum.util.text.CharUtils.after;
+import static net.amygdalum.util.text.CharUtils.before;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.junit.Assert.assertThat;

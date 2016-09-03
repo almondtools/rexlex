@@ -13,7 +13,7 @@ import com.almondtools.rexlex.TokenType;
 import com.almondtools.rexlex.automaton.Automaton;
 import com.almondtools.rexlex.automaton.AutomatonMatcher;
 import com.almondtools.rexlex.automaton.AutomatonMatcherListener;
-import com.almondtools.stringsandchars.io.CharProvider;
+import net.amygdalum.stringsearchalgorithms.io.CharProvider;
 
 public class TokenIterator<T extends Token> implements Iterator<T>, AutomatonMatcherListener {
 

@@ -1,7 +1,7 @@
 package com.almondtools.rexlex.io;
 
 import com.almondtools.rexlex.automaton.CharClassMapper;
-import com.almondtools.stringsandchars.io.CharProvider;
+import net.amygdalum.stringsearchalgorithms.io.CharProvider;
 
 public class MappedCharClassProvider implements CharClassProvider {
 

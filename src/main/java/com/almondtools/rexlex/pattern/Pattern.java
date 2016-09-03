@@ -4,8 +4,8 @@ import static com.almondtools.rexlex.pattern.Pattern.ProCharNode.toCharNodes;
 import static com.almondtools.rexlex.pattern.PatternOptionUtil.list;
 import static com.almondtools.rexlex.pattern.PatternOptionUtil.splitFirst;
 import static com.almondtools.rexlex.pattern.PatternOptionUtil.splitOf;
-import static com.almondtools.util.text.CharUtils.after;
-import static com.almondtools.util.text.CharUtils.before;
+import static net.amygdalum.util.text.CharUtils.after;
+import static net.amygdalum.util.text.CharUtils.before;
 import static java.util.EnumSet.copyOf;
 import static java.util.EnumSet.noneOf;
 
@@ -25,7 +25,7 @@ import com.almondtools.rexlex.automaton.GenericAutomatonBuilder;
 import com.almondtools.rexlex.automaton.ToAutomaton;
 import com.almondtools.util.collections.HashMaps;
 import com.almondtools.util.collections.HashSets;
-import com.almondtools.util.text.StringUtils;
+import net.amygdalum.util.text.StringUtils;
 
 public class Pattern {
 

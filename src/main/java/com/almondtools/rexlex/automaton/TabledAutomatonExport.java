@@ -9,7 +9,7 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 
 import com.almondtools.rexlex.TokenType;
-import com.almondtools.util.text.CharUtils;
+import net.amygdalum.util.text.CharUtils;
 
 public class TabledAutomatonExport implements AutomatonExport {
 

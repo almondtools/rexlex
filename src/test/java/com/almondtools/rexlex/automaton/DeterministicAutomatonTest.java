@@ -64,7 +64,7 @@ import com.almondtools.rexlex.automaton.FromGenericAutomaton.ToMinimalDeterminis
 import com.almondtools.rexlex.pattern.Pattern;
 import com.almondtools.rexlex.tokens.TestToken;
 import com.almondtools.rexlex.tokens.TestTokenFactory;
-import com.almondtools.util.text.StringUtils;
+import net.amygdalum.util.text.StringUtils;
 
 public class DeterministicAutomatonTest {
 
