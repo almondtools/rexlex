@@ -14,14 +14,15 @@ import com.almondtools.rexlex.automaton.MatchListener;
 import com.almondtools.rexlex.automaton.ShortestMatchListener;
 import com.almondtools.rexlex.automaton.TabledAutomaton;
 import com.almondtools.rexlex.automaton.ToAutomaton;
+
 import net.amygdalum.stringsearchalgorithms.io.CharProvider;
 import net.amygdalum.stringsearchalgorithms.io.ReverseCharProvider;
-import net.amygdalum.stringsearchalgorithms.search.Horspool;
-import net.amygdalum.stringsearchalgorithms.search.MultiStringSearchAlgorithmFactory;
-import net.amygdalum.stringsearchalgorithms.search.SetBackwardOracleMatching;
 import net.amygdalum.stringsearchalgorithms.search.StringMatch;
-import net.amygdalum.stringsearchalgorithms.search.StringSearchAlgorithm;
-import net.amygdalum.stringsearchalgorithms.search.StringSearchAlgorithmFactory;
+import net.amygdalum.stringsearchalgorithms.search.chars.Horspool;
+import net.amygdalum.stringsearchalgorithms.search.chars.MultiStringSearchAlgorithmFactory;
+import net.amygdalum.stringsearchalgorithms.search.chars.SetBackwardOracleMatching;
+import net.amygdalum.stringsearchalgorithms.search.chars.StringSearchAlgorithm;
+import net.amygdalum.stringsearchalgorithms.search.chars.StringSearchAlgorithmFactory;
 
 public class OptimizedMatcherBuilder implements MatcherBuilder {
 
