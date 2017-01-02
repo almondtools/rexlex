@@ -6,25 +6,29 @@ import net.amygdalum.stringsearchalgorithms.io.CharProvider;
 
 public class LongestMatchListener implements MatchListener {
 
-	private Match match;
-	private Match nextMatch;
+	private final Match match;
+	private final Match nextMatch;
+	
+	public LongestMatchListener() {
+		this.match = new Match();
+		this.nextMatch = new Match();
+	}
 
 	@Override
 	public boolean reportMatch(CharProvider chars, long start, TokenType accepted) {
 		if (nextMatch != null) {
-			match = nextMatch;
-			nextMatch = null;
+			match.moveFrom(nextMatch);
 		}
 		long end = chars.current();
 		String text = chars.slice(start, end );
 		if (end < start) {
 			start = end;
 		}
-		if (match == null || (match.start() == start && match.text().length() < text.length())) {
-			match = new Match(start, text , accepted);
+		if (!match.isMatch() || (match.start == start && match.text.length() < text.length())) {
+			match.init(start, text , accepted);
 			return false;
 		} else {
-			nextMatch = new Match(start, text , accepted);
+			nextMatch.init(start, text , accepted);
 			return true;
 		}
 	}
@@ -36,9 +40,7 @@ public class LongestMatchListener implements MatchListener {
 
 	@Override
 	public Match getMatch() {
-		Match match = this.match;
-		this.match = null;
-		return match;
+		return match.consume();
 	}
 	
 }

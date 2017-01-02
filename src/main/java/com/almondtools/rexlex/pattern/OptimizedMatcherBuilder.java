@@ -120,8 +120,8 @@ public class OptimizedMatcherBuilder implements MatcherBuilder {
 
 		@Override
 		public boolean matches() {
-			StringMatch match = finder.findNext();
-			return match != null && chars.finished();
+			StringMatch smatch = finder.findNext();
+			return smatch != null && chars.finished();
 		}
 	}
 
@@ -174,30 +174,24 @@ public class OptimizedMatcherBuilder implements MatcherBuilder {
 		@Override
 		public boolean find() {
 			long lastMatchEnd = 0;
-			if (match != null) {
-				lastMatchEnd = match.end();
+			if (match.isMatch()) {
+				lastMatchEnd = match.end;
 			}
 			do {
-				match = findFirstMatch();
-			} while (match != null && match.start() < lastMatchEnd);
-			if (match == null) {
+				StringMatch smatch = finder.findNext();
+				if (smatch != null) {
+					match.init(smatch.start(), smatch.text());
+				} else {
+					match.reset();
+				}
+			} while (match.isMatch() && match.start < lastMatchEnd);
+			if (!match.isMatch()) {
 				chars.finish();
 				return false;
 			} else {
-				finder.skipTo(match.end());
+				finder.skipTo(match.end);
 				return true;
 			}
-		}
-
-		private Match findFirstMatch() {
-			return wrap(finder.findNext());
-		}
-
-		private Match wrap(StringMatch match) {
-			if (match == null) {
-				return null;
-			}
-			return new Match(match.start(), match.text());
 		}
 
 	}
@@ -213,15 +207,15 @@ public class OptimizedMatcherBuilder implements MatcherBuilder {
 
 		@Override
 		public boolean reportMatch(CharProvider chars, long start, TokenType accepted) {
-			if (match != null) {
-				if (match.start() == start) {
+			if (match.isMatch()) {
+				if (match.start == start) {
 					return false;
 				} else {
-					match = extend(chars, accepted);
+					extend(chars, accepted);
 					return true;
 				}
 			} else {
-				match = extend(chars, accepted);
+				extend(chars, accepted);
 				return true;
 			}
 		}
@@ -233,13 +227,13 @@ public class OptimizedMatcherBuilder implements MatcherBuilder {
 
 		@Override
 		public boolean find() {
-			match = null;
+			match.reset();
 			if (search.isSuspended()) {
 				search.resume();
 			} else {
 				search.applyTo(chars);
 			}
-			if (match == null) {
+			if (!match.isMatch()) {
 				chars.finish();
 				return false;
 			} else {
@@ -247,17 +241,17 @@ public class OptimizedMatcherBuilder implements MatcherBuilder {
 			}
 		}
 
-		private Match extend(CharProvider chars, TokenType accepted) {
+		private void extend(CharProvider chars, TokenType accepted) {
 			AttachedTokenType token = (AttachedTokenType) accepted;
 			AutomatonMatcher reverse = token.getReverse();
 			AutomatonMatcher complete = token.getComplete();
 			long current = chars.current();
 			Match reverseMatch = ((MatchListener) reverse.applyTo(new ReverseCharProvider(chars))).getMatch();
-			long start = reverseMatch.start();
+			long start = reverseMatch.start;
 			chars.move(current);
 			Match forwardMatch = ((MatchListener) complete.applyTo(chars)).getMatch();
-			long end = forwardMatch.end();
-			return new Match(start, chars.slice(start, end), forwardMatch.getType());
+			long end = forwardMatch.end;
+			match.init(start, end, chars.slice(start, end), forwardMatch.type);
 		}
 
 

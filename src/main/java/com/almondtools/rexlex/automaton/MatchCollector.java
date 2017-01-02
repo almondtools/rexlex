@@ -20,7 +20,7 @@ public class MatchCollector implements AutomatonMatcherListener {
 		long end = chars.current();
 		String text = chars.slice(start, end);
 		if (chars.finished()) {
-			matches.add(new Match(start, text, accepted));
+			matches.add(Match.create(start, text, accepted));
 		}
 		return false;
 	}
@@ -37,7 +37,7 @@ public class MatchCollector implements AutomatonMatcherListener {
 	public List<String> getMatchedTexts() {
 		List<String> texts = new ArrayList<String>(matches.size());
 		for (Match match : matches) {
-			texts.add(match.text());
+			texts.add(match.text);
 		}
 		return texts;
 	}

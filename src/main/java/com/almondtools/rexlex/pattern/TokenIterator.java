@@ -17,12 +17,24 @@ import net.amygdalum.stringsearchalgorithms.io.CharProvider;
 
 public class TokenIterator<T extends Token> implements Iterator<T>, AutomatonMatcherListener {
 
-	private static final Match STOP = new Match(-1, "");
+	private static final TokenType STOP = new TokenType() {
+		
+		@Override
+		public boolean error() {
+			return false;
+		}
+		
+		@Override
+		public boolean accept() {
+			return false;
+		}
+	};
+
+	private final Match match;
 
 	private AutomatonMatcher matcher;
 	private TokenType error;
 	private CharProvider chars;
-	private Match match;
 	private TokenFactory<T> factory;
 	private List<T> buffer;
 
@@ -31,6 +43,7 @@ public class TokenIterator<T extends Token> implements Iterator<T>, AutomatonMat
 	}
 
 	public TokenIterator(Automaton automaton, CharProvider chars, TokenFactory<T> factory, Set<TokenType> ignored) {
+		this.match = new Match();
 		this.matcher = automaton.matcher().withListener(this);
 		this.error = automaton.getErrorType();
 		this.chars = chars;
@@ -43,24 +56,24 @@ public class TokenIterator<T extends Token> implements Iterator<T>, AutomatonMat
 		long end = chars.current();
 		if (start == end) {
 			return false;
-		} else if (match == null) { // new match
+		} else if (!match.isMatch()) { // new match
 			if (start > 0) {
 				bufferToken(factory.createToken(chars.slice(0, start), error));
 			}
-			match = new Match(start, chars.slice(start, end), accepted);
+			match.init(start, chars.slice(start, end), accepted);
 			return false;
 		} else {
-			long mstart = match.start();
-			long mend = match.end();
-			TokenType mtype = match.getType();
+			long mstart = match.start;
+			long mend = match.end;
+			TokenType mtype = match.type;
 			if (mend < start) {
 				bufferToken(factory.createToken(chars.slice(mstart, mend), mtype));
 				bufferToken(factory.createToken(chars.slice(mend, start), error));
-				match = new Match(start, chars.slice(start, end), accepted);
+				match.init(start, chars.slice(start, end), accepted);
 				return true;
 			} else if (mstart == start) { // exending match
 				if (mend < end) {
-					match = new Match(start, chars.slice(start, end), accepted);
+					match.init(start, chars.slice(start, end), accepted);
 				}
 				return false;
 			} else if (mend > start) { // subsumed match
@@ -68,7 +81,7 @@ public class TokenIterator<T extends Token> implements Iterator<T>, AutomatonMat
 				return false;
 			} else { // next match
 				bufferToken(factory.createToken(chars.slice(mstart, mend), mtype));
-				match = new Match(start, chars.slice(start, end), accepted);
+				match.init(start, chars.slice(start, end), accepted);
 				return true;
 			}
 		}
@@ -77,7 +90,7 @@ public class TokenIterator<T extends Token> implements Iterator<T>, AutomatonMat
 	@Override
 	public boolean recoverMismatch(CharProvider chars, long start) {
 		long current = chars.current();
-		long last = match != null ? match.end() : 0;
+		long last = match.isMatch() ? match.end : 0;
 		if (start >= last) {
 			chars.move(start);
 			if (!chars.finished()) {
@@ -93,24 +106,24 @@ public class TokenIterator<T extends Token> implements Iterator<T>, AutomatonMat
 
 	private void completeBuffer() {
 		long current = chars.current();
-		if (match == STOP) {
+		if (match.type == STOP) {
 			return;
-		} else if (match == null) {
+		} else if (!match.isMatch()) {
 			long start = 0;
 			long end = current;
 			if (start < end) {
 				bufferToken(factory.createToken(chars.slice(start, end), error));
 			}
-			match = STOP;
+			match.type = STOP;
 		} else {
-			long mstart = match.start();
-			long mend = match.end();
-			TokenType mtype = match.getType();
+			long mstart = match.start;
+			long mend = match.end;
+			TokenType mtype = match.type;
 			bufferToken(factory.createToken(chars.slice(mstart, mend), mtype));
 			if (mend < current) {
 				bufferToken(factory.createToken(chars.slice(mend, current), error));
 			}
-			match = STOP;
+			match.type = STOP;
 		}
 		chars.finish();
 	}

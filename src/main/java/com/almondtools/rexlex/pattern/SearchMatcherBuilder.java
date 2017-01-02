@@ -110,15 +110,15 @@ public class SearchMatcherBuilder implements MatcherBuilder {
 
 		@Override
 		public boolean reportMatch(CharProvider chars, long start, TokenType accepted) {
-			if (match != null) {
-				if (match.start() == start) {
+			if (match.isMatch()) {
+				if (match.start == start) {
 					return false;
 				} else {
-					match = extend(chars, accepted);
+					extend(chars, accepted);
 					return true;
 				}
 			} else {
-				match = extend(chars, accepted);
+				extend(chars, accepted);
 				return true;
 			}
 		}
@@ -131,16 +131,16 @@ public class SearchMatcherBuilder implements MatcherBuilder {
 		@Override
 		public boolean find() {
 			if (search.isSuspended()) {
-				if (match != null) {
-					chars.move(match.end());
+				if (match.isMatch()) {
+					chars.move(match.end);
 				}
-				match = null;
+				match.reset();;
 				search.resume();
 			} else {
-				match = null;
+				match.reset();;
 				search.applyTo(chars);
 			}
-			if (match == null) {
+			if (!match.isMatch()) {
 				chars.finish();
 				return false;
 			} else {
@@ -148,18 +148,18 @@ public class SearchMatcherBuilder implements MatcherBuilder {
 			}
 		}
 
-		private Match extend(CharProvider chars, TokenType accepted) {
+		private void extend(CharProvider chars, TokenType accepted) {
 			AttachedTokenType token = (AttachedTokenType) accepted;
 			AutomatonMatcher reverse = token.getReverse();
 			AutomatonMatcher complete = token.getComplete();
 			long current = chars.current();
 			Match reverseMatch = ((MatchListener) reverse.applyTo(new ReverseCharProvider(chars))).getMatch();
-			long start = reverseMatch.start();
+			long start = reverseMatch.start;
 			chars.move(current);
 			Match forwardMatch = ((MatchListener) complete.applyTo(chars)).getMatch();
-			long end = forwardMatch.end();
+			long end = forwardMatch.end;
 			chars.move(end);
-			return new Match(start, chars.slice(start, end), forwardMatch.getType());
+			match.init(start, chars.slice(start, end), forwardMatch.type);
 		}
 
 

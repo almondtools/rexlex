@@ -19,7 +19,7 @@ public class PrefixCollector implements AutomatonMatcherListener {
 	public boolean reportMatch(CharProvider chars, long start, TokenType accepted) {
 		long end = chars.current();
 		String text = chars.slice(start, end);
-		matches.add(new Match(start, text, accepted));
+		matches.add(Match.create(start, text, accepted));
 		return false;
 	}
 
@@ -35,7 +35,7 @@ public class PrefixCollector implements AutomatonMatcherListener {
 	public List<String> getMatchedTexts() {
 		List<String> texts = new ArrayList<String>(matches.size());
 		for (Match match : matches) {
-			texts.add(match.text());
+			texts.add(match.text);
 		}
 		return texts;
 	}

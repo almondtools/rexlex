@@ -6,36 +6,81 @@ import com.almondtools.rexlex.TokenType;
 
 public class Match {
 
-	private long start;
-	private String text;
-	private TokenType type;
+	public long start;
+	public long end;
+	public String text;
+	public TokenType type;
 
-	public Match(long start, String text) {
+	public Match() {
+		this(-1, -1, null, DefaultTokenType.IGNORE);
+	}
+
+	private Match(long start, long end, String text, TokenType accepted) {
 		this.start = start;
+		this.end = end;
 		this.text = text;
+		this.type = accepted;
+	}
+
+	public static Match create(long start, String text, TokenType type) {
+		return new Match(start, start + text.length(), text, type);
+	}
+
+	public static Match create(long start, long end, String text, TokenType type) {
+		return new Match(start, end, text, type);
+	}
+
+	public Match consume() {
+		Match match = create(start, end, text, type);
+		this.start = -1;
+		this.end = -1;
+		this.text = null;
+		this.type = DefaultTokenType.IGNORE;
+		return match;
+	}
+
+	public Match copy() {
+		return create(start, end, text, type);
+	}
+
+	public void reset() {
+		this.start = -1;
+		this.end = -1;
+		this.text = null;
 		this.type = DefaultTokenType.IGNORE;
 	}
 
-	public Match(long start, String text, TokenType type) {
+	public void init(long start, long end, String text, TokenType type) {
 		this.start = start;
+		this.end = end;
 		this.text = text;
 		this.type = type;
 	}
-
-	public TokenType getType() {
-		return type;
+	
+	public void init(long start, String text, TokenType type) {
+		this.start = start;
+		this.end = start + text.length();
+		this.text = text;
+		this.type = type;
+	}
+	
+	public void init(long start, String text) {
+		this.start = start;
+		this.end = start + text.length();
+		this.text = text;
+		this.type = DefaultTokenType.IGNORE;
+	}
+	
+	public void moveFrom(Match match) {
+		this.start = match.start;
+		this.end = match.end;
+		this.text = match.text;
+		this.type = match.type;
+		match.reset();
 	}
 
-	public long start() {
-		return start;
-	}
-
-	public long end() {
-		return start + text.length();
-	}
-
-	public String text() {
-		return text;
+	public boolean isMatch() {
+		return text != null;
 	}
 
 	@Override
@@ -64,5 +109,5 @@ public class Match {
 			&& this.text.equals(that.text)
 			&& Objects.equals(this.type, that.type);
 	}
-	
+
 }

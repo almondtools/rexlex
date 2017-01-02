@@ -5,7 +5,6 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.Matchers.contains;
 import static org.junit.Assert.assertThat;
 
@@ -31,7 +30,7 @@ public class DefaultMatcherBuilderForAutomatonTest {
 		DefaultMatcherBuilder builder = DefaultMatcherBuilder.from(Pattern.compileGenericAutomaton("c"));
 		Finder matcher = builder.buildFinder("ab");
 		assertThat(matcher.find(), is(false));
-		assertThat(matcher.match, nullValue());
+		assertThat(matcher.match.isMatch(), is(false));
 	}
 
 	@Test
@@ -40,7 +39,7 @@ public class DefaultMatcherBuilderForAutomatonTest {
 		Finder matcher = builder.buildFinder("xxxabcdefg");
 		List<String> matches = new ArrayList<String>();
 		while (matcher.find()) {
-			matches.add(matcher.match.text());
+			matches.add(matcher.match.text);
 		}
 		assertThat(matches, hasItem("abcdefg"));
 	}
@@ -50,13 +49,21 @@ public class DefaultMatcherBuilderForAutomatonTest {
 		DefaultMatcherBuilder builder = (DefaultMatcherBuilder) new DefaultMatcherBuilder(new ToCompactGenericAutomaton()).initWith(Pattern.compileGenericAutomaton("(ab|a|bcdef|g)+"));
 		Finder matcher = builder.buildFinder("xxxabcdefg");
 		assertThat(matcher.find(), is(true));
-		assertThat(matcher.match.text(), equalTo("abcdefg"));
+		assertThat(matcher.match.text, equalTo("abcdefg"));
 	}
 
 	@Test
 	public void testPattern2() throws Exception {
 		DefaultMatcherBuilder builder = DefaultMatcherBuilder.from(Pattern.compileGenericAutomaton("(ab|a|bcdef|g)+"));
 		Finder matcher = builder.buildFinder("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxabcdefgxxxxxxxxxabgxxxagabxxx");
-		assertThat(matcher.findAll(), contains(new Match(35, "abcdefg", ACCEPT), new Match(51, "abg", ACCEPT), new Match(57, "agab", ACCEPT)));
+		assertThat(findAll(matcher), contains(Match.create(35, "abcdefg", ACCEPT), Match.create(51, "abg", ACCEPT), Match.create(57, "agab", ACCEPT)));
+	}
+
+	public List<Match> findAll(Finder matcher) {
+		List<Match> matches = new ArrayList<Match>();
+		while (matcher.find()) {
+			matches.add(matcher.match.copy());
+		}
+		return matches;
 	}
 }

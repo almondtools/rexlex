@@ -7,6 +7,7 @@ import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.assertThat;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Test;
@@ -37,23 +38,32 @@ public class SearchMatcherBuilderForAutomatonTest {
 		SearchMatcherBuilder builder = SearchMatcherBuilder.from(automaton);
 		Finder matcher = builder.buildFinder("xxxabcdefg");
 		assertThat(matcher.find(), is(true));
-		assertThat(matcher.match.text(), equalTo("abcdefg"));
+		assertThat(matcher.match.text, equalTo("abcdefg"));
 	}
 	
 	@Test
 	public void testFindDFAwithMismatches() throws Exception {
 		SearchMatcherBuilder builder = SearchMatcherBuilder.from(Pattern.compileGenericAutomaton("(ab|a|bcdef|g)+"));
 		Finder matcher = builder.buildFinder("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxbcdexxxxxxxxxxbcdebcdebcdebcdexxxbcdexxxab");
-		List<Match> all = matcher.findAll();
+		List<Match> all = findAll(matcher);
 		assertThat(all, hasSize(1));
-		assertThat(all.get(0).text(), equalTo("ab"));
+		assertThat(all.get(0).text, equalTo("ab"));
 	}
 
 	@Test
 	public void testPattern2() throws Exception {
 		SearchMatcherBuilder builder = SearchMatcherBuilder.from(Pattern.compileGenericAutomaton("(ab|a|bcdef|g)+"));
 		Finder matcher = builder.buildFinder("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxabcdefgxxxxxxxxxabgxxxagabxxx");
-		List<Match> findAll = matcher.findAll();
-		assertThat(findAll, contains(new Match(35, "abcdefg", ACCEPT), new Match(51, "abg", ACCEPT), new Match(57, "agab", ACCEPT)));
+		List<Match> findAll = findAll(matcher);
+		assertThat(findAll, contains(Match.create(35, "abcdefg", ACCEPT), Match.create(51, "abg", ACCEPT), Match.create(57, "agab", ACCEPT)));
 	}
+
+	public List<Match> findAll(Finder matcher) {
+		List<Match> matches = new ArrayList<Match>();
+		while (matcher.find()) {
+			matches.add(matcher.match.copy());
+		}
+		return matches;
+	}
+
 }

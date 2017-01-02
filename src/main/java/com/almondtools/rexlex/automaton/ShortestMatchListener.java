@@ -6,7 +6,11 @@ import net.amygdalum.stringsearchalgorithms.io.CharProvider;
 
 public class ShortestMatchListener implements MatchListener {
 
-	private Match match;
+	private final Match match;
+	
+	public ShortestMatchListener() {
+		this.match = new Match();
+	}
 
 	@Override
 	public boolean reportMatch(CharProvider chars, long start, TokenType accepted) {
@@ -15,7 +19,7 @@ public class ShortestMatchListener implements MatchListener {
 		if (end < start) {
 			start = end;
 		}
-		match = new Match(start, text , accepted);
+		match.init(start, text , accepted);
 		return true;
 	}
 
@@ -26,9 +30,7 @@ public class ShortestMatchListener implements MatchListener {
 
 	@Override
 	public Match getMatch() {
-		Match match = this.match;
-		this.match = null;
-		return match;
+		return match.consume();
 	}
 	
 }

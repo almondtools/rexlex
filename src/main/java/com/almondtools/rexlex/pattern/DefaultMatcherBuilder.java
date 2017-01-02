@@ -84,32 +84,33 @@ public class DefaultMatcherBuilder implements MatcherBuilder {
 	private static class Finder extends com.almondtools.rexlex.pattern.Finder implements AutomatonMatcherListener {
 
 		private AutomatonMatcher matcher;
-		private Match nextMatch;
+		private final Match nextMatch;
 
 		public Finder(String text, AutomatonMatcher matcher) {
 			super(text);
 			this.matcher = matcher;
 			this.matcher.withListener(this);
+			this.nextMatch = new Match();
 		}
 
 		@Override
 		public boolean reportMatch(CharProvider chars, long start, TokenType accepted) {
 			long end = chars.current();
 			String text = chars.slice(start, end);
-			if (match != null) {
-				if (match.start() == start) {
-					if (match.text().length() < text.length()) {
-						match = new Match(start, text, accepted);
+			if (match.isMatch()) {
+				if (match.start == start) {
+					if (match.text.length() < text.length()) {
+						match.init(start, text, accepted);
 					}
 					return false;
 				} else {
-					if (start >= match.end()) {
-						nextMatch = new Match(start, text, accepted);
+					if (start >= match.end) {
+						nextMatch.init(start, text, accepted);
 					}
 					return true;
 				}
 			} else {
-				match = new Match(start, text, accepted);
+				match.init(start, text, accepted);
 				return false;
 			}
 		}
@@ -122,14 +123,13 @@ public class DefaultMatcherBuilder implements MatcherBuilder {
 
 		@Override
 		public boolean find() {
-			match = nextMatch;
-			nextMatch = null;
+			match.moveFrom(nextMatch);
 			matcher.applyTo(chars);
-			if (match == null) {
+			if (!match.isMatch()) {
 				chars.finish();
 				return false;
-			} else if (nextMatch != null) {
-				chars.move(nextMatch.start());
+			} else if (nextMatch.isMatch()) {
+				chars.move(nextMatch.start);
 				return true;
 			} else {
 				return true;

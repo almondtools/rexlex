@@ -15,23 +15,28 @@ public class MatchTest {
 
 	@Test
 	public void testDefaultMatch() throws Exception {
-		Match match = new Match(0, "test");
-		assertThat(match.start(), equalTo(0l));
-		assertThat(match.text(), equalTo("test"));
-		assertThat(match.getType(), equalTo((TokenType) IGNORE));
+		Match match = new Match();
+		match.init(0, "test");
+		assertThat(match.start, equalTo(0l));
+		assertThat(match.end, equalTo(4l));
+		assertThat(match.text, equalTo("test"));
+		assertThat(match.type, equalTo((TokenType) IGNORE));
 	}
 
 	@Test
 	public void testExplicitMatch() throws Exception {
-		Match match = new Match(0, "test", ERROR);
-		assertThat(match.start(), equalTo(0l));
-		assertThat(match.text(), equalTo("test"));
-		assertThat(match.getType(), equalTo((TokenType) ERROR));
+		Match match = new Match();
+		match.init(2, "test", ERROR);
+		assertThat(match.start, equalTo(2l));
+		assertThat(match.end, equalTo(6l));
+		assertThat(match.text, equalTo("test"));
+		assertThat(match.type, equalTo((TokenType) ERROR));
 	}
 
 	@Test
 	public void testToString() throws Exception {
-		Match match = new Match(3, "test", ACCEPT);
+		Match match = new Match();
+		match.init(3, "test", ACCEPT);
 		assertThat(match.toString(), equalTo("3:test"));
 	}
 	
