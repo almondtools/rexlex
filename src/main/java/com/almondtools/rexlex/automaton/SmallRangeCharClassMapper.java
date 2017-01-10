@@ -5,7 +5,7 @@ import static net.amygdalum.util.text.CharUtils.before;
 
 import java.util.List;
 
-public final class UnicodeCharClassMapper implements CharClassMapper {
+public final class SmallRangeCharClassMapper implements CharClassMapper {
 	
 	private char[] chars;
 	private char lowerBound;
@@ -14,7 +14,7 @@ public final class UnicodeCharClassMapper implements CharClassMapper {
 	private int max;
 	private int[] charToClass;
 
-	public UnicodeCharClassMapper(char[] chars) {
+	public SmallRangeCharClassMapper(char[] chars) {
 		this.chars = chars;
 		this.lowerBound = chars.length > 1 ? chars[1] : 0;
 		this.upperBound = chars.length > 1 ? before(chars[chars.length - 1]) : 0;

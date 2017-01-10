@@ -12,11 +12,11 @@ import java.util.List;
 import org.junit.Test;
 
 
-public class UnicodeCharClassMapperTest {
+public class LowByteCharClassMapperTest {
 
 	@Test
 	public void testGetIndex() throws Exception {
-		UnicodeCharClassMapper mapper = new UnicodeCharClassMapper(new char[]{MIN_VALUE, 'c','h','o'});
+		LowByteCharClassMapper mapper = new LowByteCharClassMapper(new char[]{MIN_VALUE, 'c','h','o'});
 		assertThat(mapper.getIndex(MIN_VALUE), equalTo(0));
 		assertThat(mapper.getIndex('b'), equalTo(0));
 		assertThat(mapper.getIndex('c'), equalTo(1));
@@ -29,7 +29,7 @@ public class UnicodeCharClassMapperTest {
 
 	@Test
 	public void testGetRelevantChars() throws Exception {
-		UnicodeCharClassMapper mapper = new UnicodeCharClassMapper(new char[]{MIN_VALUE, 'c','h','o'});
+		LowByteCharClassMapper mapper = new LowByteCharClassMapper(new char[]{MIN_VALUE, 'c','h','o'});
 		assertThat(charList(mapper.getRelevantChars()), contains(MIN_VALUE, 'c','h','o'));
 	}
 
@@ -43,13 +43,13 @@ public class UnicodeCharClassMapperTest {
 
 	@Test
 	public void testIndexCount() throws Exception {
-		UnicodeCharClassMapper mapper = new UnicodeCharClassMapper(new char[]{MIN_VALUE, 'c','h','o'});
+		LowByteCharClassMapper mapper = new LowByteCharClassMapper(new char[]{MIN_VALUE, 'c','h','o'});
 		assertThat(mapper.indexCount(), equalTo(4));
 	}
 
 	@Test
 	public void testRepresentative() throws Exception {
-		UnicodeCharClassMapper mapper = new UnicodeCharClassMapper(new char[]{MIN_VALUE, 'c','h','o'});
+		LowByteCharClassMapper mapper = new LowByteCharClassMapper(new char[]{MIN_VALUE, 'c','h','o'});
 		assertThat(mapper.representative(0), equalTo(MIN_VALUE));
 		assertThat(mapper.representative(1), equalTo('c'));
 		assertThat(mapper.representative(2), equalTo('h'));

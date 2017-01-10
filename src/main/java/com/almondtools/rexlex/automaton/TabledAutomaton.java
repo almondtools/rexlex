@@ -28,6 +28,7 @@ import com.almondtools.rexlex.io.CharClassProvider;
 import com.almondtools.rexlex.io.MappedCharClassProvider;
 import com.almondtools.rexlex.pattern.DefaultTokenType;
 import com.almondtools.rexlex.pattern.TokenIterator;
+
 import net.amygdalum.stringsearchalgorithms.io.CharProvider;
 import net.amygdalum.stringsearchalgorithms.io.StringCharProvider;
 
@@ -50,7 +51,7 @@ public class TabledAutomaton implements Automaton {
 	
 	public TabledAutomaton(char[] relevantChars, State start, State error, AutomatonProperty property) {
 		this.startState = computeStartState(start, error);
-		this.charClassMapper = new UnicodeCharClassMapper(relevantChars);
+		this.charClassMapper = CharClassMappers.bestFor(relevantChars);
 		this.property = property;
 		this.charClassCount = relevantChars.length;
 		initTables(start, error);
