@@ -31,9 +31,10 @@ import com.almondtools.rexlex.automaton.FromDeterministicAutomaton.ToGenericAuto
 import com.almondtools.rexlex.automaton.FromGenericAutomaton.ToMinimalDeterministicAutomaton;
 import com.almondtools.rexlex.pattern.DefaultTokenType;
 import com.almondtools.rexlex.pattern.TokenIterator;
+
 import net.amygdalum.stringsearchalgorithms.io.CharProvider;
 import net.amygdalum.stringsearchalgorithms.io.StringCharProvider;
-import com.almondtools.util.collections.HashSets;
+import net.amygdalum.util.builders.HashSets;
 
 public class DeterministicAutomaton implements Automaton {
 

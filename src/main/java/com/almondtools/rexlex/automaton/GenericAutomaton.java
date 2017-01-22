@@ -33,13 +33,14 @@ import com.almondtools.rexlex.pattern.DefaultTokenType;
 import com.almondtools.rexlex.pattern.DefaultTokenTypeFactory;
 import com.almondtools.rexlex.pattern.TokenIterator;
 import com.almondtools.rexlex.pattern.TokenTypeFactory;
+
 import net.amygdalum.stringsearchalgorithms.io.CharProvider;
-import com.almondtools.util.collections.ArrayLists;
-import com.almondtools.util.collections.CollectionUtils;
-import com.almondtools.util.collections.HashSets;
-import com.almondtools.util.collections.Iterators;
-import com.almondtools.util.collections.Predicate;
-import com.almondtools.util.collections.Predicates;
+import net.amygdalum.util.builders.ArrayLists;
+import net.amygdalum.util.builders.Arrays;
+import net.amygdalum.util.builders.HashSets;
+import net.amygdalum.util.builders.Iterators;
+import net.amygdalum.util.builders.Predicate;
+import net.amygdalum.util.builders.Predicates;
 
 public class GenericAutomaton implements Automaton, Cloneable {
 
@@ -491,7 +492,7 @@ public class GenericAutomaton implements Automaton, Cloneable {
 		for (State state : findAllStates()) {
 			relevant.addAll(state.getRelevantCharacters());
 		}
-		return CollectionUtils.toCharArray(relevant);
+		return Arrays.fromWrapped(relevant);
 	}
 
 	Set<State> findAcceptStates() {

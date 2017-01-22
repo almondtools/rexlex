@@ -8,7 +8,8 @@ import com.almondtools.rexlex.TokenType;
 import com.almondtools.rexlex.automaton.DeterministicAutomaton.ExactTransition;
 import com.almondtools.rexlex.automaton.DeterministicAutomaton.RangeTransition;
 import com.almondtools.rexlex.automaton.DeterministicAutomaton.State;
-import com.almondtools.util.collections.CollectionUtils;
+
+import net.amygdalum.util.builders.Arrays;
 
 public class FromGenericAutomaton {
 
@@ -101,7 +102,7 @@ public class FromGenericAutomaton {
 		@Override
 		public TabledAutomaton transform(GenericAutomaton automaton) {
 			DeterministicAutomaton dfa = createDeterministicAutomaton(automaton);
-			char[] relevantChars = CollectionUtils.toCharArray(dfa.computeRelevantCharacters());
+			char[] relevantChars = Arrays.fromWrapped(dfa.computeRelevantCharacters());
 			return new TabledAutomaton(relevantChars, dfa.getStart(), dfa.getError(), dfa.getProperty());
 		}
 

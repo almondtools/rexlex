@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.almondtools.rexlex.TokenType;
 import com.almondtools.rexlex.pattern.Match;
+
 import net.amygdalum.stringsearchalgorithms.io.CharProvider;
 
 public class MatchCollector implements AutomatonMatcherListener {

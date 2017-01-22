@@ -16,7 +16,8 @@ import org.junit.Test;
 import com.almondtools.rexlex.TokenType;
 import com.almondtools.rexlex.tokens.TestToken;
 import com.almondtools.rexlex.tokens.TestTokenFactory;
-import com.almondtools.util.collections.HashMaps;
+
+import net.amygdalum.util.builders.HashMaps;
 
 public class DynamicLexerTest {
 

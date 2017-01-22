@@ -13,22 +13,25 @@ import com.almondtools.rexlex.automaton.GenericAutomaton.ExactTransition;
 import com.almondtools.rexlex.automaton.GenericAutomaton.RangeTransition;
 import com.almondtools.rexlex.automaton.GenericAutomaton.State;
 import com.almondtools.rexlex.automaton.ThompsonAutomatonBuilder.ThompsonAutomaton;
-import com.almondtools.rexlex.pattern.Pattern;
-import com.almondtools.rexlex.pattern.Pattern.AlternativesNode;
-import com.almondtools.rexlex.pattern.Pattern.ComplementNode;
-import com.almondtools.rexlex.pattern.Pattern.ConcatNode;
-import com.almondtools.rexlex.pattern.Pattern.ConjunctiveNode;
-import com.almondtools.rexlex.pattern.Pattern.EmptyNode;
-import com.almondtools.rexlex.pattern.Pattern.GroupNode;
-import com.almondtools.rexlex.pattern.Pattern.LoopNode;
-import com.almondtools.rexlex.pattern.Pattern.OptionalNode;
-import com.almondtools.rexlex.pattern.Pattern.PatternNode;
-import com.almondtools.rexlex.pattern.Pattern.ProCharNode;
-import com.almondtools.rexlex.pattern.Pattern.RangeCharNode;
-import com.almondtools.rexlex.pattern.Pattern.SingleCharNode;
-import com.almondtools.rexlex.pattern.Pattern.StringNode;
 
-public class ThompsonAutomatonBuilder implements Pattern.PatternNodeVisitor<ThompsonAutomaton>, AutomatonBuilder {
+import net.amygdalum.regexparser.AlternativesNode;
+import net.amygdalum.regexparser.AnyCharNode;
+import net.amygdalum.regexparser.BoundedLoopNode;
+import net.amygdalum.regexparser.CharClassNode;
+import net.amygdalum.regexparser.CompClassNode;
+import net.amygdalum.regexparser.ConcatNode;
+import net.amygdalum.regexparser.EmptyNode;
+import net.amygdalum.regexparser.GroupNode;
+import net.amygdalum.regexparser.OptionalNode;
+import net.amygdalum.regexparser.RangeCharNode;
+import net.amygdalum.regexparser.RegexNode;
+import net.amygdalum.regexparser.RegexNodeVisitor;
+import net.amygdalum.regexparser.SingleCharNode;
+import net.amygdalum.regexparser.SpecialCharClassNode;
+import net.amygdalum.regexparser.StringNode;
+import net.amygdalum.regexparser.UnboundedLoopNode;
+
+public class ThompsonAutomatonBuilder implements RegexNodeVisitor<ThompsonAutomaton>, AutomatonBuilder {
 
 	public ThompsonAutomatonBuilder() {
 	}
@@ -156,7 +159,7 @@ public class ThompsonAutomatonBuilder implements Pattern.PatternNodeVisitor<Thom
 		automaton.setStart(s);
 		State e = new State();
 		s.addTransition(new EpsilonTransition(e));
-		
+
 		State current = s;
 		for (int i = 0; i < count; i++) {
 			ThompsonAutomaton ai = a.clone();
@@ -200,12 +203,12 @@ public class ThompsonAutomatonBuilder implements Pattern.PatternNodeVisitor<Thom
 		if (as.size() == 1) {
 			return as.get(0);
 		}
-		
+
 		GenericAutomaton automaton = new GenericAutomaton();
 		State s = as.get(0).start;
 		automaton.setStart(s);
 		State e = as.get(as.size() - 1).end;
-		
+
 		State last = null;
 		ListIterator<ThompsonAutomaton> aIterator = as.listIterator();
 		while (aIterator.hasNext()) {
@@ -219,14 +222,9 @@ public class ThompsonAutomatonBuilder implements Pattern.PatternNodeVisitor<Thom
 	}
 
 	@Override
-	public ThompsonAutomaton visitAlternative(AlternativesNode node) {
+	public ThompsonAutomaton visitAlternatives(AlternativesNode node) {
 		List<ThompsonAutomaton> as = apply(node.getSubNodes());
 		return matchAlternatives(as);
-	}
-
-	@Override
-	public ThompsonAutomaton visitConjunctive(ConjunctiveNode node) {
-		throw new UnsupportedOperationException();
 	}
 
 	@Override
@@ -236,30 +234,46 @@ public class ThompsonAutomatonBuilder implements Pattern.PatternNodeVisitor<Thom
 	}
 
 	@Override
-	public ThompsonAutomaton visitLoop(LoopNode node) {
-		ThompsonAutomaton a = node.getSubNode().apply(this);
+	public ThompsonAutomaton visitBoundedLoop(BoundedLoopNode node) {
+		ThompsonAutomaton a = node.getSubNode().accept(this);
 		int from = node.getFrom();
 		int to = node.getTo();
-		if (to == LoopNode.INFINITY) {
-			return matchUnlimitedLoop(a, from);
-		} else {
-			return matchRangeLoop(a, from, to);
-		}
+		return matchRangeLoop(a, from, to);
+	}
+
+	@Override
+	public ThompsonAutomaton visitUnboundedLoop(UnboundedLoopNode node) {
+		ThompsonAutomaton a = node.getSubNode().accept(this);
+		int from = node.getFrom();
+		return matchUnlimitedLoop(a, from);
 	}
 
 	@Override
 	public ThompsonAutomaton visitOptional(OptionalNode node) {
-		ThompsonAutomaton a = node.getSubNode().apply(this);
+		ThompsonAutomaton a = node.getSubNode().accept(this);
 		return matchOptional(a);
 	}
 
 	@Override
-	public ThompsonAutomaton visitComplement(ComplementNode node) {
-		throw new UnsupportedOperationException();
+	public ThompsonAutomaton visitCompClass(CompClassNode node) {
+		List<ThompsonAutomaton> as = apply(node.toCharNodes());
+		return matchAlternatives(as);
 	}
-
+	
 	@Override
-	public ThompsonAutomaton visitProChar(ProCharNode node) {
+	public ThompsonAutomaton visitAnyChar(AnyCharNode node) {
+		List<ThompsonAutomaton> as = apply(node.toCharNodes());
+		return matchAlternatives(as);
+	}
+	
+	@Override
+	public ThompsonAutomaton visitCharClass(CharClassNode node) {
+		List<ThompsonAutomaton> as = apply(node.toCharNodes());
+		return matchAlternatives(as);
+	}
+	
+	@Override
+	public ThompsonAutomaton visitSpecialCharClass(SpecialCharClassNode node) {
 		List<ThompsonAutomaton> as = apply(node.toCharNodes());
 		return matchAlternatives(as);
 	}
@@ -286,28 +300,28 @@ public class ThompsonAutomatonBuilder implements Pattern.PatternNodeVisitor<Thom
 
 	@Override
 	public ThompsonAutomaton visitGroup(GroupNode node) {
-		return node.getSubNode().apply(this);
+		return node.getSubNode().accept(this);
 	}
 
-	private List<ThompsonAutomaton> apply(List<? extends PatternNode> nodes) {
+	private List<ThompsonAutomaton> apply(List<? extends RegexNode> nodes) {
 		List<ThompsonAutomaton> as = new ArrayList<ThompsonAutomaton>(nodes.size());
-		for (PatternNode node : nodes) {
-			as.add(node.apply(this));
+		for (RegexNode node : nodes) {
+			as.add(node.accept(this));
 		}
 		return as;
 	}
 
 	@Override
-	public GenericAutomaton buildFrom(PatternNode node) {
+	public GenericAutomaton buildFrom(RegexNode node) {
 		return buildFrom(node, ACCEPT);
 	}
 
 	@Override
-	public GenericAutomaton buildFrom(PatternNode node, TokenType type) {
+	public GenericAutomaton buildFrom(RegexNode node, TokenType type) {
 		if (node == null) {
 			return matchNothing();
 		}
-		ThompsonAutomaton automaton = node.apply(this);
+		ThompsonAutomaton automaton = node.accept(this);
 		automaton.end.setType(type);
 		return automaton.automaton;
 	}
@@ -329,13 +343,13 @@ public class ThompsonAutomatonBuilder implements Pattern.PatternNodeVisitor<Thom
 		public boolean error() {
 			return false;
 		}
-		
+
 		@Override
 		public boolean accept() {
 			return true;
 		}
 	}
-	
+
 	public static class ThompsonAutomaton implements Cloneable {
 		public GenericAutomaton automaton;
 		public State start;
@@ -346,7 +360,7 @@ public class ThompsonAutomatonBuilder implements Pattern.PatternNodeVisitor<Thom
 			this.start = start;
 			this.end = end;
 		}
-		
+
 		@Override
 		protected ThompsonAutomaton clone() {
 			try {
@@ -363,7 +377,7 @@ public class ThompsonAutomatonBuilder implements Pattern.PatternNodeVisitor<Thom
 				return null;
 			}
 		}
-		
+
 	}
-	
+
 }

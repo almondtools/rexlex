@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-import com.almondtools.util.collections.ArrayLists;
+import net.amygdalum.util.builders.ArrayLists;
 
 public class PatternOptionUtil {
 

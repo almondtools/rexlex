@@ -1,8 +1,8 @@
 package com.almondtools.rexlex.pattern;
 
-import static net.amygdalum.util.text.CharUtils.before;
 import static java.lang.Character.MAX_VALUE;
 import static java.lang.Character.MIN_VALUE;
+import static net.amygdalum.util.text.CharUtils.*;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
@@ -16,16 +16,17 @@ import com.almondtools.rexlex.automaton.GenericAutomaton;
 import com.almondtools.rexlex.automaton.GenericAutomaton.State;
 import com.almondtools.rexlex.automaton.GenericAutomaton.StateVisitor;
 import com.almondtools.rexlex.automaton.GenericAutomatonBuilder;
-import com.almondtools.rexlex.pattern.Pattern.PatternNode;
 import com.almondtools.rexlex.tokens.Accept;
 import com.almondtools.rexlex.tokens.Info;
+
+import net.amygdalum.regexparser.RegexNode;
 
 public class PatternMatchTest {
 
 	private static final RemainderTokenType REMAINDER = new RemainderTokenType(Accept.REMAINDER);
 	
 	private static final char MAX_VALUE_DEC = before(MAX_VALUE);
-	private static final char MIN_VALUE_INC = before(MIN_VALUE);
+	private static final char MIN_VALUE_INC = after(MIN_VALUE);
 	
 	@Rule
 	public PatternRule patterns = new PatternRule();
@@ -117,16 +118,6 @@ public class PatternMatchTest {
 		assertTrue(pattern.matcher("").matches());
 		assertFalse(pattern.matcher("aa").matches());
 		assertFalse(pattern.matcher("b").matches());
-	}
-
-	@Test
-	public void testComplement() throws Exception {
-		Pattern pattern = patterns.compile("~a");
-		assertTrue(pattern.matcher("").matches());
-		assertTrue(pattern.matcher("b").matches());
-		assertTrue(pattern.matcher("c").matches());
-		assertTrue(pattern.matcher("aa").matches());
-		assertFalse(pattern.matcher("a").matches());
 	}
 
 	@Test
@@ -318,6 +309,7 @@ public class PatternMatchTest {
 		Pattern pattern = patterns.compile("[^" + MIN_VALUE + "]");
 		assertTrue(pattern.matcher("a").matches());
 		assertTrue(pattern.matcher(String.valueOf(MIN_VALUE_INC)).matches());
+		assertTrue(pattern.matcher(String.valueOf(MAX_VALUE)).matches());
 		assertFalse(pattern.matcher(String.valueOf(MIN_VALUE)).matches());
 		assertFalse(pattern.matcher("").matches());
 	}
@@ -327,6 +319,7 @@ public class PatternMatchTest {
 		Pattern pattern = patterns.compile("[^" + MIN_VALUE_INC + "]");
 		assertTrue(pattern.matcher("a").matches());
 		assertTrue(pattern.matcher(String.valueOf(MIN_VALUE)).matches());
+		assertTrue(pattern.matcher(String.valueOf(MAX_VALUE)).matches());
 		assertFalse(pattern.matcher(String.valueOf(MIN_VALUE_INC)).matches());
 		assertFalse(pattern.matcher("").matches());
 	}
@@ -336,6 +329,7 @@ public class PatternMatchTest {
 		Pattern pattern = patterns.compile("[^" + MAX_VALUE + "]");
 		assertTrue(pattern.matcher("a").matches());
 		assertTrue(pattern.matcher(String.valueOf(MAX_VALUE_DEC)).matches());
+		assertTrue(pattern.matcher(String.valueOf(MIN_VALUE)).matches());
 		assertFalse(pattern.matcher(String.valueOf(MAX_VALUE)).matches());
 		assertFalse(pattern.matcher("").matches());
 	}
@@ -345,6 +339,7 @@ public class PatternMatchTest {
 		Pattern pattern = patterns.compile("[^" + MAX_VALUE_DEC + "]");
 		assertTrue(pattern.matcher("a").matches());
 		assertTrue(pattern.matcher(String.valueOf(MAX_VALUE)).matches());
+		assertTrue(pattern.matcher(String.valueOf(MIN_VALUE)).matches());
 		assertFalse(pattern.matcher(String.valueOf(MAX_VALUE_DEC)).matches());
 		assertFalse(pattern.matcher("").matches());
 	}
@@ -398,12 +393,12 @@ public class PatternMatchTest {
 	
 	private static class InsertInfo extends GenericAutomatonBuilder {
 		@Override
-		public GenericAutomaton buildFrom(PatternNode node) {
+		public GenericAutomaton buildFrom(RegexNode node) {
 			return insertInfo(super.buildFrom(node), Info.INFO);
 		}
 		
 		@Override
-		public GenericAutomaton buildFrom(PatternNode node, TokenType type) {
+		public GenericAutomaton buildFrom(RegexNode node, TokenType type) {
 			return insertInfo(super.buildFrom(node, type), Info.INFO);
 		}
 		

@@ -1,13 +1,14 @@
 package com.almondtools.rexlex.automaton;
 
 import com.almondtools.rexlex.TokenType;
-import com.almondtools.rexlex.pattern.Pattern.PatternNode;
 import com.almondtools.rexlex.pattern.PatternOption;
+
+import net.amygdalum.regexparser.RegexNode;
 
 public interface AutomatonBuilder extends PatternOption {
 
-	GenericAutomaton buildFrom(PatternNode node);
+	GenericAutomaton buildFrom(RegexNode node);
 
-	GenericAutomaton buildFrom(PatternNode node, TokenType type);
+	GenericAutomaton buildFrom(RegexNode node, TokenType type);
 
 }

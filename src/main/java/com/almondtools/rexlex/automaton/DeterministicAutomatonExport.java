@@ -7,6 +7,7 @@ import java.io.Writer;
 
 import com.almondtools.rexlex.automaton.DeterministicAutomaton.State;
 import com.almondtools.rexlex.automaton.DeterministicAutomaton.Transition;
+
 import net.amygdalum.util.text.CharUtils;
 
 public class DeterministicAutomatonExport implements AutomatonExport {

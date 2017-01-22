@@ -1,6 +1,7 @@
 package com.almondtools.rexlex.automaton;
 
 import com.almondtools.rexlex.TokenType;
+
 import net.amygdalum.stringsearchalgorithms.io.CharProvider;
 
 public interface AutomatonMatcherListener {

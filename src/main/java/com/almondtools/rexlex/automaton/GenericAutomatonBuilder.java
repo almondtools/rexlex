@@ -16,23 +16,26 @@ import com.almondtools.rexlex.automaton.GenericAutomaton.RangeTransition;
 import com.almondtools.rexlex.automaton.GenericAutomaton.State;
 import com.almondtools.rexlex.automaton.GenericAutomaton.Transition;
 import com.almondtools.rexlex.pattern.DefaultTokenType;
-import com.almondtools.rexlex.pattern.Pattern;
-import com.almondtools.rexlex.pattern.Pattern.AlternativesNode;
-import com.almondtools.rexlex.pattern.Pattern.ComplementNode;
-import com.almondtools.rexlex.pattern.Pattern.ConcatNode;
-import com.almondtools.rexlex.pattern.Pattern.ConjunctiveNode;
-import com.almondtools.rexlex.pattern.Pattern.EmptyNode;
-import com.almondtools.rexlex.pattern.Pattern.GroupNode;
-import com.almondtools.rexlex.pattern.Pattern.LoopNode;
-import com.almondtools.rexlex.pattern.Pattern.OptionalNode;
-import com.almondtools.rexlex.pattern.Pattern.PatternNode;
-import com.almondtools.rexlex.pattern.Pattern.ProCharNode;
-import com.almondtools.rexlex.pattern.Pattern.RangeCharNode;
-import com.almondtools.rexlex.pattern.Pattern.SingleCharNode;
-import com.almondtools.rexlex.pattern.Pattern.StringNode;
 import com.almondtools.rexlex.pattern.TokenTypeFactory;
 
-public class GenericAutomatonBuilder implements Pattern.PatternNodeVisitor<GenericAutomaton>, AutomatonBuilder {
+import net.amygdalum.regexparser.AlternativesNode;
+import net.amygdalum.regexparser.AnyCharNode;
+import net.amygdalum.regexparser.BoundedLoopNode;
+import net.amygdalum.regexparser.CharClassNode;
+import net.amygdalum.regexparser.CompClassNode;
+import net.amygdalum.regexparser.ConcatNode;
+import net.amygdalum.regexparser.EmptyNode;
+import net.amygdalum.regexparser.GroupNode;
+import net.amygdalum.regexparser.OptionalNode;
+import net.amygdalum.regexparser.RangeCharNode;
+import net.amygdalum.regexparser.RegexNode;
+import net.amygdalum.regexparser.RegexNodeVisitor;
+import net.amygdalum.regexparser.SingleCharNode;
+import net.amygdalum.regexparser.SpecialCharClassNode;
+import net.amygdalum.regexparser.StringNode;
+import net.amygdalum.regexparser.UnboundedLoopNode;
+
+public class GenericAutomatonBuilder implements RegexNodeVisitor<GenericAutomaton>, AutomatonBuilder {
 
 	public GenericAutomatonBuilder() {
 	}
@@ -48,7 +51,7 @@ public class GenericAutomatonBuilder implements Pattern.PatternNodeVisitor<Gener
 	public static GenericAutomaton match(String value) {
 		State s = new State();
 		State e = new State(DefaultTokenType.ACCEPT);
-		
+
 		State current = s;
 		char[] chars = value.toCharArray();
 		for (int i = 0; i < chars.length - 1; i++) {
@@ -151,7 +154,7 @@ public class GenericAutomatonBuilder implements Pattern.PatternNodeVisitor<Gener
 
 	public static GenericAutomaton matchUpToN(GenericAutomaton a, int count) {
 		State s = new State(DefaultTokenType.ACCEPT);
-		
+
 		State current = s;
 		if (count > 0) {
 			State start = a.getStart();
@@ -265,15 +268,9 @@ public class GenericAutomatonBuilder implements Pattern.PatternNodeVisitor<Gener
 	}
 
 	@Override
-	public GenericAutomaton visitAlternative(AlternativesNode node) {
+	public GenericAutomaton visitAlternatives(AlternativesNode node) {
 		List<GenericAutomaton> as = apply(node.getSubNodes());
 		return matchAlternatives(as);
-	}
-
-	@Override
-	public GenericAutomaton visitConjunctive(ConjunctiveNode node) {
-		List<GenericAutomaton> as = apply(node.getSubNodes());
-		return matchConjunctive(as);
 	}
 
 	@Override
@@ -283,31 +280,46 @@ public class GenericAutomatonBuilder implements Pattern.PatternNodeVisitor<Gener
 	}
 
 	@Override
-	public GenericAutomaton visitLoop(LoopNode node) {
-		GenericAutomaton a = node.getSubNode().apply(this);
+	public GenericAutomaton visitBoundedLoop(BoundedLoopNode node) {
+		GenericAutomaton a = node.getSubNode().accept(this);
 		int from = node.getFrom();
 		int to = node.getTo();
-		if (to == LoopNode.INFINITY) {
-			return matchUnlimitedLoop(a, from);
-		} else {
-			return matchRangeLoop(a, from, to);
-		}
+		return matchRangeLoop(a, from, to);
+	}
+
+	@Override
+	public GenericAutomaton visitUnboundedLoop(UnboundedLoopNode node) {
+		GenericAutomaton a = node.getSubNode().accept(this);
+		int from = node.getFrom();
+		return matchUnlimitedLoop(a, from);
 	}
 
 	@Override
 	public GenericAutomaton visitOptional(OptionalNode node) {
-		GenericAutomaton a = node.getSubNode().apply(this);
+		GenericAutomaton a = node.getSubNode().accept(this);
 		return matchOptional(a);
 	}
-
+	
 	@Override
-	public GenericAutomaton visitComplement(ComplementNode node) {
-		GenericAutomaton a = node.getSubNode().apply(this);
-		return matchComplement(a);
+	public GenericAutomaton visitAnyChar(AnyCharNode node) {
+		List<GenericAutomaton> as = apply(node.toCharNodes());
+		return matchAlternatives(as);
 	}
-
+	
 	@Override
-	public GenericAutomaton visitProChar(ProCharNode node) {
+	public GenericAutomaton visitCharClass(CharClassNode node) {
+		List<GenericAutomaton> as = apply(node.toCharNodes());
+		return matchAlternatives(as);
+	}
+	
+	@Override
+	public GenericAutomaton visitCompClass(CompClassNode node) {
+		List<GenericAutomaton> as = apply(node.toCharNodes());
+		return matchAlternatives(as);
+	}
+	
+	@Override
+	public GenericAutomaton visitSpecialCharClass(SpecialCharClassNode node) {
 		List<GenericAutomaton> as = apply(node.toCharNodes());
 		return matchAlternatives(as);
 	}
@@ -334,31 +346,31 @@ public class GenericAutomatonBuilder implements Pattern.PatternNodeVisitor<Gener
 
 	@Override
 	public GenericAutomaton visitGroup(GroupNode node) {
-		return node.getSubNode().apply(this);
+		return node.getSubNode().accept(this);
 	}
 
-	private List<GenericAutomaton> apply(List<? extends PatternNode> nodes) {
+	private List<GenericAutomaton> apply(List<? extends RegexNode> nodes) {
 		List<GenericAutomaton> as = new ArrayList<GenericAutomaton>(nodes.size());
-		for (PatternNode node : nodes) {
-			as.add(node.apply(this));
+		for (RegexNode node : nodes) {
+			as.add(node.accept(this));
 		}
 		return as;
 	}
 
 	@Override
-	public GenericAutomaton buildFrom(PatternNode node) {
+	public GenericAutomaton buildFrom(RegexNode node) {
 		if (node == null) {
 			return matchNothing();
 		}
-		return node.apply(this);
+		return node.accept(this);
 	}
 
 	@Override
-	public GenericAutomaton buildFrom(PatternNode node, TokenType type) {
+	public GenericAutomaton buildFrom(RegexNode node, TokenType type) {
 		if (node == null) {
 			return matchNothing();
 		}
-		GenericAutomaton automaton = node.apply(this);
+		GenericAutomaton automaton = node.accept(this);
 		for (State state : automaton.findAcceptStates()) {
 			state.setType(type);
 		}
