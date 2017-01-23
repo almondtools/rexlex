@@ -20,8 +20,8 @@ import com.almondtools.rexlex.automaton.GenericAutomaton.ExactTransition;
 import com.almondtools.rexlex.automaton.GenericAutomaton.RangeTransition;
 import com.almondtools.rexlex.automaton.GenericAutomaton.State;
 import com.almondtools.rexlex.pattern.DefaultTokenType;
-import net.amygdalum.stringsearchalgorithms.io.CharProvider;
-import net.amygdalum.stringsearchalgorithms.io.StringCharProvider;
+import net.amygdalum.util.io.CharProvider;
+import net.amygdalum.util.io.StringCharProvider;
 
 public class Automatons {
 

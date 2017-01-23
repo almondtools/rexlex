@@ -6,7 +6,7 @@ import com.almondtools.rexlex.Token;
 import com.almondtools.rexlex.TokenFactory;
 import com.almondtools.rexlex.TokenType;
 
-import net.amygdalum.stringsearchalgorithms.io.CharProvider;
+import net.amygdalum.util.io.CharProvider;
 
 public interface Automaton {
 	

@@ -1,6 +1,6 @@
 package com.almondtools.rexlex.automaton;
 
-import net.amygdalum.stringsearchalgorithms.io.CharProvider;
+import net.amygdalum.util.io.CharProvider;
 
 public interface AutomatonMatcher {
 

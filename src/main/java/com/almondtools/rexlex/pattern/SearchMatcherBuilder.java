@@ -11,8 +11,8 @@ import com.almondtools.rexlex.automaton.ShortestMatchListener;
 import com.almondtools.rexlex.automaton.TabledAutomaton;
 import com.almondtools.rexlex.automaton.ToAutomaton;
 
-import net.amygdalum.stringsearchalgorithms.io.CharProvider;
-import net.amygdalum.stringsearchalgorithms.io.ReverseCharProvider;
+import net.amygdalum.util.io.CharProvider;
+import net.amygdalum.util.io.ReverseCharProvider;
 
 public class SearchMatcherBuilder implements MatcherBuilder {
 

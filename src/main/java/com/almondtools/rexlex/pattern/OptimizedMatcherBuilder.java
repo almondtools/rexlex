@@ -15,8 +15,8 @@ import com.almondtools.rexlex.automaton.ShortestMatchListener;
 import com.almondtools.rexlex.automaton.TabledAutomaton;
 import com.almondtools.rexlex.automaton.ToAutomaton;
 
-import net.amygdalum.stringsearchalgorithms.io.CharProvider;
-import net.amygdalum.stringsearchalgorithms.io.ReverseCharProvider;
+import net.amygdalum.util.io.CharProvider;
+import net.amygdalum.util.io.ReverseCharProvider;
 import net.amygdalum.stringsearchalgorithms.search.StringMatch;
 import net.amygdalum.stringsearchalgorithms.search.chars.Horspool;
 import net.amygdalum.stringsearchalgorithms.search.chars.MultiStringSearchAlgorithmFactory;

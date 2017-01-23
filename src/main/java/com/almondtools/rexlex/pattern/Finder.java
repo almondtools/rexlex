@@ -1,6 +1,6 @@
 package com.almondtools.rexlex.pattern;
 
-import net.amygdalum.stringsearchalgorithms.io.StringCharProvider;
+import net.amygdalum.util.io.StringCharProvider;
 
 public abstract class Finder {
 

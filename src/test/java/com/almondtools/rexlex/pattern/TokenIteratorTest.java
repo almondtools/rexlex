@@ -12,7 +12,7 @@ import org.junit.Test;
 
 import com.almondtools.rexlex.tokens.TestToken;
 import com.almondtools.rexlex.tokens.TestTokenFactory;
-import net.amygdalum.stringsearchalgorithms.io.StringCharProvider;
+import net.amygdalum.util.io.StringCharProvider;
 
 
 public class TokenIteratorTest {

@@ -2,7 +2,7 @@ package com.almondtools.rexlex.automaton;
 
 import com.almondtools.rexlex.TokenType;
 
-import net.amygdalum.stringsearchalgorithms.io.CharProvider;
+import net.amygdalum.util.io.CharProvider;
 
 public interface AutomatonMatcherListener {
 

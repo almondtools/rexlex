@@ -34,7 +34,7 @@ import com.almondtools.rexlex.pattern.DefaultTokenTypeFactory;
 import com.almondtools.rexlex.pattern.TokenIterator;
 import com.almondtools.rexlex.pattern.TokenTypeFactory;
 
-import net.amygdalum.stringsearchalgorithms.io.CharProvider;
+import net.amygdalum.util.io.CharProvider;
 import net.amygdalum.util.builders.ArrayLists;
 import net.amygdalum.util.builders.Arrays;
 import net.amygdalum.util.builders.HashSets;
