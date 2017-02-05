@@ -306,7 +306,7 @@ public class PatternMatchTest {
 
 	@Test
 	public void testCompClassWithMinValue() throws Exception {
-		Pattern pattern = patterns.compile("[^" + MIN_VALUE + "]");
+		Pattern pattern = patterns.compile("[^" + MIN_VALUE + "]", PatternFlag.DOTALL);
 		assertTrue(pattern.matcher("a").matches());
 		assertTrue(pattern.matcher(String.valueOf(MIN_VALUE_INC)).matches());
 		assertTrue(pattern.matcher(String.valueOf(MAX_VALUE)).matches());
@@ -316,7 +316,7 @@ public class PatternMatchTest {
 
 	@Test
 	public void testCompClassWithMinValueInc() throws Exception {
-		Pattern pattern = patterns.compile("[^" + MIN_VALUE_INC + "]");
+		Pattern pattern = patterns.compile("[^" + MIN_VALUE_INC + "]", PatternFlag.DOTALL);
 		assertTrue(pattern.matcher("a").matches());
 		assertTrue(pattern.matcher(String.valueOf(MIN_VALUE)).matches());
 		assertTrue(pattern.matcher(String.valueOf(MAX_VALUE)).matches());
