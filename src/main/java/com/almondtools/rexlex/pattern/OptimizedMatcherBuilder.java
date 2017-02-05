@@ -227,10 +227,14 @@ public class OptimizedMatcherBuilder implements MatcherBuilder {
 
 		@Override
 		public boolean find() {
-			match.reset();
 			if (search.isSuspended()) {
+				if (match.isMatch()) {
+					chars.move(match.end);
+				}
+				match.reset();;
 				search.resume();
 			} else {
+				match.reset();;
 				search.applyTo(chars);
 			}
 			if (!match.isMatch()) {
@@ -247,11 +251,16 @@ public class OptimizedMatcherBuilder implements MatcherBuilder {
 			AutomatonMatcher complete = token.getComplete();
 			long current = chars.current();
 			Match reverseMatch = ((MatchListener) reverse.applyTo(new ReverseCharProvider(chars))).getMatch();
-			long start = reverseMatch.start;
+			long start = 0;
+			while (reverseMatch.isMatch()) {
+				start = reverseMatch.start;
+				reverseMatch = ((MatchListener) reverse.resume()).getMatch();
+			}
 			chars.move(current);
 			Match forwardMatch = ((MatchListener) complete.applyTo(chars)).getMatch();
 			long end = forwardMatch.end;
-			match.init(start, end, chars.slice(start, end), forwardMatch.type);
+			chars.move(end);
+			match.init(start, chars.slice(start, end), forwardMatch.type);
 		}
 
 

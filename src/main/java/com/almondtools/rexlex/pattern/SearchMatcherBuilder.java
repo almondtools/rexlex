@@ -155,7 +155,11 @@ public class SearchMatcherBuilder implements MatcherBuilder {
 			AutomatonMatcher complete = token.getComplete();
 			long current = chars.current();
 			Match reverseMatch = ((MatchListener) reverse.applyTo(new ReverseCharProvider(chars))).getMatch();
-			long start = reverseMatch.start;
+			long start = 0;
+			while (reverseMatch.isMatch()) {
+				start = reverseMatch.start;
+				reverseMatch = ((MatchListener) reverse.resume()).getMatch();
+			}
 			chars.move(current);
 			Match forwardMatch = ((MatchListener) complete.applyTo(chars)).getMatch();
 			long end = forwardMatch.end;
