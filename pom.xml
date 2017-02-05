@@ -40,12 +40,12 @@
 		<dependency>
 			<groupId>net.amygdalum</groupId>
 			<artifactId>regexparser</artifactId>
-			<version>0.0.3-SNAPSHOT</version>
+			<version>0.0.3</version>
 		</dependency>
 		<dependency>
 			<groupId>net.amygdalum</groupId>
 			<artifactId>compilerutils</artifactId>
-			<version>0.0.3-SNAPSHOT</version>
+			<version>0.0.3</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
@@ -61,7 +61,7 @@
 		<dependency>
 			<groupId>net.amygdalum</groupId>
 			<artifactId>stringsearchalgorithms</artifactId>
-			<version>0.3.17-SNAPSHOT</version>
+			<version>0.3.17</version>
 		</dependency>
 		<dependency>
 			<groupId>org.hamcrest</groupId>
