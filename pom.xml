@@ -45,7 +45,7 @@
 		<dependency>
 			<groupId>net.amygdalum</groupId>
 			<artifactId>compilerutils</artifactId>
-			<version>0.0.3</version>
+			<version>0.0.5</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
@@ -91,6 +91,25 @@
 					<showDeprecation>true</showDeprecation>
 				</configuration>
 			</plugin>
+             <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.7.9</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>report</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
 		</plugins>
 	</build>
 	<profiles>

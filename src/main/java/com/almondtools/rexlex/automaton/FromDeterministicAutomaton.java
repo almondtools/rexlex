@@ -7,7 +7,7 @@ import com.almondtools.rexlex.automaton.DeterministicAutomaton.State;
 import com.almondtools.rexlex.automaton.DeterministicAutomaton.StateVisitor;
 import com.almondtools.rexlex.automaton.DeterministicAutomaton.Transition;
 
-import net.amygdalum.util.builders.Arrays;
+import net.amygdalum.util.text.CharUtils;
 
 public class FromDeterministicAutomaton {
 
@@ -46,7 +46,7 @@ public class FromDeterministicAutomaton {
 
 		@Override
 		public TabledAutomaton transform(DeterministicAutomaton automaton) {
-			char[] relevantChars = Arrays.fromWrapped(automaton.computeRelevantCharacters());
+			char[] relevantChars = CharUtils.fromWrapped(automaton.computeRelevantCharacters());
 			return new TabledAutomaton(relevantChars, automaton.getStart(), automaton.getError());
 		}
 

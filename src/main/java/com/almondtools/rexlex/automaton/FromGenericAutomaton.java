@@ -9,7 +9,7 @@ import com.almondtools.rexlex.automaton.DeterministicAutomaton.ExactTransition;
 import com.almondtools.rexlex.automaton.DeterministicAutomaton.RangeTransition;
 import com.almondtools.rexlex.automaton.DeterministicAutomaton.State;
 
-import net.amygdalum.util.builders.Arrays;
+import net.amygdalum.util.text.CharUtils;
 
 public class FromGenericAutomaton {
 
@@ -102,7 +102,7 @@ public class FromGenericAutomaton {
 		@Override
 		public TabledAutomaton transform(GenericAutomaton automaton) {
 			DeterministicAutomaton dfa = createDeterministicAutomaton(automaton);
-			char[] relevantChars = Arrays.fromWrapped(dfa.computeRelevantCharacters());
+			char[] relevantChars = CharUtils.fromWrapped(dfa.computeRelevantCharacters());
 			return new TabledAutomaton(relevantChars, dfa.getStart(), dfa.getError(), dfa.getProperty());
 		}
 
