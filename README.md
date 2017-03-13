@@ -1,5 +1,8 @@
 Rexlex
 ======
+[![Build Status](https://api.travis-ci.org/almondtools/rexlex.svg)](https://travis-ci.org/almondtools/rexlex)
+[![codecov](https://codecov.io/gh/almondtools/rexlex/branch/master/graph/badge.svg)](https://codecov.io/gh/almondtools/rexlex)
+
 Rexlex, short for (R)egular (Ex)pressions and (Lex)ers, provides configurable and scalable Regular Expression  
 
  - [Matching & Searching](#starting-with-rexlex-matching)
