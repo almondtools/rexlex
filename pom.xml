@@ -45,7 +45,7 @@
 		<dependency>
 			<groupId>net.amygdalum</groupId>
 			<artifactId>compilerutils</artifactId>
-			<version>0.0.5</version>
+			<version>0.0.6</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
@@ -61,7 +61,7 @@
 		<dependency>
 			<groupId>net.amygdalum</groupId>
 			<artifactId>stringsearchalgorithms</artifactId>
-			<version>0.3.17</version>
+			<version>0.3.18</version>
 		</dependency>
 		<dependency>
 			<groupId>org.hamcrest</groupId>
