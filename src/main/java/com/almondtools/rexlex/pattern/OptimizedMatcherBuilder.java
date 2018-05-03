@@ -35,7 +35,6 @@ public class OptimizedMatcherBuilder implements MatcherBuilder {
 	private MultiStringSearchAlgorithmFactory multiwordSearch;
 	private StringSearchAlgorithm stringSearchAlgorithm;
 
-
 	public OptimizedMatcherBuilder() {
 		this(new Horspool.Factory(), new SetBackwardOracleMatching.Factory());
 	}
@@ -199,10 +198,12 @@ public class OptimizedMatcherBuilder implements MatcherBuilder {
 	private static class Finder extends com.almondtools.rexlex.pattern.Finder implements AutomatonMatcherListener {
 
 		private AutomatonMatcher search;
+		private long barrier;
 
 		public Finder(String text, AutomatonMatcher search) {
 			super(text);
 			this.search = search.withListener(this);
+			this.barrier = 0;
 		}
 
 		@Override
@@ -211,12 +212,10 @@ public class OptimizedMatcherBuilder implements MatcherBuilder {
 				if (match.start == start) {
 					return false;
 				} else {
-					extend(chars, accepted);
-					return true;
+					return extend(chars, accepted);
 				}
 			} else {
-				extend(chars, accepted);
-				return true;
+				return extend(chars, accepted);
 			}
 		}
 
@@ -231,10 +230,10 @@ public class OptimizedMatcherBuilder implements MatcherBuilder {
 				if (match.isMatch()) {
 					chars.move(match.end);
 				}
-				match.reset();;
+				match.reset();
 				search.resume();
 			} else {
-				match.reset();;
+				match.reset();
 				search.applyTo(chars);
 			}
 			if (!match.isMatch()) {
@@ -245,24 +244,31 @@ public class OptimizedMatcherBuilder implements MatcherBuilder {
 			}
 		}
 
-		private void extend(CharProvider chars, TokenType accepted) {
+		private boolean extend(CharProvider chars, TokenType accepted) {
 			AttachedTokenType token = (AttachedTokenType) accepted;
 			AutomatonMatcher reverse = token.getReverse();
 			AutomatonMatcher complete = token.getComplete();
 			long current = chars.current();
 			Match reverseMatch = ((MatchListener) reverse.applyTo(new ReverseCharProvider(chars))).getMatch();
 			long start = 0;
-			while (reverseMatch.isMatch()) {
+			while (reverseMatch.isMatch() && reverseMatch.start >= barrier) {
 				start = reverseMatch.start;
 				reverseMatch = ((MatchListener) reverse.resume()).getMatch();
 			}
 			chars.move(current);
 			Match forwardMatch = ((MatchListener) complete.applyTo(chars)).getMatch();
 			long end = forwardMatch.end;
-			chars.move(end);
-			match.init(start, chars.slice(start, end), forwardMatch.type);
+			if (start >= barrier && start <= end) {
+				chars.move(end);
+				barrier = end;
+				match.init(start, chars.slice(start, end), forwardMatch.type);
+				return true;
+			} else {
+				match.reset();
+				chars.move(current);
+				return false;
+			}
 		}
-
 
 	}
 

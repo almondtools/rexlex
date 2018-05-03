@@ -39,14 +39,14 @@ public class DefaultMatcherBuilder implements MatcherBuilder {
 	public com.almondtools.rexlex.pattern.Finder buildFinder(String input) {
 		return new Finder(input, automaton.matcher());
 	}
-	
+
 	@Override
 	public com.almondtools.rexlex.pattern.Matcher buildMatcher(String input) {
 		return new Matcher(input, automaton.matcher());
 	}
 
 	private static class Matcher extends com.almondtools.rexlex.pattern.Matcher implements AutomatonMatcherListener {
-		
+
 		private AutomatonMatcher matcher;
 		private boolean matched;
 
@@ -55,7 +55,7 @@ public class DefaultMatcherBuilder implements MatcherBuilder {
 			this.matcher = matcher.withListener(this);
 			this.matched = false;
 		}
-		
+
 		@Override
 		public boolean matches() {
 			if (matched) {
@@ -81,7 +81,7 @@ public class DefaultMatcherBuilder implements MatcherBuilder {
 		}
 
 	}
-	
+
 	private static class Finder extends com.almondtools.rexlex.pattern.Finder implements AutomatonMatcherListener {
 
 		private AutomatonMatcher matcher;
@@ -118,8 +118,13 @@ public class DefaultMatcherBuilder implements MatcherBuilder {
 
 		@Override
 		public boolean recoverMismatch(CharProvider chars, long start) {
-			chars.move(start + 1);
-			return false;
+			if (match.isMatch()) {
+				chars.move(match.end);
+				return true;
+			} else {
+				chars.move(start + 1);
+				return false;
+			}
 		}
 
 		@Override

@@ -2,7 +2,8 @@ package com.almondtools.rexlex.pattern;
 
 import static java.lang.Character.MAX_VALUE;
 import static java.lang.Character.MIN_VALUE;
-import static net.amygdalum.util.text.CharUtils.*;
+import static net.amygdalum.util.text.CharUtils.after;
+import static net.amygdalum.util.text.CharUtils.before;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
@@ -24,10 +25,10 @@ import net.amygdalum.regexparser.RegexNode;
 public class PatternMatchTest {
 
 	private static final RemainderTokenType REMAINDER = new RemainderTokenType(Accept.REMAINDER);
-	
+
 	private static final char MAX_VALUE_DEC = before(MAX_VALUE);
 	private static final char MIN_VALUE_INC = after(MIN_VALUE);
-	
+
 	@Rule
 	public PatternRule patterns = new PatternRule();
 
@@ -110,7 +111,7 @@ public class PatternMatchTest {
 		assertFalse(pattern.matcher("").matches());
 		assertFalse(pattern.matcher("aaaa").matches());
 	}
-	
+
 	@Test
 	public void testOptional() throws Exception {
 		Pattern pattern = patterns.compile("a?");
@@ -208,7 +209,7 @@ public class PatternMatchTest {
 		assertTrue(pattern.matcher("http://www.linux.com/").matches());
 		assertTrue(pattern.matcher("http://www.thelinuxshow.com/main.php3").matches());
 	}
-	
+
 	@Test
 	@PatternCompilationMode.Exclude
 	public void testFindOrdinaryPattern1() throws Exception {
@@ -242,7 +243,7 @@ public class PatternMatchTest {
 		assertThat(matcher.end(), equalTo(9l));
 		assertThat(matcher.group(), equalTo("abbbbc"));
 	}
-	
+
 	@Test
 	@PatternCompilationMode.Exclude
 	public void testFindOrdinaryPattern3() throws Exception {
@@ -276,7 +277,7 @@ public class PatternMatchTest {
 		assertThat(matcher.end(), equalTo(10l));
 		assertThat(matcher.group(), equalTo("abbc"));
 	}
-	
+
 	@Test
 	public void testCharClassWithSingleDash() throws Exception {
 		Pattern pattern = patterns.compile("[b-]");
@@ -390,18 +391,49 @@ public class PatternMatchTest {
 	public void testOpenBracket() throws Exception {
 		patterns.compile("[");
 	}
+
+	@Test
+	public void testBug1() throws Exception {
+		Pattern pattern = patterns.compile("ggc(g|a)*cg");
+		Finder matcher = pattern.finder("gccaggcttccggcaggcgcggcaggcggtcgcggaaatcggcgcggtagcgagcggtatctccgg");
+		boolean success = matcher.find();
+		assertTrue(success);
+		assertThat(matcher.start(), equalTo(11l));
+		assertThat(matcher.end(), equalTo(19l));
+		assertThat(matcher.group(), equalTo("ggcaggcg"));
+		
+		success = matcher.find();
+		assertTrue(success);
+		assertThat(matcher.start(), equalTo(20l));
+		assertThat(matcher.end(), equalTo(28l));
+		assertThat(matcher.group(), equalTo("ggcaggcg"));
+	}
+
+	@Test
+	public void testBug2() throws Exception {
+		Pattern pattern = patterns.compile("ED(EE)?E+D+");
+		Finder matcher = pattern.finder("EEDEDEEEDEGKGVSSEKVKKAKAKSR");
+		boolean success = matcher.find();
+		assertTrue(success);
+		assertThat(matcher.start(), equalTo(1l));
+		assertThat(matcher.end(), equalTo(5l));
+		assertThat(matcher.group(), equalTo("EDED"));
+
+		success = matcher.find();
+		assertFalse(success);
+	}
 	
 	private static class InsertInfo extends GenericAutomatonBuilder {
 		@Override
 		public GenericAutomaton buildFrom(RegexNode node) {
 			return insertInfo(super.buildFrom(node), Info.INFO);
 		}
-		
+
 		@Override
 		public GenericAutomaton buildFrom(RegexNode node, TokenType type) {
 			return insertInfo(super.buildFrom(node, type), Info.INFO);
 		}
-		
+
 		public GenericAutomaton insertInfo(GenericAutomaton automaton, final TokenType info) {
 			automaton.getStart().apply(new StateVisitor<Void>() {
 

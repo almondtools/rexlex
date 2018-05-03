@@ -68,6 +68,22 @@ public class SearchMatcherBuilderForAutomatonTest {
 		assertThat(findAll, contains(Match.create(0, "http://www.linux.com/", ACCEPT), Match.create(22, "http://www.thelinuxshow.com/main.php3", ACCEPT)));
 	}
 
+	@Test
+	public void testBug2() throws Exception {
+		SearchMatcherBuilder builder = SearchMatcherBuilder.from(Pattern.compileGenericAutomaton("ED(EE)?E+D+"));
+		Finder matcher = builder.buildFinder("EEDEDEEEDEGKGVSSEKVKKAKAKSR");
+		List<Match> findAll = findAll(matcher);
+		assertThat(findAll, contains(Match.create(1, "EDED", ACCEPT)));
+	}
+	
+	@Test
+	public void testBug3() throws Exception {
+		SearchMatcherBuilder builder = SearchMatcherBuilder.from(Pattern.compileGenericAutomaton("ggc(g|a)*cg"));
+		Finder matcher = builder.buildFinder("ctgatattgcaaggggcgaccacgcttttggttttcttcatcggcaaggcgagcggcgcgtacatgaggcggcacattacgctg");
+		List<Match> findAll = findAll(matcher);
+		assertThat(findAll, contains(Match.create(42, "ggcaaggcg", ACCEPT), Match.create(54, "ggcgcg", ACCEPT)));
+	}
+
 	public List<Match> findAll(Finder matcher) {
 		List<Match> matches = new ArrayList<Match>();
 		while (matcher.find()) {
