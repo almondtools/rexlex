@@ -182,58 +182,7 @@ nonomodifiable DSL based on nonvariable lexing idioms you should prefer a lexer 
 
 Syntax
 ======
-Capturing groups, lookaheads and lookbehinds do not extend the set of regular languages, so there must be a DFA which supports these features.
-However transforming these features to a DFA is tricky and costs performance. At some point we decided not to support these features,
-so we cannot support a corresponding syntax. Parentheses are not marking groups and there are no zero-length lookarounds.
-
-Java regexes also support variations of the kleene star: non-greedy-loops, possessive-loops. This version of Rexlex will not support
-these variations. But perhaps a later version will include some of these features.
-
-Having this in mind the syntax of rexlex regular expressions is like this:
-
-| Syntax                  | Matches                                                              |
-| ----------------------- |----------------------------------------------------------------------|
-| Single Characters       |                                                                      |
-| x                       | The character x, unless there exist special rules for this character |
-| .                       | any character (newlines only in DOTALL-mode)                         |
-| \\\\                    | backslash character                                                  |
-| \n                      | newline character                                                    |
-| \t                      | tab character                                                        |
-| \r                      | carriage return character                                            |
-| \f                      | form feed character                                                  |
-| \a                      | alert/bell character                                                 |
-| \e                      | escape character                                                     |
-| *\uhhhh*                | *unicode character, not yet supported*                               |
-| Character classes       |                                                                      |
-| [...]                   | any of the contained characters                                      |
-| [^...]                  | none of the contained characters                                     |
-| [a-z]                   | char range (all chars from a to z)                                   |
-| [a-zA-Z]                | char range, union of multiple ranges                                 |
-| \s                      | white space                                                          |
-| \S                      | non white space                                                      |
-| \w                      | word characters                                                      |
-| \W                      | non word charachters                                                 |
-| \d                      | digits                                                               |
-| \D                      | non digits                                                           |
-| *\p{name}*              | *posix character class, not yet supported*                           |
-| Sequences, alternatives |                                                                      |
-| xy                      | match x followed by y                                                |
-| x|y                     | match x or y                                                         |
-| (x)                     | match inner expression x (grouping is not supported)                 |
-| Repetitions             |                                                                      |
-| x?                      | match x or nothing                                                   |
-| x*                      | match a sequence of x's or nothing                                   |
-| x+                      | match a sequence of x's (minimum one)                                |
-| x{2}                    | match a sequence of 2 x's                                            |
-| x{2,4}                  | match a 2 to 4 x's                                                   |
-| x{,4}                   | match a up to 4 x's                                                  |
-| x{2,}                   | match a minimum of 2 x's                                             |
-|                         |                                                                      |
-| *Groups*                | *not supported*                                                      |
-| *References*            | *not supported*                                                      |
-| *Anchors*               | *not supported*                                                      |
-| *Flags*                 | *not supported*                                                      |
-
+We support the regular expression syntax of [regexparser](https://github.com/almondtools/regexparser).
 
 NFA-Expressions (java.util.Pattern) vs. DFA-Expressions
 =======================================================
