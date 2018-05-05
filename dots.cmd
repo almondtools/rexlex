@@ -1,5 +1,5 @@
 @echo off
-del *.png
+del *.svg
 FOR /R %%V IN (*.dot) DO (
-	dot -O -Tpng %%V
+	dot -O -Tsvg %%V
 )

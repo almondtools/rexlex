@@ -12,10 +12,12 @@ Rexlex, short for (R)egular (Ex)pressions and (Lex)ers, provides configurable an
 Starting with Rexlex Matching
 =============================
 
+Note that Rexlex Matching is a deprecated feature. Matching and Searching is subject to the successor project [patternsearchalgorithms](https://github.com/almondtools/patternsearchalgorithms).
+
 Creating an Automaton from a Pattern
 ------------------------------------
 ```Java
-	Pattern pattern = Pattern.compile("\\d{2}-\\d{2}-\\d{4}", new OptimizedMatcherBuilder());
+	Pattern pattern = Pattern.compile("\\d{2}-\\d{2}-\\d{4}", new DefaultMatcherBuilder());
 ```
 
 Preparing a Regexp-Finder
@@ -47,48 +49,20 @@ Collecting all Finder-Matches
 Checking on Regexp-Full-Matches
 -------------------------------
 ```Java
-	Pattern pattern = Pattern.compile("\\d{2}-\\d{2}-\\d{4}", new OptimizedMatcherBuilder());
+	Pattern pattern = Pattern.compile("\\d{2}-\\d{2}-\\d{4}", new DefaultMatcherBuilder());
 	Matcher matcher = builder.matcher(04-07-1946");
 	System.out.prinltn("matches: " + matcher.matches());
 ```
 
-Which MatcherBuilder to Choose
-------------------------------
-The method Pattern.compile accepts arguments implementing the interface MatcherBuilder. Calling it without any MatcherBuilder it uses the DefaultMatcherBuilder.
-What are the differences?
+Are there other MatcherBuilders?
+--------------------------------
+The `DefaultMatcherBuilder` is fast for matching (**O(n)**), but naive for searching (**O(n&#178;)**). This was the primary motivation to provide more advanced `MatcherBuilder`s which are more efficient in searching.
 
-DefaultMatcherBuilder: 
-- uses one dfa for matching and searching
-- match is fast (O(n))
-- search is naive (O(n^2) 
-- no configuration options
+Until version 0.2.11. there were two further `MatcherBuilder`s: 
+* SearchMatcherBuilder (two phase search with **O(n)** for finding position and **O(n)** for finding the pattern at that position) 
+* OptimizedMatcherBuilder (recognizes simple patterns, that can be recognized with much faster multi-string-search)
 
-SearchMatcherBuilder
-- uses two dfa, one for matching, one for searching 
-- match dfa is the same as in DefaultMatcherBuilder (O(n))
-- search dfa uses two passes (search for a pattern match, search for the pattern boundaries), O(n)
-- both dfa produce some overhead
-- the second search pass produces some overhead
-- no configuration options
-
-OptimizedMatcherBuilder
-- uses two dfa, one for matching, one for searching
-- uses a string search engine for simple patterns
-- match dfa is the same as in DefaultMatcherBuilder (O(n))
-- search dfa is the same as in SearchMatcherBuilder (O(n))
-- if the pattern is limited (i.e. constant or the number of possible words is less than 4000) it switches to string search/match
-- the overhead for producing the two dfa is eliminated in case of string search/match
-- string search/match is much faster than regex search
-- confguration of string search algorithms for constant patterns:
-  - Knuth-Morris-Pratt
-  - Horspool
-- configuration of string search algorithms for limited word patterns: 
-  - AhoCorasick, 
-  - SetHorspool, 
-  - SetBackwardOracleMatching, 
-  - WuManber
-- there is overhead for an initial dfa
-- if you already know, that the pattern is constant or limited, than you should use string search directly, rather than this pattern search
+Both were correct in finding match positions, but finding the best pattern at the position was not completely correct. There also was a working alternative with [patternsearchalgorithms](https://github.com/almondtools/patternsearchalgorithms), so we decided to exclude these implementations.
 
  
 Starting with Rexlex Lexing
@@ -208,7 +182,7 @@ nonomodifiable DSL based on nonvariable lexing idioms you should prefer a lexer 
 
 Syntax
 ======
-Groups, lookaheads and lookbehinds do not extend the set of regular languages, so there must be a DFA which supports these features.
+Capturing groups, lookaheads and lookbehinds do not extend the set of regular languages, so there must be a DFA which supports these features.
 However transforming these features to a DFA is tricky and costs performance. At some point we decided not to support these features,
 so we cannot support a corresponding syntax. Parentheses are not marking groups and there are no zero-length lookarounds.
 
@@ -279,25 +253,6 @@ Use Rexlex regular expressions:
 - if the expression is once created and often applied
 
 
-Features
-========
-- Regular Expression Lexing (one can build the lexer programmatically instead of generating lexer code)
-- Regular Expression Matching (on one and multiple patterns)
-- Regular Expression Search (for one and multiple patterns)
-
-Optimizations
-=============
-Yet Rexlex is hardly optimized. Searching is optimized in case that the regular expression is constant or length limited. In such a case string
-matching/searching performs better and the searchers switch to string matching (instead of regexp matching).
-
-Other Regex-Compilers
-=========================
-NFA-Compilers:
-- http://jregex.sourceforge.net/
-
-DFA-Compilers
-- http://www.brics.dk/automaton/
-
 Performance Comparison
 ======================
 A performance benchmark for regex packages can be found at https://github.com/almondtools/regexbench.
@@ -317,13 +272,6 @@ Maven Dependency
 <dependency>
 	<groupId>com.github.almondtools</groupId>
 	<artifactId>rexlex</artifactId>
-	<version>0.2.5</version>
+	<version>0.2.12</version>
 </dependency>
 ```
-
-Roadmap
--------
-Rexlex needs further performance optimizations. Following hot spots are subject of further optimization:
-- Preparation time (dfa construction is hard, but brics is 2 to 40 times faster)
-- Searching time (for simple texts and simple patterns, bric is faster)
-- Text searching heuristics (yet the text search algorithm is selected by default, certainly heuristics could select the best algorithm)
