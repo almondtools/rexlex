@@ -15,7 +15,7 @@ import org.junit.Test;
 import com.almondtools.rexlex.TokenType;
 import com.almondtools.rexlex.automaton.GenericAutomaton;
 import com.almondtools.rexlex.automaton.GenericAutomaton.State;
-import com.almondtools.rexlex.automaton.GenericAutomaton.StateVisitor;
+import com.almondtools.rexlex.automaton.GenericAutomaton.TreeWalker;
 import com.almondtools.rexlex.automaton.GenericAutomatonBuilder;
 import com.almondtools.rexlex.tokens.Accept;
 import com.almondtools.rexlex.tokens.Info;
@@ -377,6 +377,15 @@ public class PatternMatchTest {
 		assertFalse(pattern.matcher("aaaaaaaaaaaa").matches());
 	}
 
+	@Test
+	public void testLargeBoundedLoop() throws Exception {
+		Pattern pattern = patterns.compile("a{4,60}");
+		assertTrue(pattern.matcher("aaaa").matches());
+		assertTrue(pattern.matcher(new String(new char[60]).replace('\0', 'a')).matches());
+		assertFalse(pattern.matcher("aaa").matches());
+		assertFalse(pattern.matcher(new String(new char[61]).replace('\0', 'a')).matches());
+	}
+
 	@Test(expected = RuntimeException.class)
 	public void testUnclosedCharClass() throws Exception {
 		patterns.compile("[a-b");
@@ -401,7 +410,7 @@ public class PatternMatchTest {
 		assertThat(matcher.start(), equalTo(11l));
 		assertThat(matcher.end(), equalTo(19l));
 		assertThat(matcher.group(), equalTo("ggcaggcg"));
-		
+
 		success = matcher.find();
 		assertTrue(success);
 		assertThat(matcher.start(), equalTo(20l));
@@ -423,6 +432,21 @@ public class PatternMatchTest {
 		assertFalse(success);
 	}
 	
+	@Test
+	public void testBug3() throws Exception {
+		Pattern pattern = patterns.compile("(a*tgc*|t*acg*)*(cg){1,20}(a|t)*");
+		Finder matcher = pattern.finder("ggggggaatgcccgcgcgataattaagggggggggggggg");
+		boolean success = matcher.find();
+		assertTrue(success);
+		assertThat(matcher.start(), equalTo(6l));
+		assertThat(matcher.end(), equalTo(26l));
+		assertThat(matcher.group(), equalTo("aatgcccgcgcgataattaa"));
+
+		assertFalse(matcher.find());
+	}
+	
+	
+
 	private static class InsertInfo extends GenericAutomatonBuilder {
 		@Override
 		public GenericAutomaton buildFrom(RegexNode node) {
@@ -435,14 +459,17 @@ public class PatternMatchTest {
 		}
 
 		public GenericAutomaton insertInfo(GenericAutomaton automaton, final TokenType info) {
-			automaton.getStart().apply(new StateVisitor<Void>() {
+			new TreeWalker<TreeWalker<?>>(automaton.getStart()) {
+
+				public TreeWalker<?> self() {
+					return this;
+				}
 
 				@Override
-				public Void visitState(State state) {
+				public void apply(State state) {
 					state.setType(info);
-					return null;
 				}
-			});
+			}.apply();
 			return automaton;
 		}
 	}

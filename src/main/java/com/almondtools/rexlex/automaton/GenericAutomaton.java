@@ -41,6 +41,7 @@ import net.amygdalum.util.builders.Predicate;
 import net.amygdalum.util.builders.Predicates;
 import net.amygdalum.util.io.CharProvider;
 import net.amygdalum.util.text.CharUtils;
+import net.amygdalum.util.worklist.WorkSet;
 
 public class GenericAutomaton implements Automaton, Cloneable {
 
@@ -432,7 +433,7 @@ public class GenericAutomaton implements Automaton, Cloneable {
 				newStates.put(state, newState);
 			}
 		}
-		for (Map.Entry<State,State> entry : newStates.entrySet()) {
+		for (Map.Entry<State, State> entry : newStates.entrySet()) {
 			State state = entry.getKey();
 			State newState = entry.getValue();
 			for (EventTransition transition : state.getEventTransitions()) {
@@ -449,14 +450,13 @@ public class GenericAutomaton implements Automaton, Cloneable {
 
 	@Override
 	public GenericAutomaton revert() {
-		Revert revert = new Revert();
-		start.apply(revert);
+		Revert revert = new Revert(start).apply();
 		State newstart = new State();
 		for (State state : findAcceptStates()) {
 			State newstate = revert.resolve(state);
 			TokenType newtype = revert.getType(newstate);
 			State newend = new State(newtype);
-			newstate = newstate.apply(new Replace().replace(revert.resolve(start), newend));
+			newstate = new Replace(newstate).replace(revert.resolve(start), newend).apply().replaced();
 			newstart.addTransition(new EpsilonTransition(newstate));
 		}
 		return new GenericAutomaton(newstart);
@@ -892,7 +892,7 @@ public class GenericAutomaton implements Automaton, Cloneable {
 				if (to > max) {
 					max = to;
 				}
-				
+
 				if (from == current + 1) {
 					transitions.add(new ExactTransition(current, error));
 				} else if (from > current) {
@@ -911,20 +911,20 @@ public class GenericAutomaton implements Automaton, Cloneable {
 		}
 
 		public State cloneTree() {
-			return apply(new Clone());
+			return new Clone(this).apply().start();
 		}
 
 		public Set<State> findAcceptStates() {
-			return apply(new FindStates(new Predicate<State>() {
+			return new FindStates(this, new Predicate<State>() {
 				@Override
 				public boolean evaluate(State object) {
 					return object.accept();
 				}
-			}));
+			}).apply().states();
 		}
 
 		public Set<State> findReachableStates() {
-			return apply(new FindStates());
+			return new FindStates(this).apply().states();
 		}
 
 		public Set<State> findLiveStates() {
@@ -1198,39 +1198,70 @@ public class GenericAutomaton implements Automaton, Cloneable {
 
 	}
 
+	public static abstract class TreeWalker<T extends TreeWalker<?>> {
+
+		private WorkSet<State> todo;
+
+		public TreeWalker(State start) {
+			this.todo = new WorkSet<>();
+			todo.add(start);
+		}
+
+		public void next(State state) {
+			todo.add(state);
+		}
+
+		public void next(Collection<State> states) {
+			todo.addAll(states);
+		}
+
+		public abstract void apply(State state);
+
+		public abstract T self();
+
+		public T apply() {
+			while (!todo.isEmpty()) {
+				apply(todo.remove());
+			}
+			return self();
+		}
+
+	}
+
 	/**
 	 * finds all accepting states in an automaton
 	 * 
 	 * @readonly (no modifications)
 	 */
-	static class FindStates implements StateVisitor<Set<State>> {
+	static class FindStates extends TreeWalker<FindStates> {
 
 		private Predicate<State> predicate;
-		private Set<State> visited;
 		private Set<State> accepted;
 
-		public FindStates() {
-			this.predicate = Predicates.all(State.class);
-			this.visited = new HashSet<State>();
-			this.accepted = new LinkedHashSet<State>();
+		public FindStates(State start) {
+			this(start, Predicates.all(State.class));
 		}
 
-		public FindStates(Predicate<State> predicate) {
+		public FindStates(State start, Predicate<State> predicate) {
+			super(start);
 			this.predicate = predicate;
-			this.visited = new HashSet<State>();
 			this.accepted = new LinkedHashSet<State>();
 		}
 
 		@Override
-		public Set<State> visitState(State state) {
+		public FindStates self() {
+			return this;
+		}
+
+		@Override
+		public void apply(State state) {
 			if (predicate.evaluate(state)) {
 				accepted.add(state);
 			}
-			visited.add(state);
-			Set<State> statesToVisit = HashSets.hashed(state.getConnectedStates()).minus(visited).build();
-			for (State stateToVisit : statesToVisit) {
-				accepted.addAll(stateToVisit.apply(this));
-			}
+			next(state.getConnectedStates());
+		}
+
+		public Set<State> states() {
 			return accepted;
 		}
 
@@ -1241,26 +1272,45 @@ public class GenericAutomaton implements Automaton, Cloneable {
 	 * 
 	 * @conservative (operations do not modify the given automaton, but produce a new one)
 	 */
-	static class Clone implements StateVisitor<State> {
+	static class Clone extends TreeWalker<Clone> {
 
+		private State start;
 		private Map<State, State> states;
 
-		public Clone() {
+		public Clone(State start) {
+			super(start);
+			this.start = start;
 			this.states = new IdentityHashMap<State, State>();
 		}
 
 		@Override
-		public State visitState(State state) {
+		public Clone self() {
+			return this;
+		}
+
+		private State cloned(State state) {
 			State clonedstate = states.get(state);
 			if (clonedstate == null) {
 				clonedstate = state.clone();
 				states.put(state, clonedstate);
-				for (Transition transition : state.getTransitions()) {
-					Transition clonedtransition = transition.clone(transition.getTarget().apply(this));
-					clonedstate.addTransition(clonedtransition);
-				}
 			}
 			return clonedstate;
+		}
+
+		@Override
+		public void apply(State state) {
+			State clonedstate = cloned(state);
+			for (Transition transition : state.getTransitions()) {
+				State target = transition.getTarget();
+				State clonedTarget = cloned(target);
+				Transition clonedtransition = transition.clone(clonedTarget);
+				clonedstate.addTransition(clonedtransition);
+				next(target);
+			}
+		}
+
+		public State start() {
+			return states.get(start);
 		}
 
 	}
@@ -1270,11 +1320,14 @@ public class GenericAutomaton implements Automaton, Cloneable {
 	 * 
 	 * @invasive (operations modify the visited Automaton)
 	 */
-	static class Replace implements StateVisitor<State> {
+	static class Replace extends TreeWalker<Replace> {
 
+		private State start;
 		private Map<State, State> states;
 
-		public Replace() {
+		public Replace(State start) {
+			super(start);
+			this.start = start;
 			this.states = new IdentityHashMap<State, State>();
 		}
 
@@ -1284,37 +1337,42 @@ public class GenericAutomaton implements Automaton, Cloneable {
 		}
 
 		@Override
-		public State visitState(State state) {
+		public Replace self() {
+			return this;
+		}
+
+		@Override
+		public void apply(State state) {
+			State replacingState = replaced(state);
+			if (states.get(replacingState) == null) {
+				states.put(replacingState, replacingState);
+				List<Transition> replacingTransitions = new ArrayList<Transition>();
+				for (Transition transition : state.getTransitions()) {
+					State target = transition.getTarget();
+					State replacingTarget = replaced(target);
+					if (replacingTarget != target) {
+						replacingTransitions.add(transition.clone(replacingTarget));
+					} else {
+						replacingTransitions.add(transition);
+					}
+					next(target);
+				}
+				replacingState.setTransitions(replacingTransitions);
+			}
+		}
+
+		private State replaced(State state) {
 			State replacingState = states.get(state);
 			if (replacingState == null) {
 				replacingState = state;
-				states.put(state, replacingState);
-				transferTransitions(state, replacingState);
-			} else if (states.get(replacingState) == null) {
-				states.put(replacingState, replacingState);
-				transferTransitions(state, replacingState);
 			}
 			return replacingState;
 		}
 
-		private void transferTransitions(State from, State to) {
-			List<Transition> newtransitions = new ArrayList<Transition>(to.getTransitions());
-			for (Transition transition : from.getTransitions()) {
-				State target = transition.getTarget();
-				State newtarget = target.apply(this);
-				Transition newtransition = transition;
-				if (newtarget != target) {
-					newtransition = transition.clone(newtarget);
-				}
-				int pos = newtransitions.indexOf(transition);
-				if (pos > -1) {
-					newtransitions.set(pos, newtransition);
-				} else {
-					newtransitions.add(newtransition);
-				}
-			}
-			to.setTransitions(newtransitions);
+		public State replaced() {
+			return states.get(start);
 		}
+
 	}
 
 	/**
@@ -1322,14 +1380,20 @@ public class GenericAutomaton implements Automaton, Cloneable {
 	 * 
 	 * @conservative (operations do not modify the given automaton, but produce a new one)
 	 */
-	static class Revert implements StateVisitor<State> {
+	static class Revert extends TreeWalker<Revert> {
 
 		private Map<State, TokenType> types;
 		private Map<State, State> states;
 
-		public Revert() {
+		public Revert(State start) {
+			super(start);
 			this.states = new IdentityHashMap<State, State>();
 			this.types = new IdentityHashMap<State, TokenType>();
+		}
+
+		@Override
+		public Revert self() {
+			return this;
 		}
 
 		public State resolve(State state) {
@@ -1341,23 +1405,29 @@ public class GenericAutomaton implements Automaton, Cloneable {
 		}
 
 		@Override
-		public State visitState(State state) {
-			State newstate = states.get(state);
-			if (newstate == null) {
-				newstate = state.clone();
-				newstate.setType(null);
+		public void apply(State state) {
+			State revertedState = reverted(state);
+			for (Transition transition : state.getTransitions()) {
+				State target = transition.getTarget();
+				State revertedTarget = reverted(target);
+				Transition newtransition = transition.clone(revertedState);
+				revertedTarget.addTransition(newtransition);
+				next(target);
+			}
+		}
+
+		private State reverted(State state) {
+			State revertedState = states.get(state);
+			if (revertedState == null) {
+				revertedState = state.clone();
+				revertedState.setType(null);
 				TokenType type = state.getType();
 				if (type != null) {
-					types.put(newstate, type);
+					types.put(revertedState, type);
 				}
-				states.put(state, newstate);
-				for (Transition transition : state.getTransitions()) {
-					State newfrom = transition.getTarget().apply(this);
-					Transition newtransition = transition.clone(newstate);
-					newfrom.addTransition(newtransition);
-				}
+				states.put(state, revertedState);
 			}
-			return newstate;
+			return revertedState;
 		}
 
 	}

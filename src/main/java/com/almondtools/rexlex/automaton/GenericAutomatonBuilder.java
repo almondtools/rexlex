@@ -155,17 +155,24 @@ public class GenericAutomatonBuilder implements RegexNodeVisitor<GenericAutomato
 	public static GenericAutomaton matchUpToN(GenericAutomaton a, int count) {
 		State s = new State(DefaultTokenType.ACCEPT);
 
-		State current = s;
 		if (count > 0) {
 			State start = a.getStart();
-			current.addTransition(new EpsilonTransition(start));
-			for (int i = 1; i < count; i++) {
-				State next = start.cloneTree();
-				for (State f : current.findAcceptStates()) {
-					f.addTransition(new EpsilonTransition(next));
-				}
-				current = next;
+			s.addTransition(new EpsilonTransition(start));
+
+			State[] states = new State[count];
+			states[0] = start;
+			for (int i = 1; i < states.length; i++) {
+				states[i] = start.cloneTree();
 			}
+			
+			for (int i = states.length -1; i >=1; i--) {
+				State from = states[i-1];
+				State to = states[i];
+				for (State f : from.findAcceptStates()) {
+					f.addTransition(new EpsilonTransition(to));
+				}
+			}
+			
 		}
 		return new GenericAutomaton(s);
 	}
