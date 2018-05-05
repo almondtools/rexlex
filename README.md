@@ -12,7 +12,7 @@ Rexlex, short for (R)egular (Ex)pressions and (Lex)ers, provides configurable an
 Starting with Rexlex Matching
 =============================
 
-Note that Rexlex Matching is a deprecated feature. Matching and Searching is subject to the successor project [patternsearchalgorithms](https://github.com/almondtools/patternsearchalgorithms).
+Note that Rexlex Matching is a deprecated feature. Matching and Searching is subject to the successor project [patternsearchalgorithms](http://patternsearchalgorithms.amygdalum.net/).
 
 Creating an Automaton from a Pattern
 ------------------------------------
@@ -62,7 +62,7 @@ Until version 0.2.11. there were two further `MatcherBuilder`s:
 * SearchMatcherBuilder (two phase search with **O(n)** for finding position and **O(n)** for finding the pattern at that position) 
 * OptimizedMatcherBuilder (recognizes simple patterns, that can be recognized with much faster multi-string-search)
 
-Both were correct in finding match positions, but finding the best pattern at the position was not completely correct. There also was a working alternative with [patternsearchalgorithms](https://github.com/almondtools/patternsearchalgorithms), so we decided to exclude these implementations.
+Both were correct in finding match positions, but finding the best pattern at the position was not completely correct. There also was a working alternative with [patternsearchalgorithms](http://patternsearchalgorithms.amygdalum.net/), so we decided to exclude these implementations.
 
  
 Starting with Rexlex Lexing
