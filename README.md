@@ -211,11 +211,8 @@ This benchmark does not only check the performance but also the correctness of t
 - DFA packages cannot compute the same groups as NFA packages - accepted difference
 - Non-Posix-NFA packages (as jregex and java.util.regex) do not always detect the longest leftmost match - accepted difference
 
-Using RexLex
-============
-
 Maven Dependency
-----------------
+================
 
 ```xml
 <dependency>
