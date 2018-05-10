@@ -145,10 +145,13 @@ public class GenericAutomatonBuilder implements RegexNodeVisitor<GenericAutomato
 	public static GenericAutomaton matchRangeLoop(GenericAutomaton a, int start, int end) {
 		if (start == end) {
 			return matchFixedLoop(a, start);
+		} else if (start == 0) {
+			return matchUpToN(a, end);
 		} else {
 			GenericAutomaton aFixed = matchFixedLoop(a.clone(), start);
 			GenericAutomaton aUpToN = matchUpToN(a, end - start);
-			return matchConcatenation(aFixed, aUpToN);
+			GenericAutomaton matchConcatenation = matchConcatenation(aFixed, aUpToN);
+			return matchConcatenation;
 		}
 	}
 
@@ -164,15 +167,15 @@ public class GenericAutomatonBuilder implements RegexNodeVisitor<GenericAutomato
 			for (int i = 1; i < states.length; i++) {
 				states[i] = start.cloneTree();
 			}
-			
-			for (int i = states.length -1; i >=1; i--) {
-				State from = states[i-1];
+
+			for (int i = states.length - 1; i >= 1; i--) {
+				State from = states[i - 1];
 				State to = states[i];
 				for (State f : from.findAcceptStates()) {
 					f.addTransition(new EpsilonTransition(to));
 				}
 			}
-			
+
 		}
 		return new GenericAutomaton(s);
 	}
@@ -306,25 +309,25 @@ public class GenericAutomatonBuilder implements RegexNodeVisitor<GenericAutomato
 		GenericAutomaton a = node.getSubNode().accept(this);
 		return matchOptional(a);
 	}
-	
+
 	@Override
 	public GenericAutomaton visitAnyChar(AnyCharNode node) {
 		List<GenericAutomaton> as = apply(node.toCharNodes());
 		return matchAlternatives(as);
 	}
-	
+
 	@Override
 	public GenericAutomaton visitCharClass(CharClassNode node) {
 		List<GenericAutomaton> as = apply(node.toCharNodes());
 		return matchAlternatives(as);
 	}
-	
+
 	@Override
 	public GenericAutomaton visitCompClass(CompClassNode node) {
 		List<GenericAutomaton> as = apply(node.toCharNodes());
 		return matchAlternatives(as);
 	}
-	
+
 	@Override
 	public GenericAutomaton visitSpecialCharClass(SpecialCharClassNode node) {
 		List<GenericAutomaton> as = apply(node.toCharNodes());

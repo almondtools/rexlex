@@ -279,6 +279,17 @@ public class PatternMatchTest {
 	}
 
 	@Test
+	public void testFindPattern4() throws Exception {
+		Pattern pattern = patterns.compile("(gc)*(g|c|a|t){0,10}ccggaaagcattcgcaaa", new InsertInfo());
+		Finder matcher = pattern.finder("actgcgcgcagctacgatccggaaagcattcgcaaattt");
+		boolean success = matcher.find();
+		assertTrue(success);
+		assertThat(matcher.start(), equalTo(3l));
+		assertThat(matcher.end(), equalTo(36l));
+		assertThat(matcher.group(), equalTo("gcgcgcagctacgatccggaaagcattcgcaaa"));
+	}
+	
+	@Test
 	public void testCharClassWithSingleDash() throws Exception {
 		Pattern pattern = patterns.compile("[b-]");
 		assertTrue(pattern.matcher("b").matches());

@@ -440,11 +440,24 @@ public class Automatons {
 		store(automaton, 2);
 	}
 
+	public static void store(Automaton automaton, String suffix) {
+		store(automaton, suffix, 2);
+	}
+
 	private static void store(Automaton automaton, int stackIndex) {
 		try {
 			StackTraceElement caller = new Exception().getStackTrace()[stackIndex];
 			String name = (caller.getMethodName() + caller.getLineNumber()).replaceAll("\\W", "_");
 			automaton.store(name).to(new FileOutputStream(name + ".dot"));
+		} catch (IOException e) {
+		}
+	}
+
+	private static void store(Automaton automaton, String suffix, int stackIndex) {
+		try {
+			StackTraceElement caller = new Exception().getStackTrace()[stackIndex];
+			String name = (caller.getMethodName() + caller.getLineNumber()).replaceAll("\\W", "_");
+			automaton.store(name).to(new FileOutputStream(name + suffix + ".dot"));
 		} catch (IOException e) {
 		}
 	}
