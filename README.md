@@ -218,6 +218,6 @@ Maven Dependency
 <dependency>
 	<groupId>com.github.almondtools</groupId>
 	<artifactId>rexlex</artifactId>
-	<version>0.2.12</version>
+	<version>0.2.13</version>
 </dependency>
 ```
