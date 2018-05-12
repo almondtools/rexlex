@@ -34,7 +34,7 @@ import com.almondtools.rexlex.pattern.TokenIterator;
 
 import net.amygdalum.util.io.CharProvider;
 import net.amygdalum.util.io.StringCharProvider;
-import net.amygdalum.util.builders.HashSets;
+import net.amygdalum.util.builders.Sets;
 
 public class DeterministicAutomaton implements Automaton {
 
@@ -109,7 +109,7 @@ public class DeterministicAutomaton implements Automaton {
 	}
 
 	Set<State> findDeadStates() {
-		return HashSets.hashed(findAllStates()).minus(findLiveStates()).build();
+		return Sets.hashed(findAllStates()).minus(findLiveStates()).build();
 	}
 
 	@Override
@@ -557,7 +557,7 @@ public class DeterministicAutomaton implements Automaton {
 				accepted.add(state);
 			}
 			visited.add(state);
-			Set<State> statesToVisit = HashSets.hashed(state.getDirectlyReachableStates()).minus(visited).build();
+			Set<State> statesToVisit = Sets.hashed(state.getDirectlyReachableStates()).minus(visited).build();
 			for (State stateToVisit : statesToVisit) {
 				accepted.addAll(stateToVisit.apply(this));
 			}
@@ -580,7 +580,7 @@ public class DeterministicAutomaton implements Automaton {
 		public Set<State> visitState(State state) {
 			accepted.add(state);
 			visited.add(state);
-			Set<State> statesToVisit = HashSets.hashed(state.getDirectlyReachableStates()).minus(visited).build();
+			Set<State> statesToVisit = Sets.hashed(state.getDirectlyReachableStates()).minus(visited).build();
 			for (State stateToVisit : statesToVisit) {
 				accepted.addAll(stateToVisit.apply(this));
 			}

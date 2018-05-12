@@ -34,8 +34,8 @@ import com.almondtools.rexlex.pattern.DefaultTokenTypeFactory;
 import com.almondtools.rexlex.pattern.TokenIterator;
 import com.almondtools.rexlex.pattern.TokenTypeFactory;
 
-import net.amygdalum.util.builders.ArrayLists;
-import net.amygdalum.util.builders.HashSets;
+import net.amygdalum.util.builders.Lists;
+import net.amygdalum.util.builders.Sets;
 import net.amygdalum.util.builders.Iterators;
 import net.amygdalum.util.builders.Predicate;
 import net.amygdalum.util.builders.Predicates;
@@ -262,7 +262,7 @@ public class GenericAutomaton implements Automaton, Cloneable {
 	 */
 	GenericAutomaton determinize() {
 		char[] relevant = computeRelevantCharacters();
-		Set<State> start = HashSets.of(this.start);
+		Set<State> start = Sets.of(this.start);
 
 		Set<Set<State>> visited = new HashSet<Set<State>>();
 		LinkedList<Set<State>> todo = new LinkedList<Set<State>>();
@@ -332,7 +332,7 @@ public class GenericAutomaton implements Automaton, Cloneable {
 		Set<State> allStates = findAllStates();
 		Set<State> acceptStates = findAcceptStates();
 		Set<Set<State>> partitionedAcceptStates = splitByTokenType(acceptStates);
-		Set<State> innerStates = HashSets.hashed(allStates).minus(acceptStates).build();
+		Set<State> innerStates = Sets.hashed(allStates).minus(acceptStates).build();
 
 		Set<Set<State>> partititions = initPartitions(innerStates, partitionedAcceptStates);
 		Map<State, List<EventTransition>> reverseTransitions = computeReverseTransitions(allStates);
@@ -344,8 +344,8 @@ public class GenericAutomaton implements Automaton, Cloneable {
 				Set<State> X = validOrigins(c, item, reverseTransitions);
 				List<Set<State>> partitionsSnapshot = new ArrayList<Set<State>>(partititions);
 				for (Set<State> Y : partitionsSnapshot) {
-					Set<State> iXY = HashSets.intersectionOf(Y, X);
-					Set<State> cXY = HashSets.complementOf(Y, X);
+					Set<State> iXY = Sets.intersectionOf(Y, X);
+					Set<State> cXY = Sets.complementOf(Y, X);
 					if (!iXY.isEmpty() && !cXY.isEmpty()) {
 						refine(partititions, Y, iXY, cXY);
 						if (worklist.contains(Y)) {
@@ -368,7 +368,7 @@ public class GenericAutomaton implements Automaton, Cloneable {
 	}
 
 	private Set<Set<State>> initPartitions(Set<State> nonaccept, Set<Set<State>> accept) {
-		return HashSets.hashed(accept).addConditional(!nonaccept.isEmpty(), nonaccept).build();
+		return Sets.hashed(accept).addConditional(!nonaccept.isEmpty(), nonaccept).build();
 	}
 
 	private Set<Set<State>> splitByTokenType(Set<State> states) {
@@ -382,7 +382,7 @@ public class GenericAutomaton implements Automaton, Cloneable {
 			}
 			set.add(state);
 		}
-		return HashSets.hashed(split.values()).build();
+		return Sets.hashed(split.values()).build();
 	}
 
 	private Map<State, List<EventTransition>> computeReverseTransitions(Set<State> states) {
@@ -512,7 +512,7 @@ public class GenericAutomaton implements Automaton, Cloneable {
 	}
 
 	Set<State> findDeadStates() {
-		return HashSets.hashed(findAllStates()).minus(findLiveStates()).build();
+		return Sets.hashed(findAllStates()).minus(findLiveStates()).build();
 	}
 
 	@Override
@@ -784,7 +784,7 @@ public class GenericAutomaton implements Automaton, Cloneable {
 
 		private List<State> computeClosure() {
 			Set<State> closure = new LinkedHashSet<State>();
-			List<State> todo = ArrayLists.of(this);
+			List<State> todo = Lists.of(this);
 			while (!todo.isEmpty()) {
 				State state = todo.remove(0);
 				if (!closure.contains(state)) {

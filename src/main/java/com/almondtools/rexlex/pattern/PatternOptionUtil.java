@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-import net.amygdalum.util.builders.ArrayLists;
+import net.amygdalum.util.builders.Lists;
 
 public class PatternOptionUtil {
 
@@ -46,14 +46,14 @@ public class PatternOptionUtil {
 	}
 
 	public static List<PatternOption> list(PatternOption option, PatternOption... options) {
-		return ArrayLists.list(option).addAll(options).build();
+		return Lists.list(option).addAll(options).build();
 	}
 
 	public static List<PatternOption> list(PatternOption... options) {
 		if (options == null) {
 			return Collections.emptyList();
 		}
-		return ArrayLists.of(options);
+		return Lists.of(options);
 	}
 
 }

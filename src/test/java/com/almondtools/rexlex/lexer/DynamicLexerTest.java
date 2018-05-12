@@ -17,7 +17,7 @@ import com.almondtools.rexlex.TokenType;
 import com.almondtools.rexlex.tokens.TestToken;
 import com.almondtools.rexlex.tokens.TestTokenFactory;
 
-import net.amygdalum.util.builders.HashMaps;
+import net.amygdalum.util.builders.Maps;
 
 public class DynamicLexerTest {
 
@@ -30,7 +30,7 @@ public class DynamicLexerTest {
 
 	@Test
 	public void testSimplePatternOnChar() throws Exception {
-		Map<String, TokenType> patternToTypes = HashMaps.<String, TokenType>linked()
+		Map<String, TokenType> patternToTypes = Maps.<String, TokenType>linked()
 			.put("a", A)
 			.put("b", B)
 			.build();
@@ -42,7 +42,7 @@ public class DynamicLexerTest {
 
 	@Test
 	public void testSimplePatternOnString() throws Exception {
-		Map<String, TokenType> patternToTypes = HashMaps.<String, TokenType>linked()
+		Map<String, TokenType> patternToTypes = Maps.<String, TokenType>linked()
 			.put("a", A)
 			.put("b", B)
 			.build();
@@ -57,7 +57,7 @@ public class DynamicLexerTest {
 
 	@Test
 	public void testComplexPatternOnString() throws Exception {
-		Map<String, TokenType> patternToTypes = HashMaps.<String, TokenType>linked()
+		Map<String, TokenType> patternToTypes = Maps.<String, TokenType>linked()
 			.put("ab*c", REMAINDER)
 			.put("b", REMAINDER)
 			.put("a", REMAINDER)
@@ -71,7 +71,7 @@ public class DynamicLexerTest {
 
 	@Test
 	public void testComplexPatternOnStringPriorityOnFirstAndBacktracking() throws Exception {
-		Map<String, TokenType> patternToTypes = HashMaps.<String, TokenType>linked()
+		Map<String, TokenType> patternToTypes = Maps.<String, TokenType>linked()
 			.put("ab*c", REMAINDER)
 			.put("b", REMAINDER)
 			.put("a", REMAINDER)
@@ -91,7 +91,7 @@ public class DynamicLexerTest {
 
 	@Test
 	public void testComplexPatternOnStringIgnoreParts() throws Exception {
-		Map<String, TokenType> patternToTypes = HashMaps.<String, TokenType>linked()
+		Map<String, TokenType> patternToTypes = Maps.<String, TokenType>linked()
 			.put("ab*c", REMAINDER)
 			.put("b", null)
 			.put("a", REMAINDER)
@@ -105,7 +105,7 @@ public class DynamicLexerTest {
 
 	@Test
 	public void testCharacterClasses() throws Exception {
-		Map<String, TokenType> patternToTypes = HashMaps.<String, TokenType>linked()
+		Map<String, TokenType> patternToTypes = Maps.<String, TokenType>linked()
 			.put("a", REMAINDER)
 			.put("\\s+", null)
 			.put("b", REMAINDER)
@@ -120,7 +120,7 @@ public class DynamicLexerTest {
 
 	@Test
 	public void testBBCodeTags() throws Exception {
-		Map<String, TokenType> patternToTypes = HashMaps.<String, TokenType>linked()
+		Map<String, TokenType> patternToTypes = Maps.<String, TokenType>linked()
 			.put("\\[strong\\]", REMAINDER)
 			.put("\\[/strong\\]", REMAINDER)
 			.put("\\[quote \\w+='[^']*'\\]", REMAINDER)

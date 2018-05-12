@@ -40,12 +40,12 @@
 		<dependency>
 			<groupId>net.amygdalum</groupId>
 			<artifactId>regexparser</artifactId>
-			<version>0.0.4-SNAPSHOT</version>
+			<version>0.1.0</version>
 		</dependency>
 		<dependency>
 			<groupId>net.amygdalum</groupId>
 			<artifactId>compilerutils</artifactId>
-			<version>0.0.7-SNAPSHOT</version>
+            <version>0.1.0</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
